@@ -82,3 +82,12 @@ Encrypted records are **not auto-deleted**. Configure a documented retention/del
 
 ## Source documents
 The content comes from six photographed German paper documents supplied by the operator, including two-page Anmeldebogen, external-billing consent/patient information, IGeL price list and SLAP protocol. Verify all prices and clinical details against the current authoritative documents before release.
+
+## IGeL patient decision guide (source document)
+
+The optional decision helper in Step 4 is a condensed, clearly attributed adaptation of the uploaded source: Bundesärztekammer / Kassenärztliche Bundesvereinigung / Deutsches Netzwerk Evidenzbasierte Medizin, **Selbst zahlen? Ein Ratgeber zu Individuellen Gesundheitsleistungen (IGeL)**, 2nd ed. November 2012, last changed January 2014. Source sections: patient checklist pp. 9–16, professional guidance pp. 29–30, sample treatment agreement p. 31.
+
+- Explains voluntary nature, evidence and risk discussion, alternatives, costs, second opinions, adequate time, no obligation to buy, GOÄ invoice and separate written agreement.
+- Offers **nine optional browser-only questions** before deciding; the source's tenth question applies **after** treatment and is displayed as advice only.
+- No checklist responses are transmitted, retained, or included in D1. No medical advice, service selection or payment is generated.
+- **The PDF is historical (2012/2014)**; its legal or medical statements have NOT been revalidated for current practice and need clinical/legal review before real-patient use. Existing IGeL prices come from the separately uploaded Sana price sheet, not from this guide.
