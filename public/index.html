@@ -8,11 +8,14 @@
   <meta name="description" content="Digitale Patientenaufnahme – Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend.">
   <title>Patientenaufnahme | Sana MVZ Frankfurt-Westend</title>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/accessible.css">
   <script defer src="/igel-guide.js"></script>
+  <script defer src="/pdf-summary.js"></script>
   <script defer src="/app.js"></script>
 </head>
 <body>
   <div class="app-shell">
+    <div class="navigation-rail"><a href="/vision/" class="back-to-presentation">Zurück zu SANA NEXT</a><span>Einfach ausfüllen · Schritt für Schritt</span></div>
     <header class="masthead">
       <a class="brand" href="/" aria-label="Sana Patientenaufnahme, Startseite">
         <span class="brand-icon" aria-hidden="true"><img src="/assets/sana-logo.png" alt="" width="34" height="34"></span>
@@ -39,7 +42,7 @@
 
       <main class="form-panel" id="formPanel">
         <div class="progress-head">
-          <div><span class="kicker">PATIENTENAUFNAHME</span><div class="step-heading" id="step-heading">Persönliche Daten</div></div>
+          <div><span class="kicker">PATIENTENAUFNAHME</span><div class="step-heading" id="step-heading">Persönliche Daten</div><p class="easy-help">Große Felder, klare Schritte. Sie können jederzeit zurückgehen.</p></div>
           <div class="step-counter"><span id="step-count">01</span><span class="step-divider"> / </span>05</div>
         </div>
         <div class="progress-track" role="progressbar" id="progress" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
@@ -148,7 +151,7 @@
             <label class="field honeypot" aria-hidden="true">Bitte dieses Feld frei lassen<input name="website" tabindex="-1" autocomplete="off"></label>
             <div class="error-box" id="formError" role="alert" hidden></div>
           </div>
-          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button" hidden><span aria-hidden="true">←</span> Zurück</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter <span aria-hidden="true">→</span></button><button type="submit" id="submitBtn" class="primary-button" hidden disabled>Angaben sicher senden <span aria-hidden="true">→</span></button></div>
+          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button" hidden>Zurück</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter</button><button type="button" id="downloadPdf" class="pdf-button" hidden>PDF-Zusammenfassung herunterladen</button><button type="submit" id="submitBtn" class="primary-button" hidden disabled>Angaben sicher senden</button></div>
         </form>
         <div id="success" class="success-screen" hidden aria-live="polite"><span class="success-mark">✓</span><span class="section-index">ERFOLGREICH ÜBERMITTELT</span><h2>Vielen Dank!</h2><p>Ihre Angaben sind eingegangen. Bitte melden Sie sich wie gewohnt an der Anmeldung.</p><div class="reference-box">Ihre Vorgangsnummer <strong id="reference"></strong></div><button class="outline-action" id="newForm" type="button">Neue Aufnahme starten</button></div>
         <footer class="panel-footer"><span>© Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend</span><span class="footer-lock">♧ <span>Vertraulich behandelt</span></span></footer>
