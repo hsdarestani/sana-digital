@@ -3,8 +3,8 @@
 Responsive German-language patient intake for **Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend**, designed for Cloudflare Pages and Cloudflare D1.
 
 ## Included
-- Five accessible, mobile-first steps: personal/insurance/contact, medical history, privacy/optional billing consent, information about IGeL + SLAP, review + touch signature.
-- Clinic source documents transcribed into read-only information views; IGeL is not a purchase, SLAP is not personalized medical advice.
+- Five accessible, mobile-first steps: personal/insurance/contact, medical history, privacy/optional billing consent, optional independent IGeL decision helper, review + touch signature.
+- IGeL patient education is voluntary, with no price list, booking, purchase or clinical rehabilitation protocol included.
 - Separate **opt-in** for external billing by Ärztliche Verrechnungsstelle Büdingen GmbH; refusing cannot block submitting patient data.
 - Submission via Pages Function to **AES-256-GCM encrypted D1 record**, minimal unencrypted metadata. **Preview-only by default**; production storage requires explicit activation.
 - Restricted staff dashboard in /admin with verified **Cloudflare Access** JWT for listing, detail and status updates. No public read API.
@@ -81,7 +81,7 @@ If invoking Wrangler with a Pages config, see official Cloudflare docs for your 
 Encrypted records are **not auto-deleted**. Configure a documented retention/deletion and backup policy BEFORE go-live. To delete records, use an authorized admin procedure or D1 with strict access; archiving is not deletion. Audit changes and patient data access outside of the app as required by the operator.
 
 ## Source documents
-The content comes from six photographed German paper documents supplied by the operator, including two-page Anmeldebogen, external-billing consent/patient information, IGeL price list and SLAP protocol. Verify all prices and clinical details against the current authoritative documents before release.
+The patient intake and external-billing information were adapted from photographed German forms supplied by the operator. The uploaded IGeL price list and SLAP rehabilitation sheet have been deliberately removed from the patient application. Clinical and legal texts still require approval before use.
 
 ## IGeL patient decision guide (source document)
 
@@ -90,4 +90,4 @@ The optional decision helper in Step 4 is a condensed, clearly attributed adapta
 - Explains voluntary nature, evidence and risk discussion, alternatives, costs, second opinions, adequate time, no obligation to buy, GOÄ invoice and separate written agreement.
 - Offers **nine optional browser-only questions** before deciding; the source's tenth question applies **after** treatment and is displayed as advice only.
 - No checklist responses are transmitted, retained, or included in D1. No medical advice, service selection or payment is generated.
-- **The PDF is historical (2012/2014)**; its legal or medical statements have NOT been revalidated for current practice and need clinical/legal review before real-patient use. Existing IGeL prices come from the separately uploaded Sana price sheet, not from this guide.
+- **The PDF is historical (2012/2014)**; its legal or medical statements have NOT been revalidated for current practice and need clinical/legal review before real-patient use. IGeL pricing and the SLAP rehabilitation sheet have been deliberately excluded from the patient application.
