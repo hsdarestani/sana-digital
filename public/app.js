@@ -15,6 +15,7 @@
   let signed = false;
   let drawing = false;
   let sending = false;
+  let intakeEnabled = false;
   const tags = document.getElementById('step-tags');
   tags.innerHTML = names.map((s,i) => '<span class="step-tag" data-tag="'+i+'">'+s+'</span>').join('');
 
@@ -180,6 +181,7 @@
   form.addEventListener('submit',async ev=>{
     ev.preventDefault();
     if(sending)return;
+    if(!intakeEnabled){fail('Dieses Formular ist derzeit nur eine Vorschau. Bitte keine echten Patientendaten eingeben.');return;}
     for(let i=0;i<steps.length;i++){if(!validateStep(i)){moveTo(i);fail('Bitte prüfen Sie die markierten Pflichtfelder.');return;}}
     if(!signed){fail('Bitte unterschreiben Sie im Unterschriftsfeld.');return;}
     if(!form.elements.accuracyConfirm.checked){fail('Bitte bestätigen Sie die Richtigkeit Ihrer Angaben.');return;}
@@ -194,9 +196,19 @@
       document.getElementById('success').hidden=false;
       document.getElementById('success').scrollIntoView({block:'center',behavior:'smooth'});
     }catch(error){fail(error.message||'Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.');}
-    finally{sending=false;submitBtn.disabled=false;submitBtn.innerHTML='Verbindlich absenden <span aria-hidden="true">→</span>';}
+    finally{sending=false;submitBtn.disabled=!intakeEnabled;submitBtn.innerHTML='Verbindlich absenden <span aria-hidden="true">→</span>';}
   });
   document.getElementById('newForm').addEventListener('click',()=>window.location.reload());
   window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
-  minorRequirements();updateConditionals();moveTo(0);
+  async function checkActivation(){
+    try{
+      const response=await fetch('/api/config',{cache:'no-store'});
+      const result=response.ok?await response.json():{};
+      intakeEnabled=result.enabled===true;
+    }catch{intakeEnabled=false;}
+    document.getElementById('previewNotice').hidden=intakeEnabled;
+    submitBtn.disabled=!intakeEnabled;
+    if(!intakeEnabled)submitBtn.textContent='Noch nicht freigeschaltet';
+  }
+  minorRequirements();updateConditionals();moveTo(0);checkActivation();
 })();
