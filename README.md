@@ -18,6 +18,25 @@ This repository alone does NOT create Cloudflare resources or grant approval for
 4. Add bot/rate limiting via Cloudflare WAF and optionally Turnstile. Confirm data-residency and audit/logging choices with the controller.
 5. Test consent wording with practice/legal representative, as well as signature acceptance, minors and accessibility.
 
+## Existing deployment: finish D1 setup (sana-digital.pages.dev)
+
+If the Pages project and D1 resource already exist, **do not recreate either**:
+
+1. Verify Pages project → Settings → Bindings → Production D1 binding name is exactly `DB`, with the selected existing database. After changing it, **redeploy**.
+2. Open the existing D1 database in Cloudflare Dashboard → Console, and apply the statements in [migrations/0001_init.sql](migrations/0001_init.sql) to that database. Creating a D1 resource or binding does not create the `intakes` table.
+3. In Pages → Settings → Variables and Secrets (Production), add `DATA_ENCRYPTION_KEY` as a **secret**, 32 random bytes in base64. Never share it in chat or push it to Git.
+4. Before enabling real submissions, have the controller/DPO approve consent wording, privacy notice, retention and access policies. The current privacy dialog is only a short placeholder, so keep preview enabled until approved.
+5. Restrict `/admin/*` and `/api/admin/*` with two Cloudflare Access path rules, leaving `/` and `/api/submit` public. Save `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` as Pages environment variables. A Cloudflare Access policy protecting the **entire** Pages hostname would block patients; never turn on that global option for the patient-facing form.
+6. Recommended: add Cloudflare Turnstile site key and secret, WAF rate limits and MFA for staff. Add `INTAKE_ENABLED=true` **only after these checks are complete**.
+7. Redeploy the production project after modifying Bindings/Variables. Visit [the public configuration endpoint](https://sana-digital.pages.dev/api/config): `{"enabled":false,...}` means the site is **still in preview**. The API now verifies **D1 table existence, key format, Turnstile configuration and activation flag**; `true` means these technical prerequisites are present, **not** that legal approval is complete.
+8. Using strictly fictional test data, test one end-to-end submission and confirm it appears at `/admin/` only to authorized staff. Do not send real patient data until the privacy and security review is complete.
+
+### Troubleshooting
+
+- `/api/config` shows `enabled:false`: one or more activation prerequisites have not been met. Verify the migration, binding name `DB`, secret format, optional Turnstile pair, and `INTAKE_ENABLED` flag. No secret values are returned to visitors.
+- `/admin/` opens but cannot list patients: check **both** Cloudflare Access path policies and `ACCESS_TEAM_DOMAIN` / `ACCESS_AUD`; a public static admin HTML page is not proof of authentication.
+- `/api/config` returns `true` but submit fails: review deployment Functions logs **without exposing request data** and verify permissions, D1 environment (Production vs Preview), and schema version.
+
 ## Deploy to Cloudflare Pages
 Cloudflare Pages → Create project → Connect to Git → select this repo.
 - Framework preset: **None**
@@ -29,17 +48,17 @@ Cloudflare Pages → Create project → Connect to Git → select this repo.
 ### D1
 Create a D1 database named **sana-digital-patients** through the dashboard (Workers & Pages → D1) or use:
 
-\`\`\`sh
+```sh
 npx wrangler d1 create sana-digital-patients
 npx wrangler d1 execute sana-digital-patients --remote --file=migrations/0001_init.sql
-\`\`\`
+```
 
 In Pages → your project → Settings → Bindings, add D1 database binding with the exact variable name **DB**, choose **sana-digital-patients**, apply for Production (and separate Preview DB if testing); **redeploy** for changes to take effect. For local development, wrangler can bind a separate local D1.
 
 ### Secret configuration (Pages → Settings → Variables and Secrets)
 - **INTAKE_ENABLED** (required for live patient submissions): use `true` ONLY after all legal, clinical, technical, access and data-protection approvals. Defaults to a non-submitting **preview mode**.
-- **DATA_ENCRYPTION_KEY** (required, SECRET). Generate a cryptographically random, 32-byte base64 key using e.g. \`openssl rand -base64 32\`. Store securely OFF-repo, with recoverable backup. **Loss of key makes all stored submissions permanently unreadable. Never rotate without re-encrypting existing records.**
-- **ACCESS_TEAM_DOMAIN** (required for admin), e.g. \`your-team.cloudflareaccess.com\`.
+- **DATA_ENCRYPTION_KEY** (required, SECRET). Generate a cryptographically random, 32-byte base64 key using e.g. `openssl rand -base64 32`. Store securely OFF-repo, with recoverable backup. **Loss of key makes all stored submissions permanently unreadable. Never rotate without re-encrypting existing records.**
+- **ACCESS_TEAM_DOMAIN** (required for admin), e.g. `your-team.cloudflareaccess.com`.
 - **ACCESS_AUD** (required for admin) from your Access app JWT Audience tag.
 - **TURNSTILE_SITE_KEY** (recommended): public key for Cloudflare Turnstile, returned by the safe `/api/config` endpoint to render the widget.
 - **TURNSTILE_SECRET** (recommended, SECRET): Cloudflare Turnstile server-verification secret. Configure BOTH site key and secret for production. If the secret is set without a working widget, submissions are intentionally rejected. Also configure Cloudflare WAF rate limits.
@@ -50,11 +69,11 @@ Never put live credentials, patient data or D1 backups in GitHub. Public source 
 After securing Cloudflare Access policies, visit **/admin/**. The UI communicates with /api/admin/records. Without valid signed Access JWT claims, the API returns 401; without D1/key setup, it returns 503. Review records, inspect consent and signature, print as needed and mark a record as reviewed / archived. D1 status "archived" does not delete it.
 
 ### Local development
-\`\`\`sh
+```sh
 npx wrangler pages dev public --d1 DB=local-d1
 npx wrangler d1 execute local-d1 --local --file=migrations/0001_init.sql
-\`\`\`
-For actual local testing set \`DATA_ENCRYPTION_KEY\` in \`.dev.vars\` (gitignored); do not use a production key.
+```
+For actual local testing set `DATA_ENCRYPTION_KEY` in `.dev.vars` (gitignored); do not use a production key.
 If invoking Wrangler with a Pages config, see official Cloudflare docs for your version.
 
 ## Retention
