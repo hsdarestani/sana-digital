@@ -36,11 +36,11 @@ test('first-time visitors can see all five topics and enter any chapter directly
  const html=readFileSync(new URL('../public/vision/index.html',import.meta.url),'utf8');
  const topics=['Empfang & Rückrufe','Ärzteauslastung','Digitale Aufnahme','Praxisübersicht','SANA 2028'];
  for(const title of topics) assert.ok(js.includes(title),title);
- assert.match(js,/class="entry-card" data-scene=/);
+ assert.match(js,/class="entry-card entry-/);
  assert.match(js,/Geführte Präsentation starten/);
  assert.match(js,/Ein Thema auswählen/);
- assert.match(js,/Probieren: Anliegen auswählen/);
- assert.match(js,/Probieren: Vormittag und Nachmittag vergleichen/);
+ assert.match(js,/id="contact-kind-select"/);
+ assert.match(js,/data-shift="afternoon"/);
  assert.match(js,/case 'overview':guided=false;go\(-1\)/);
  assert.ok(html.indexOf('class="chapter-nav"')<html.indexOf('id="stage"'));
 });
@@ -71,4 +71,20 @@ test('responsive chapter navigation uses a native selector without emoji arrows'
  assert.match(css,/\.mobile-chapters\{display:flex/);
  assert.match(css,/\.reception-stage/);
  assert.doesNotMatch(js+html,/[↗↘↖↙→←↺]/);
+});
+
+test('mobile-first homepage is compact and visual, not five oversized cards',()=>{
+ const js=readFileSync(new URL('../public/vision/vision.js',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../public/vision/atelier.css',import.meta.url),'utf8');
+ assert.match(js,/class="entry-art"/);
+ assert.match(js,/class="landing landing-focus"/);
+ assert.match(css,/\.entry-grid \.entry-card\{min-height:77px/);
+ assert.match(css,/\.entry-grid \.entry-action\{display:none/);
+ assert.match(css,/\.landing-focus \.hero h1\{font-size:42px/);
+});
+test('secondary information is behind optional details',()=>{
+ const js=readFileSync(new URL('../public/vision/vision.js',import.meta.url),'utf8');
+ assert.match(js,/<details class="demo-fineprint"/);
+ assert.match(js,/id="contact-kind-select"/);
+ assert.match(js,/e\.target\.id==='contact-kind-select'/);
 });
