@@ -29,3 +29,25 @@ test('vision contains no AI assistant, booking workflow, arrow glyphs or backend
  assert.match(js,/Doctolib/);
  assert.match(js,/href="\/" target="_blank" rel="noopener"/);
 });
+
+
+test('first-time visitors can see all five topics and enter any chapter directly',()=>{
+ const js=readFileSync(new URL('../public/vision/vision.js',import.meta.url),'utf8');
+ const html=readFileSync(new URL('../public/vision/index.html',import.meta.url),'utf8');
+ const topics=['Empfang & Rückrufe','Ärzteauslastung','Digitale Aufnahme','Praxisübersicht','SANA 2028'];
+ for(const title of topics) assert.ok(js.includes(title),title);
+ assert.match(js,/class="entry-card" data-scene=/);
+ assert.match(js,/Geführte Präsentation starten/);
+ assert.match(js,/Ein Thema auswählen/);
+ assert.match(js,/Probieren: Anliegen auswählen/);
+ assert.match(js,/Probieren: Vormittag und Nachmittag vergleichen/);
+ assert.match(js,/case 'overview':guided=false;go\(-1\)/);
+ assert.ok(html.indexOf('class="chapter-nav"')<html.indexOf('id="stage"'));
+});
+test('light Sana blue branding and navigable controls have no arrows',()=>{
+ const css=readFileSync(new URL('../public/vision/vision.css',import.meta.url),'utf8');
+ assert.match(css,/color-scheme:light/);
+ assert.match(css,/--mint:#087eaf/);
+ assert.match(css,/\.entry-grid/);
+ assert.match(css,/\.chapter-nav\{position:sticky;top:0/);
+});
