@@ -194,6 +194,6 @@
     finally{sending=false;submitBtn.disabled=false;submitBtn.innerHTML='Verbindlich absenden <span aria-hidden="true">→</span>';}
   });
   document.getElementById('newForm').addEventListener('click',()=>window.location.reload());
-  window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.type!=='hidden' && el.value && el.name && el.name!=='website')){ev.preventDefault();}});
+  window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
   minorRequirements();updateConditionals();moveTo(0);
 })();
