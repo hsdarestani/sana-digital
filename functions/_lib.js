@@ -7,7 +7,10 @@ const toBase64 = bytes => {
   return btoa(out);
 };
 const fromBase64 = value => Uint8Array.from(atob(value),c=>c.charCodeAt(0));
-export function configured(env){return Boolean(env.DB && env.DATA_ENCRYPTION_KEY);}
+export function configured(env){
+  if(!env?.DB || typeof env.DATA_ENCRYPTION_KEY!=='string')return false;
+  try{return fromBase64(env.DATA_ENCRYPTION_KEY).length===32;}catch{return false;}
+}
 async function cryptoKey(env){
   const raw=fromBase64(env.DATA_ENCRYPTION_KEY||'');
   if(raw.length!==32)throw new Error('Invalid data encryption configuration');
