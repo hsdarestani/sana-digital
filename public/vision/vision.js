@@ -34,9 +34,35 @@ function header(n,title,aside){const how=[
 function controls(message,button='Weiter erleben'){return `<div class="scene-controls"><p class="guided-note">${message}</p><button class="primary" data-action="next">${button}</button></div>`;}
 function calls(){
  const item=kinds[contactKind];
- return header(0,'Ein Mensch.<br><em>Ein offenes Ohr.</em>','Eine gut organisierte Rezeption nimmt Anliegen persönlich auf. Eine zusätzliche Empfangskraft ist eine mögliche Lösung.')
- +`<div class="scene-grid"><div class="panel human-reception"><div class="panel-label">PERSONELLER EMPFANG · KONZEPT</div><div class="human-art"><div class="staff-halo"><div class="staff-avatar"><div class="staff-head"></div><div class="staff-shoulders"></div></div></div><div class="staff-desk"></div><div class="staff-phone"></div></div><h2 class="call-name">Persönlich erreichbar.</h2><p class="subtle">Eine zuständige Mitarbeiterin nimmt Anrufe entgegen, beantwortet Fragen und hält Rückrufe nach.</p><div class="staff-pills"><span>Feste Zuständigkeit</span><span>Entlastung des Teams</span><span>Klare Rückrufliste</span></div></div><div class="panel"><div class="panel-label">ANLIEGEN IM EMPFANG <span class="pill">Nur Beispieldaten</span></div><p class="overview">Julia Berger · fiktive Patientin · Kontakt am Empfang</p><div class="segmented reception-choices"><button data-contactkind="callback" class="${contactKind==='callback'?'active':''}" ${state.request?'disabled':''}>Rückruf</button><button data-contactkind="documents" class="${contactKind==='documents'?'active':''}" ${state.request?'disabled':''}>Unterlagen</button><button data-contactkind="general" class="${contactKind==='general'?'active':''}" ${state.request?'disabled':''}>Frage</button></div><div class="match"><span class="pill">BEISPIELPROZESS</span><h3>${item.title}</h3><p>${item.description}</p><div class="record-item"><span>Nächster Schritt</span><b>${item.action}</b></div></div>${state.request?`<div class="request-card"><h3>Im Beispielteam erfasst</h3><p>Die Rezeption kann das Anliegen im Command Center verfolgen. Es wurde nichts an die echte Praxis gesendet.</p></div>`:`<button class="primary full-width" data-action="record-contact">Anliegen im Team erfassen</button>`}<p class="hint">Keine künstliche Telefonassistenz und keine Terminbuchung. Für Online-Termine nutzt die Praxis bereits Doctolib.</p></div></div>`
- +controls('Jede Anfrage bekommt eine menschliche Ansprechperson und einen nachvollziehbaren Bearbeitungsstand.','Die Auslastung verstehen');
+ return header(0,'Persönlich erreichbar.<br><em>Spürbar entlastet.</em>','Ein klarer Empfangsprozess: Menschen nehmen Anliegen auf und das Team behält die Bearbeitung im Blick.')
+ +`<div class="scene-grid reception-grid">
+  <div class="reception-stage" aria-label="Beispiel eines persönlich organisierten Empfangs">
+    <div class="reception-screen">
+      <div class="reception-topline"><div class="reception-identity"><span class="signal-mark"></span>SANA / EMPFANG</div><span class="reception-demo">SIMULATION</span></div>
+      <div class="reception-feature">
+        <span class="reception-kicker">PERSÖNLICHER PATIENTENKONTAKT</span>
+        <h2>Jeder Anruf<br>verdient <em>Antwort.</em></h2>
+        <p>Ein Ansprechpartner. Klare Zuständigkeiten. Kein zusätzlicher Buchungskanal.</p>
+        <div class="signal-art" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="reception-process" aria-label="Drei Arbeitsschritte">
+        <div class="process-item"><span class="process-index">01</span><div><strong>Persönlich annehmen</strong><small>Ein Mitarbeiter ist erreichbar.</small></div><span class="process-indicator"></span></div>
+        <div class="process-item"><span class="process-index">02</span><div><strong>Anliegen dokumentieren</strong><small>Der nächste Schritt ist eindeutig.</small></div><span class="process-indicator ${state.request?'on':''}"></span></div>
+        <div class="process-item"><span class="process-index">03</span><div><strong>Im Team nachhalten</strong><small>Offen oder erledigt, jederzeit nachvollziehbar.</small></div><span class="process-indicator ${state.callbackDone?'on':''}"></span></div>
+      </div>
+      <div class="reception-screen-foot"><span class="screen-status"><i></i> MENSCHLICH BETREUT</span><span>OHNE KI · OHNE TERMINBUCHUNG</span></div>
+    </div>
+  </div>
+  <section class="panel reception-actions" aria-label="Beispielanliegen bearbeiten">
+    <div class="panel-label">EINEN VORGANG AUSPROBIEREN <span class="pill">Fiktive Daten</span></div>
+    <h2 class="reception-action-heading">Was möchte die Patientin?</h2>
+    <p class="overview">Julia Berger · Beispielpatientin</p>
+    <div class="segmented reception-choices" aria-label="Anliegen auswählen"><button data-contactkind="callback" class="${contactKind==='callback'?'active':''}" ${state.request?'disabled':''}>Rückruf</button><button data-contactkind="documents" class="${contactKind==='documents'?'active':''}" ${state.request?'disabled':''}>Unterlagen</button><button data-contactkind="general" class="${contactKind==='general'?'active':''}" ${state.request?'disabled':''}>Sonstiges</button></div>
+    <div class="reception-request-preview"><span class="request-preview-label">AUSGEWÄHLTES ANLIEGEN</span><h3>${item.title}</h3><p>${item.description}</p><div class="request-next"><span>Bearbeitung durch</span><strong>${item.action}</strong></div></div>
+    ${state.request?`<div class="receipt-confirm" role="status"><span class="receipt-check" aria-hidden="true"></span><div><strong>Im Beispielteam erfasst</strong><p>Der Vorgang erscheint jetzt in der Praxisübersicht.</p></div></div><button class="secondary full-width" data-action="to-command">In Praxisübersicht anzeigen</button>`:`<button class="primary full-width" data-action="record-contact">Anliegen im Team erfassen</button>`}
+    <p class="reception-legal">Nur Demonstration. Keine echten Anrufe oder Patientendaten. Terminbuchungen bleiben bei Doctolib.</p>
+  </section>
+ </div>`+controls('Eine zusätzliche Empfangskraft könnte Anrufe organisieren und Rückrufe nachvollziehbar bearbeiten.','Ärzteauslastung ansehen');
 }
 function scheduling(){
  const numbers=capacity(shift),total=numbers.reduce((sum,v)=>sum+v,0);
@@ -61,7 +87,7 @@ function future(){return header(4,'Die Zukunft ist<br><em>ein Zusammenspiel.</em
 +controls('Alles konzeptionell. Die eigentliche Terminbuchung bleibt in Doctolib.','Noch einmal erleben');}
 function render(){
  nav.hidden=scene<0;
- nav.innerHTML=`<button data-action="overview" class="overview-tab" aria-label="Zur Startübersicht">Übersicht</button>`+names.map((name,i)=>`<button data-scene="${i}" class="${scene===i?'active':''}" ${scene===i?'aria-current="step"':''}><span class="num">0${i+1}</span>${name}</button>`).join('');
+ nav.innerHTML=`<div class="desktop-chapters"><button data-action="overview" class="overview-tab" aria-label="Zur Startübersicht">Alle Bereiche</button>${names.map((name,i)=>`<button data-scene="${i}" class="${scene===i?'active':''}" ${scene===i?'aria-current="step"':''}><span class="num">0${i+1}</span>${name}</button>`).join('')}</div><div class="mobile-chapters"><button data-action="overview" class="mobile-overview">Übersicht</button><label class="mobile-current"><span>${String(scene+1).padStart(2,'0')} / 05</span><select id="mobile-chapter-select" aria-label="Bereich auswählen">${names.map((name,i)=>`<option value="${i}" ${i===scene?'selected':''}>${name}</option>`).join('')}</select><span class="select-chevron" aria-hidden="true"></span></label></div>`;
  stage.innerHTML=(scene>=0&&guided?`<div class="guide-strip"><b>GEFÜHRTE PRÄSENTATION</b><span>Schritt ${scene+1} von 5 · Sie bestimmen das Tempo.</span><button data-action="unguided">Frei erkunden</button></div>`:'')+(scene<0?intro():`<section class="scene">${[calls,scheduling,paper,command,future][scene]()}</section>`);
  document.querySelectorAll('[data-height]').forEach(el=>el.style.height=el.dataset.height+'%');
  if(state.intake&&$('#mobility'))$('#mobility').value=state.intake.support;
@@ -87,6 +113,7 @@ document.addEventListener('click',e=>{
  case 'review-intake':if(state.intake&&!state.reviewed){state.reviewed=true;render();notify('Für die Arztansicht freigegeben.');}break;
  case 'to-call':go(0);break;
  case 'to-paper':go(2);break;
+ case 'to-command':go(3);break;
  case 'callback-done':state.callbackDone=true;render();notify('Vorgang als erledigt markiert.');break;
  case 'pilot':$('#detail-content').innerHTML='<div class="eyebrow">VON DER VISION ZUM PILOT</div><h2>Persönliche Betreuung.<br>Besser organisierte Abläufe.</h2><p>Gemeinsam mit dem Team einen Engpass auswählen: etwa die Organisation des Empfangs, die Nachverfolgung von Rückrufen oder eine digitale Vorabaufnahme.</p><p>Vor dem Start: Zuständigkeiten, Datenschutz und technische Voraussetzungen klären. Doctolib bleibt für die Terminbuchung bestehen.</p><a class="primary" href="/" target="_blank" rel="noopener">Bestehende Aufnahme ansehen</a>';$('#detail').showModal();break;
  case 'confirm-reset':$('#detail').close();reset();notify('Alle Beispielaktionen wurden zurückgesetzt.');break;
@@ -102,5 +129,6 @@ $('.close-dialog').addEventListener('click',()=>$('#detail').close());
 $('#detail').addEventListener('click',e=>{if(e.target===$('#detail')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close();}});
 $('#fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notify('Vollbild ist in diesem Browser nicht verfügbar.');}catch{notify('Vollbild ist hier nicht verfügbar.');}});
 document.addEventListener('fullscreenchange',()=>$('#fullscreen').setAttribute('aria-label',document.fullscreenElement?'Vollbild beenden':'Vollbild öffnen'));
+document.addEventListener('change',e=>{if(e.target.id==='mobile-chapter-select'){const index=Number(e.target.value);if(Number.isInteger(index)&&index>=0&&index<names.length)go(index);}});
 document.addEventListener('keydown',e=>{if($('#detail').open||e.target.matches('input,select,textarea,button,a')||scene<0)return;if(e.key==='ArrowRight'&&scene<4){e.preventDefault();$('[data-action="next"]')?.click();}if(e.key==='ArrowLeft'&&scene>0){e.preventDefault();go(scene-1);}});
 render();
