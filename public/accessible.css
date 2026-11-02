@@ -1,0 +1,26 @@
+
+/* Patient intake accessibility improvements for older patients and iPads. */
+.navigation-rail{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:15px;font-size:12px;color:#6b8a9b}
+.back-to-presentation{display:inline-flex;align-items:center;gap:11px;color:#0b72a1;font-size:13px;font-weight:770;text-decoration:none;min-height:44px}
+.back-to-presentation:before{content:"";height:8px;width:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
+.easy-help{font-size:13px;color:#567c90;margin:7px 0 0}
+.field{font-size:15px!important;line-height:1.45}
+.field input,.field select,.field textarea,.fields .field input,.fields .field select{font-size:17px!important;min-height:54px!important;border:1px solid #bfd7e4!important;color:#19465e;background:#fff}
+.field input::placeholder{color:#819ba9}
+.field select{padding-left:13px;padding-right:35px}
+.field:focus-within{color:#115f89}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#118aba!important;box-shadow:0 0 0 3px #d9eff8}
+.big-check,.check-tile{font-size:15px!important;line-height:1.55}
+.big-check input,.check-tile input{min-width:19px;min-height:19px;accent-color:#087fb1}
+.action-bar{gap:12px;flex-wrap:wrap}
+.action-bar button,.review-edit,.outline-action{min-height:49px;font-size:14px;font-weight:760;border-radius:9px}
+.pdf-button{background:#fff;color:#086d9d;border:1px solid #a4cada;padding:13px 17px;border-radius:9px;min-height:49px;font-size:14px;font-weight:750}
+.pdf-button:hover{background:#eef9ff}
+.step-tags{font-size:12px}
+.step-tag{font-size:12px}
+.preview-notice{font-size:12px;line-height:1.55}
+#review{font-size:14px}
+#formError{font-size:14px}
+@media(max-width:1050px){.app-shell{padding:19px 21px 32px}.intro{padding:35px 25px}.form-panel{padding:27px 25px}.workspace{grid-template-columns:minmax(240px,.65fr) minmax(0,1.35fr)}}
+@media(max-width:800px){.workspace{grid-template-columns:1fr}.intro{min-height:unset;padding:22px 23px;border-radius:17px}.intro-illustration,.intro-bottom{display:none}.intro h1{font-size:29px;margin:10px 0}.intro p{font-size:14px;line-height:1.55;margin:0}.form-panel{border-radius:17px;padding:24px 21px}.masthead{height:53px;margin-bottom:10px}}
+@media(max-width:600px){.app-shell{padding:13px 12px 28px}.navigation-rail{padding:0 7px;font-size:11px;margin-bottom:6px}.navigation-rail>span{display:none}.fields.two{grid-template-columns:1fr!important;gap:14px}.field{font-size:16px!important}.field input,.field select,.field textarea{font-size:18px!important;min-height:56px!important;padding:11px 13px!important}.form-panel{padding:20px 17px}.section-heading h2{font-size:23px}.section-heading p{font-size:14px}.step-tags{gap:4px;flex-wrap:wrap}.step-tag{font-size:11px;padding:8px 6px}.action-bar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.action-bar .action-spacer{display:none}.action-bar button{min-width:0;white-space:normal;min-height:52px;padding:10px}.action-bar #downloadPdf:not([hidden]){grid-column:1 / -1;grid-row:1}.action-bar #backBtn:not([hidden]){grid-column:1;grid-row:2}.action-bar #nextBtn:not([hidden]),.action-bar #submitBtn:not([hidden]){grid-column:2;grid-row:2}.action-bar #nextBtn:not([hidden]):first-child{grid-column:1 / -1}.big-check{font-size:15px!important}}
