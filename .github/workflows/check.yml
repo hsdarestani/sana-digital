@@ -1,0 +1,30 @@
+name: Sana Digital checks
+on:
+  push:
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: npm run check
+      - name: Run security and validation tests
+        run: npm test
+      - name: Verify SQL migration
+        run: |
+          python3 - <<'PY'
+          import sqlite3
+          con=sqlite3.connect(':memory:')
+          con.executescript(open('migrations/0001_init.sql', encoding='utf-8').read())
+          fields={x[1] for x in con.execute('PRAGMA table_info(intakes)')}
+          assert {'encrypted_payload','iv','reference','status'} <= fields
+          assert not {'first_name','last_name','diagnosis','signature'} & fields
+          print('Migration schema verified')
+          PY
