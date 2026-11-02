@@ -16,6 +16,8 @@
   let drawing = false;
   let sending = false;
   let intakeEnabled = false;
+  let turnstileKey = null;
+  let turnstileToken = null;
   const tags = document.getElementById('step-tags');
   tags.innerHTML = names.map((s,i) => '<span class="step-tag" data-tag="'+i+'">'+s+'</span>').join('');
 
@@ -175,6 +177,7 @@
     data.accuracyConfirm=form.elements.accuracyConfirm.checked;
     data.signature=canvas.toDataURL('image/png');
     data.documentVersion='2026-11-02.1';
+    data.turnstileToken=turnstileToken||'';
     data.website=value('website');
     return data;
   }
@@ -182,6 +185,7 @@
     ev.preventDefault();
     if(sending)return;
     if(!intakeEnabled){fail('Dieses Formular ist derzeit nur eine Vorschau. Bitte keine echten Patientendaten eingeben.');return;}
+    if(turnstileKey&&!turnstileToken){fail('Bitte schließen Sie zuerst die Sicherheitsprüfung ab.');return;}
     for(let i=0;i<steps.length;i++){if(!validateStep(i)){moveTo(i);fail('Bitte prüfen Sie die markierten Pflichtfelder.');return;}}
     if(!signed){fail('Bitte unterschreiben Sie im Unterschriftsfeld.');return;}
     if(!form.elements.accuracyConfirm.checked){fail('Bitte bestätigen Sie die Richtigkeit Ihrer Angaben.');return;}
@@ -200,11 +204,28 @@
   });
   document.getElementById('newForm').addEventListener('click',()=>window.location.reload());
   window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
+  function setupTurnstile(sitekey){
+    if(document.getElementById('turnstileBox'))return;
+    const box=document.createElement('div');
+    box.id='turnstileBox';box.className='turnstile-box';
+    box.setAttribute('aria-label','Sicherheitsprüfung');
+    document.querySelector('.required-check').after(box);
+    const script=document.createElement('script');
+    script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async=true;
+    script.onload=()=>{
+      if(!window.turnstile){return;}
+      window.turnstile.render(box,{sitekey,callback:(token)=>{turnstileToken=token;},'expired-callback':()=>{turnstileToken=null;},'error-callback':()=>{turnstileToken=null;}});
+    };
+    document.head.append(script);
+  }
   async function checkActivation(){
     try{
       const response=await fetch('/api/config',{cache:'no-store'});
       const result=response.ok?await response.json():{};
       intakeEnabled=result.enabled===true;
+      turnstileKey=result.turnstileSiteKey||null;
+      if(intakeEnabled&&turnstileKey)setupTurnstile(turnstileKey);
     }catch{intakeEnabled=false;}
     document.getElementById('previewNotice').hidden=intakeEnabled;
     submitBtn.disabled=!intakeEnabled;
