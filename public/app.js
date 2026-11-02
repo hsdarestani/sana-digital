@@ -129,7 +129,7 @@
   ];
   const info = {
     igel: { title:'IGeL – Preisübersicht',eyebrow:'SELBSTZAHLERLEISTUNGEN',html:
-      '<p>Übersicht aus der von der Praxis bereitgestellten Preisliste. Sie dient ausschließlich der Information. Vor einer kostenpflichtigen Behandlung sind medizinische Aufklärung und gesonderte Vereinbarung notwendig.</p><table><thead><tr><th>Leistung</th><th>Kosten</th></tr></thead><tbody>'+
+      '<p>Übersicht aus der von der Praxis bereitgestellten Preisliste. Sie dient ausschließlich der Information. Vor einer kostenpflichtigen Behandlung sind medizinische Aufklärung und gesonderte Vereinbarung notwendig. Eine Preisliste allein stellt kein Vertragsangebot dar; klären Sie Nutzen, Risiken, Alternativen und mögliche Erstattung mit Ärztin/Arzt bzw. Krankenkasse.</p><table><thead><tr><th>Leistung</th><th>Kosten</th></tr></thead><tbody>'+
       igelRows.map(r=>'<tr><td>'+escapeHtml(r[0])+'</td><td>'+escapeHtml(r[1])+'</td></tr>').join('')+
       '</tbody></table><p><small>Preise laut bereitgestelltem Dokument; Änderungen und ärztliche Beratung vorbehalten.</small></p>'},
     slap: {title:'SLAP – Nachbehandlung',eyebrow:'BEHANDLUNGSPLAN',html:
@@ -155,10 +155,13 @@
       '<p><strong>Hinweis:</strong> Diese Kurzinfo ersetzt nicht die vollständige Datenschutzinformation des Praxisbetreibers. Diese muss vor dem produktiven Einsatz rechtlich und organisatorisch bereitgestellt werden.</p>'}
   };
   function showDialog(which){
-    const data=info[which];if(!data)return;
+    const data=which==='igelguide'?window.SanaIgelGuide:info[which];
+    if(!data)return;
     document.getElementById('dialogTitle').textContent=data.title;
     document.getElementById('dialogEyebrow').textContent=data.eyebrow;
-    document.getElementById('dialogContent').innerHTML=data.html;
+    const content=document.getElementById('dialogContent');
+    content.innerHTML=data.html;
+    if(which==='igelguide')window.SanaIgelGuide.init(content);
     dialog.showModal();
   }
   document.querySelectorAll('[data-dialog]').forEach(btn=>btn.addEventListener('click',()=>showDialog(btn.dataset.dialog)));
