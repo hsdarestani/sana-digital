@@ -35,7 +35,8 @@ export function validatePatient(v){
   const bd=/^\d{4}-\d{2}-\d{2}$/.test(v.birthDate||'')?new Date(v.birthDate+'T12:00:00Z'):null;
   if(!bd||Number.isNaN(bd.getTime())||bd.getTime()>Date.now()||bd.getUTCFullYear()<1900||bd.toISOString().slice(0,10)!==v.birthDate)return false;
   const now=new Date();let age=now.getUTCFullYear()-bd.getUTCFullYear();if(now.getUTCMonth()<bd.getUTCMonth()||(now.getUTCMonth()===bd.getUTCMonth()&&now.getUTCDate()<bd.getUTCDate()))age--;
-  if(age<18&&(!required(v.guardianFirstName,1,80)||!required(v.guardianLastName,1,80)||!['Mutter','Vater','Sonstige'].includes(v.guardianRelation)))return false;
+  if(age<18&&(!required(v.guardianFirstName,1,80)||!required(v.guardianLastName,1,80)||!['Mutter','Vater','Sonstige'].includes(v.guardianRelation)||v.guardianAuthorityConfirm!==true))return false;
+  if(typeof v.guardianAuthorityConfirm!=='boolean')return false;
   if(v.email&&(!required(v.email,3,150)||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)))return false;
   const sizes={phone:30,insuranceNumber:40,guardianFirstName:80,guardianLastName:80,guardianBirthDate:10,guardianRelation:30,guardianAddress:180,familyDoctor:130,occupation:110,heightCm:15,weightKg:15,sportsDetails:240,medicationDetails:1500,conditionDetails:1500,allergyDetails:1500,operationDetails:1500,cigarettesPerDay:5,discovery:60};
   for(const [key,max] of Object.entries(sizes))if(text(v[key],max)===null)return false;
