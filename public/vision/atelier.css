@@ -193,3 +193,162 @@ dialog{border-radius:11px}
  .reception-screen-foot span:last-child{font-size:7px}
 }
 @media(prefers-reduced-motion:reduce){.signal-art span{animation:none}}
+
+
+
+/* FFM Aktuell principles: minimal decisions, strong visuals, no empty oversized cards. */
+.landing-focus .hero{max-width:1320px;min-height:250px;padding:30px clamp(24px,4vw,56px) 4px;grid-template-columns:1.08fr .92fr}
+.landing-focus .hero-copy{max-width:550px}
+.landing-focus .hero h1{font-size:clamp(42px,4.3vw,61px);margin:13px 0 10px;line-height:1.02;letter-spacing:-.055em}
+.landing-focus .hero h1 em{color:#086e9f}
+.landing-focus .hero p{font-size:14px;line-height:1.5;margin-bottom:0;max-width:410px}
+.landing-focus .hero-actions{margin-top:19px}
+.landing-focus .hero-preview{height:250px}
+.landing-focus .hero-preview .spatial{height:280px;transform:scale(.67)}
+.landing-directory{max-width:1320px;padding:10px clamp(24px,4vw,56px) 42px}
+.directory-heading{align-items:center;margin-bottom:13px}
+.directory-heading h2{margin:3px 0 0;font-size:24px}
+.directory-heading .eyebrow{font-size:9px}
+.directory-tip{font-size:10px;color:#8499a7}
+.entry-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}
+.entry-grid .entry-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-width:0;min-height:174px;padding:17px 16px;background:linear-gradient(160deg,#fff 55%,#f4f9fc 100%);border:1px solid #e0e9ef;box-shadow:none;overflow:hidden;border-radius:10px;isolation:isolate}
+.entry-grid .entry-card:first-child{border-color:#c5ddeb;background:linear-gradient(145deg,#edf7fc,#fff 72%)}
+.entry-grid .entry-index{margin:0 0 16px;font-size:10px;flex:none;width:28px;height:28px;border-radius:5px;background:#e5f2f9}
+.entry-grid .entry-copy{display:flex;flex-direction:column;align-items:flex-start;position:relative;z-index:2}
+.entry-grid .entry-card strong{font-size:14px;line-height:1.25;color:#193e56;font-weight:720}
+.entry-grid .entry-desc{font-size:11px;color:#7c94a3;margin-top:7px;line-height:1.35}
+.entry-grid .entry-action{display:block;position:relative;z-index:2;margin-top:auto;padding:14px 0 0;font-size:10px;color:#0b76a8}
+.entry-art{position:absolute;right:10px;top:13px;width:66px;height:50px;display:block;opacity:.9;pointer-events:none}
+.entry-art i{display:block;position:absolute}
+.entry-telephone .entry-art i:first-child{width:35px;height:35px;border:2px solid #91cae0;border-radius:50%;top:6px;right:12px}
+.entry-telephone .entry-art i:nth-child(2){width:21px;height:21px;border:2px solid #238eb9;border-radius:50%;top:13px;right:19px}
+.entry-telephone .entry-art i:nth-child(3){width:7px;height:7px;background:#0e82b0;border-radius:50%;top:20px;right:26px}
+.entry-capacity .entry-art i{bottom:4px;width:12px;background:#b3d8e9;border-radius:3px 3px 0 0}
+.entry-capacity .entry-art i:first-child{height:38px;left:7px;background:#4ca6ce}
+.entry-capacity .entry-art i:nth-child(2){height:21px;left:27px}
+.entry-capacity .entry-art i:nth-child(3){height:28px;left:47px}
+.entry-intake .entry-art i:first-child{height:41px;width:27px;top:4px;right:16px;border:2px solid #80b9d1;border-radius:5px}
+.entry-intake .entry-art i:nth-child(2){height:2px;width:13px;top:18px;right:23px;background:#1683b1}
+.entry-intake .entry-art i:nth-child(3){height:2px;width:13px;top:25px;right:23px;background:#1683b1}
+.entry-dashboard .entry-art i{height:11px;width:25px;border:1px solid #93c5da;background:#e4f2f8;border-radius:3px}
+.entry-dashboard .entry-art i:first-child{top:10px;left:4px}
+.entry-dashboard .entry-art i:nth-child(2){top:10px;right:4px}
+.entry-dashboard .entry-art i:nth-child(3){top:27px;left:17px;width:42px;background:#8bc4dd}
+.entry-future .entry-art i:first-child{width:34px;height:34px;top:8px;left:16px;border:1.5px solid #8bbbd2;transform:rotate(45deg);border-radius:4px}
+.entry-future .entry-art i:nth-child(2){width:21px;height:21px;top:15px;left:22px;border:1.5px solid #1685b3;transform:rotate(45deg);border-radius:3px}
+.entry-future .entry-art i:nth-child(3){width:7px;height:7px;top:23px;left:30px;background:#1881b0;transform:rotate(45deg)}
+.entry-grid .entry-card:hover .entry-art{opacity:1;transform:translateY(-2px);transition:transform .2s}
+.scene-header{margin-bottom:15px}
+.scene-title{font-size:clamp(32px,3.2vw,46px);line-height:1.03;margin:9px 0 7px}
+.scene-explainer{font-size:12px;max-width:690px}
+.scene-grid,.reception-grid{gap:15px}
+.reception-screen,.reception-actions{min-height:396px}
+.reception-feature{margin-top:25px}
+.reception-feature p{max-width:310px}
+.reception-process{margin-top:13px}
+.reception-process .process-item{padding:9px 0}
+.reception-action-heading{margin:17px 0 5px;font-size:24px}
+.reception-actions .overview{margin-bottom:5px}
+.reception-actions .panel-label{font-size:9px}
+.compact-choice{display:flex;justify-content:space-between;align-items:center;gap:15px;color:#6b8191;font-size:11px;font-weight:700;margin:18px 0 14px}
+.compact-choice select{appearance:none;-webkit-appearance:none;color:#0b6796;border:1px solid #d6e7f0;border-radius:6px;padding:10px 30px 10px 12px;font:inherit;font-size:12px;background:#f6fbfe;cursor:pointer;min-width:135px}
+.compact-choice:after{content:"";border-right:1.5px solid #277ea7;border-bottom:1.5px solid #277ea7;transform:rotate(45deg);height:6px;width:6px;margin-left:-37px;margin-right:15px;pointer-events:none}
+.reception-request-preview{padding-bottom:12px}
+.reception-request-preview h3{margin:5px 0;font-size:19px}
+.reception-request-preview>p{font-size:11px;line-height:1.4;margin-bottom:9px}
+.request-next{align-items:center}
+.request-next strong{font-size:10px}
+.demo-fineprint{margin-top:13px;font-size:10px;color:#8095a4}
+.demo-fineprint summary{cursor:pointer;display:inline-block;color:#6b8a9d;padding:5px 0;text-decoration:underline;text-decoration-color:#ccdce4;text-underline-offset:3px}
+.demo-fineprint p{margin:5px 0 0;line-height:1.6;max-width:450px;color:#7d92a0}
+.safe-message{display:none}
+.paper-copy p{font-size:12px}
+.paper-copy h3{font-size:30px;line-height:1.1;margin-top:12px}
+.paper-copy .step-list{margin:16px 0}
+.paper-copy .step-list li{margin:9px 0;font-size:10px}
+.guide-strip{padding-top:7px;padding-bottom:7px}
+.guide-strip span{display:none}
+.guide-strip button{font-size:11px}
+.scene-controls{margin-top:13px;padding-top:10px;justify-content:flex-end;border-top:0}
+.scene-controls .primary{min-height:40px;padding:9px 16px;font-size:11px}
+.scene-controls .guided-note{display:none}
+.metric-row{gap:11px;margin-bottom:14px}
+.metric{padding:16px}
+.metric strong{margin:5px 0;font-size:36px}
+.metric p{display:none}
+.command-grid{gap:12px}
+.tech-item{padding:11px 10px}
+.tech-item small{font-size:10px;margin-top:3px}
+.finish{padding:16px;margin-top:9px}
+.finish p{display:none}
+@media(max-width:1050px){
+ .landing-focus .hero{padding:24px 25px 3px}
+ .landing-focus .hero h1{font-size:clamp(40px,5vw,58px)}
+ .landing-directory{padding:9px 25px 26px}
+ .entry-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ .landing-focus .hero{display:block;min-height:0;padding:22px 22px 4px}
+ .landing-focus .hero h1{font-size:42px;line-height:.99;letter-spacing:-.055em;margin:11px 0 8px}
+ .landing-focus .hero p{font-size:12px;line-height:1.45;margin:0}
+ .landing-focus .hero-actions{margin-top:15px}
+ .landing-focus .hero-actions .primary{min-height:42px;font-size:11px;padding:11px 13px}
+ .landing-focus .hero-preview{display:none}
+ .landing-directory{padding:15px 18px 26px}
+ .directory-heading{margin-bottom:11px}
+ .directory-heading h2{font-size:20px;line-height:1.1}
+ .directory-heading .eyebrow{font-size:9px}
+ .directory-tip{margin:6px 0 0;font-size:10px}
+ .entry-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+ .entry-grid .entry-card{min-height:77px;max-height:none;display:grid;grid-template-columns:37px minmax(0,1fr) 53px;column-gap:11px;align-items:center;justify-items:stretch;padding:12px 13px;border-radius:9px;background:#fff}
+ .entry-grid .entry-card:first-child{background:#f5fbfe}
+ .entry-grid .entry-index{grid-column:1;grid-row:1;margin:0;width:32px;height:32px;font-size:10px}
+ .entry-grid .entry-copy{grid-column:2;grid-row:1}
+ .entry-grid .entry-card strong{font-size:13px;line-height:1.25}
+ .entry-grid .entry-desc{font-size:10px;line-height:1.25;margin-top:3px}
+ .entry-grid .entry-art{grid-column:3;grid-row:1;position:relative;right:auto;top:auto;width:53px;height:44px}
+ .entry-grid .entry-action{display:none}
+ .scene{padding:17px 17px 25px}
+ .scene-header{margin-bottom:12px}
+ .scene-title{font-size:clamp(31px,8.2vw,38px);margin:7px 0}
+ .scene-explainer{font-size:11px;line-height:1.4}
+ .reception-grid{gap:10px}
+ .reception-screen{min-height:292px;padding:17px 19px 13px}
+ .reception-feature{margin-top:14px}
+ .reception-feature h2{font-size:31px;margin:7px 0}
+ .reception-feature p{font-size:10px;margin:8px 0;max-width:240px}
+ .reception-process{margin-top:6px}
+ .reception-process .process-item{padding:6px 0}
+ .process-item strong{font-size:10px}
+ .process-item small{display:none}
+ .reception-screen-foot{margin-top:10px}
+ .reception-actions{min-height:0;padding:18px}
+ .reception-action-heading{margin:11px 0 4px;font-size:20px}
+ .reception-actions .overview{font-size:10px;margin:0}
+ .compact-choice{margin:12px 0;font-size:11px}
+ .reception-request-preview h3{font-size:18px}
+ .reception-request-preview>p{font-size:11px;line-height:1.35}
+ .reception-actions .primary.full-width,.reception-actions .secondary.full-width{margin-top:12px;min-height:42px}
+ .paper-copy h3{font-size:24px}
+ .paper-copy p,.paper-copy .step-list{display:none}
+ .paper-copy{padding:0 4px}
+ .paper-copy .panel-label{display:none}
+ .paper-copy .link-button{margin:5px 0;padding:9px 0}
+ .scene-controls{margin-top:12px;padding-top:0}
+ .scene-controls .primary{width:100%;min-height:40px}
+ .metric-row{gap:6px}
+ .metric{padding:12px 10px}
+ .metric strong{font-size:31px}
+ .tech-item{padding:10px 6px}
+ .tech-item small{font-size:10px}
+ .demo-fineprint{font-size:10px}
+}
+@media(max-width:380px){
+ .landing-focus .hero{padding:18px 16px 4px}
+ .landing-focus .hero h1{font-size:38px}
+ .landing-directory{padding:13px 13px 23px}
+ .entry-grid .entry-card{grid-template-columns:32px minmax(0,1fr) 44px;column-gap:9px;padding:10px}
+ .entry-grid .entry-art{width:44px;transform:scale(.9);transform-origin:center}
+ .reception-screen{padding:15px}
+ .reception-feature h2{font-size:29px}
+}
