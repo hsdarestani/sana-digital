@@ -100,5 +100,5 @@
     });
     update(root);
   }
-  window.SanaIgelGuide={title:'IGeL – informiert entscheiden',eyebrow:'WISSEN & SELBST-CHECK',html,init};
+  window.SanaIgelGuide={title:'IGeL – informiert entscheiden',eyebrow:'WISSEN & SELBST-CHECK',html,init,questionCount:questions.length};
 })();
