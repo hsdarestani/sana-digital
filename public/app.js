@@ -33,6 +33,8 @@
     const label = document.getElementById('guardianRequiredLabel');
     label.textContent = minor ? 'Erforderlich' : 'Optional';
     document.getElementById('guardianBox').classList.toggle('guardian-active',minor);
+    document.getElementById('guardianAck').hidden=!minor;
+    form.elements.guardianAuthorityConfirm.required=minor;
   }
   function updateConditionals(){
     document.querySelectorAll('[data-show]').forEach(el=>{
@@ -166,6 +168,7 @@
     const data={};for(const key of fields)data[key]=value(key);
     for(const name of ['sports','medications','allergies','operations','smoking'])data[name]=radio(name)==='Keine Angabe'?'':radio(name);
     data.conditions=Array.from(form.querySelectorAll('input[name="conditions"]:checked')).map(el=>el.value);
+    data.guardianAuthorityConfirm=form.elements.guardianAuthorityConfirm.checked;
     data.externalBillingConsent=form.elements.externalBillingConsent.checked;
     data.informationConsent=form.elements.informationConsent.checked;
     data.accuracyConfirm=form.elements.accuracyConfirm.checked;
