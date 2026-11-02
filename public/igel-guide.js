@@ -30,6 +30,7 @@
         '<div><span>03</span><strong>Sie entscheiden</strong><small>Sie dürfen ablehnen, nachfragen, sich Zeit nehmen und eine zweite Meinung einholen.</small></div>',
       '</div>',
     '</div>',
+    '<p class="igel-care-note">Eine medizinisch notwendige Behandlung darf nicht davon abhängig gemacht werden, ob Sie eine zusätzliche IGeL annehmen.</p>',
     '<div class="igel-check-head"><div><h3>9 Fragen vor Ihrer Entscheidung</h3><p>Freiwillig, ohne Speicherung – und ohne medizinische Bewertung.</p></div><span class="igel-progress" id="igelProgress" aria-live="polite">0 / 9</span></div>',
     '<div class="igel-question-list" id="igelQuestions"></div>',
     '<div class="igel-summary" id="igelSummary" role="status" aria-live="polite"></div>',
