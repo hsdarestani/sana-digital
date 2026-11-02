@@ -18,3 +18,40 @@ fieldset{margin:0;min-width:0;border:0;padding:0}.question{margin:24px 0 0;borde
 .preview-notice{background:#fff8e9;border:1px solid #f5e6be;border-radius:11px;padding:11px 13px;font-size:11px;line-height:1.5;color:#826c3a;margin:5px 0 12px}.preview-notice b{font-size:10px;color:#8e6819;letter-spacing:.08em;margin-right:7px}
 
 .turnstile-box{padding:15px 0 0;min-height:80px}
+
+
+/* IGeL decision guide · compact, accessible and intentionally non-promotional */
+.igel-guide-card{background:linear-gradient(110deg,#f2fbfd,#fff 68%);border-color:#d2eaf2}
+.igel-guide-card .resource-icon{background:#dff4fa;font-family:Georgia,serif;font-weight:700}
+.igel-intro>p{margin:0 0 17px;color:#667f8e;font-size:13px;line-height:1.8}
+.igel-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.igel-facts>div{background:#f7fafc;border:1px solid #e5eef2;border-radius:14px;padding:14px 13px}
+.igel-facts span{display:block;font-size:10px;color:#0b8cba;letter-spacing:.06em;font-weight:850;margin-bottom:9px}
+.igel-facts strong{display:block;font-size:12px;color:#21475d;line-height:1.4}
+.igel-facts small{display:block;font-size:11px;color:#8a9eaa;line-height:1.62;margin-top:7px}
+.igel-check-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:29px 0 17px}
+.igel-check-head h3{font-size:17px;line-height:1.3;margin:0 0 5px;letter-spacing:-.35px}
+.igel-check-head p{font-size:11px;color:#8c9daa;margin:0}
+.igel-progress{flex:0 0 auto;border-radius:999px;background:#e9f6fa;border:1px solid #d7edf5;padding:7px 11px;color:#0788b5;font-weight:800;font-variant-numeric:tabular-nums;font-size:12px}
+.igel-group{border:1px solid #e5edf1;border-radius:15px;overflow:hidden;margin:13px 0}
+.igel-group>h4{font-size:11px;letter-spacing:.09em;color:#438ca9;font-weight:840;background:#f5fafb;padding:12px 16px;margin:0;border-bottom:1px solid #e5edf1;text-transform:uppercase}
+.igel-question{border:0;border-bottom:1px solid #edf2f5;margin:0;padding:17px 16px}
+.igel-question:last-child{border-bottom:0}
+.igel-question legend{display:flex;gap:11px;align-items:flex-start;margin:0 0 12px;padding:0;float:none;line-height:1.55;color:#2e4e60;font-size:12px;font-weight:700;width:100%}
+.igel-number{flex:0 0 22px;color:#0d8abb;font-size:11px;font-weight:850}
+.igel-answer-row{display:flex;gap:7px;margin-left:33px;flex-wrap:wrap}
+.igel-answer-row label{cursor:pointer;position:relative}
+.igel-answer-row input{position:absolute;width:1px;height:1px;opacity:0}
+.igel-answer-row label span{display:block;text-align:center;border:1px solid #e2eaee;border-radius:9px;padding:8px 12px;background:#fff;color:#8a9eab;font-size:11px;font-weight:700;min-width:66px;transition:background .15s,border-color .15s}
+.igel-answer-row input:checked+span{border-color:#58b7d8;background:#e9f8fc;color:#087fab;box-shadow:inset 0 0 0 1px #58b7d8}
+.igel-answer-row input:focus-visible+span{outline:3px solid rgba(0,143,203,.25);outline-offset:2px}
+.igel-summary{background:#f0f8fa;border-left:3px solid #56b3ce;border-radius:9px;padding:15px 17px;margin-top:18px}
+.igel-summary b{font-size:12px;color:#24627b}
+.igel-summary p{font-size:12px;color:#6f8795;line-height:1.75;margin:5px 0 0}
+.igel-after{display:flex;gap:11px;align-items:flex-start;padding:17px 0;margin-top:8px}
+.igel-after>span{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:50%;background:#e4f7ee;color:#309a77;font-size:15px}
+.igel-after h3{font-size:13px;margin:2px 0 5px}
+.igel-after p{margin:0;color:#728b98;font-size:12px;line-height:1.7}
+.igel-source{padding-top:16px;border-top:1px solid #e9eff2;font-size:10.5px;line-height:1.8;color:#8c9da9}
+.igel-source p{margin:9px 0 0}
+@media(max-width:600px){.igel-facts{grid-template-columns:1fr}.igel-facts>div{padding:12px 14px}.igel-facts span{display:inline-block;margin:0 8px 0 0}.igel-facts strong{display:inline}.igel-facts small{margin-top:5px}.igel-question{padding:14px 12px}.igel-question legend{font-size:12px}.igel-answer-row{margin-left:0}.igel-check-head h3{font-size:16px}.igel-answer-row label span{min-width:75px}}
