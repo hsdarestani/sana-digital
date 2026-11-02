@@ -33,3 +33,10 @@ test('IGeL self-check responses never touch browser persistence or backend',()=>
   assert.doesNotMatch(app,/data\.igelQuestion|data\.igelAnswers/);
   assert.doesNotMatch(db,/\bigel_question\b|\bigel_answer\b/i);
 });
+
+test('removed IGeL price list and SLAP treatment are not rendered or bundled',()=>{
+  assert.doesNotMatch(patientHTML,/data-dialog="igel"|data-dialog="slap"/);
+  assert.doesNotMatch(patientHTML,/Preisliste ansehen|Behandlungsplan ansehen|SLAP – Nachbehandlungsplan/);
+  assert.doesNotMatch(app,/const igelRows|igel:\s*\{\s*title:|slap:\s*\{\s*title:|Fokussierte Stoßwellentherapie|Gilchrist/);
+  assert.match(patientHTML,/data-dialog="igelguide"/);
+});
