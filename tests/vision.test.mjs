@@ -88,3 +88,12 @@ test('secondary information is behind optional details',()=>{
  assert.match(js,/id="contact-kind-select"/);
  assert.match(js,/e\.target\.id==='contact-kind-select'/);
 });
+
+test('three primary journeys are prominent while dashboard and 2028 stay reachable',()=>{
+ const js=readFileSync(new URL('../public/vision/vision.js',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../public/vision/atelier.css',import.meta.url),'utf8');
+ assert.match(js,/features\.slice\(0,3\)/);
+ assert.match(js,/features\.slice\(3\)/);
+ assert.match(js,/class="extra-routes"/);
+ assert.match(css,/\.landing-focus \.entry-grid\{grid-template-columns:repeat\(3/);
+});
