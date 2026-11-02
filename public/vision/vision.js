@@ -1,98 +1,64 @@
-(() => {
-  "use strict";
-  const names = ["calls","capacity","paper","cockpit"];
-  const tabs = [...document.querySelectorAll("[data-scenario]")];
-  const panels = [...document.querySelectorAll(".scenario-panel")];
-  const selectScenario = (name, shouldFocus = false) => {
-    if (!names.includes(name)) return;
-    tabs.forEach(t => {
-      const selected = t.dataset.scenario === name;
-      t.classList.toggle("active",selected);
-      t.setAttribute("aria-selected",String(selected));
-      t.setAttribute("tabindex",selected ? "0" : "-1");
-      if (selected && shouldFocus) t.focus();
-    });
-    panels.forEach(p => {
-      const selected = p.id === "pane-" + name;
-      p.hidden = !selected;
-      p.classList.toggle("active",selected);
-    });
-  };
-  tabs.forEach((tab,index) => {
-    tab.addEventListener("click",() => {
-      selectScenario(tab.dataset.scenario);
-      if (window.history && window.history.replaceState) window.history.replaceState(null,"","#"+tab.dataset.scenario);
-    });
-    tab.addEventListener("keydown",event => {
-      if (!["ArrowRight","ArrowLeft","Home","End"].includes(event.key)) return;
-      event.preventDefault();
-      let newIndex = index;
-      if (event.key === "Home") newIndex = 0;
-      if (event.key === "End") newIndex = tabs.length-1;
-      if (event.key === "ArrowRight") newIndex = (index+1)%tabs.length;
-      if (event.key === "ArrowLeft") newIndex = (index-1+tabs.length)%tabs.length;
-      selectScenario(names[newIndex],true);
-      if (window.history && window.history.replaceState) window.history.replaceState(null,"","#"+names[newIndex]);
-    });
-  });
-  const initial = window.location.hash.replace("#","");
-  if (names.includes(initial)) selectScenario(initial);
-
-  const requests = {
-    termin: {
-      prompt: "„Ich benötige einen Termin wegen Kniebeschwerden.“",
-      title: "Terminanfrage vorbereitet",
-      body: "Kategorie: Terminwunsch. Nächster Schritt: Terminwunsch durch das Team prüfen und geeignete Möglichkeiten nennen."
-    },
-    rueckruf: {
-      prompt: "„Ich habe eine Frage zur Sprechstunde und möchte zurückgerufen werden.“",
-      title: "Rückrufwunsch vorbereitet",
-      body: "Kategorie: Rückruf. Nächster Schritt: Anfrage im Praxisteam priorisieren und bei Gelegenheit bearbeiten."
-    },
-    unterlagen: {
-      prompt: "„Welche Unterlagen soll ich zum ersten Termin mitbringen?“",
-      title: "Anfrage zu Unterlagen vorbereitet",
-      body: "Kategorie: Patienteninformation. Nächster Schritt: Freigegebene Informationen bereitstellen oder eine Mitarbeiterin hinzuziehen."
-    }
-  };
-  let request = "termin";
-  document.querySelectorAll("[data-request]").forEach(button => button.addEventListener("click",() => {
-    request = button.dataset.request;
-    document.querySelectorAll("[data-request]").forEach(b => b.classList.toggle("active",b===button));
-    document.getElementById("callPrompt").textContent = requests[request].prompt;
-    document.getElementById("callResult").hidden = true;
-    document.getElementById("simulateCall").innerHTML = "Anfrage simulieren <span aria-hidden=\"true\">→</span>";
-  }));
-  document.getElementById("simulateCall").addEventListener("click",() => {
-    document.getElementById("callResultTitle").textContent=requests[request].title;
-    document.getElementById("callResultBody").textContent=requests[request].body+" Keine Daten gespeichert oder gesendet.";
-    document.getElementById("callResult").hidden = false;
-    document.getElementById("simulateCall").textContent = "Anderes Beispiel wählen ↑";
-  });
-  const needs = {
-    knee: ["Passenden Termin finden","Dr. Wickler oder ein fachlich geeigneter verfügbarer Arzt — nach Prüfung der Qualifikation und mit Zustimmung des Patienten."],
-    routine: ["Allgemeine Orthopädie","Ein geeigneter Facharzt mit freier Kapazität könnte als Option angezeigt werden. Die Praxis legt die Eignung und Regeln fest."],
-    shoulder: ["Schulter-Sprechstunde","Bei entsprechender fachlicher Qualifikation könnten verfügbare Optionen ergänzt werden — ohne automatisches Umlenken von Patienten."]
-  };
-  document.querySelectorAll("[data-need]").forEach(button => button.addEventListener("click",() => {
-    document.querySelectorAll("[data-need]").forEach(b => b.classList.toggle("active",b===button));
-    const data=needs[button.dataset.need];
-    document.getElementById("matchingTitle").textContent=data[0];
-    document.getElementById("matchingCopy").textContent=data[1];
-  }));
-  const calls=document.getElementById("callsRange"), missed=document.getElementById("missedRange"), capture=document.getElementById("captureRange");
-  function updateForecast() {
-    const c=Number(calls.value),m=Number(missed.value),s=Number(capture.value);
-    const missedCalls=Math.round(5*c*m/100);
-    const requests=Math.round(missedCalls*s/100);
-    document.getElementById("callsNum").textContent=c.toLocaleString("de-DE");
-    document.getElementById("missedNum").textContent=m+" %";
-    document.getElementById("captureNum").textContent=s+" %";
-    document.getElementById("lostCount").textContent=missedCalls.toLocaleString("de-DE");
-    document.getElementById("recoveredCount").textContent=requests.toLocaleString("de-DE");
-    document.getElementById("captureLabel").textContent=s+" %";
-    document.getElementById("captureTrack").style.width=s+"%";
-  }
-  [calls,missed,capture].forEach(range => range.addEventListener("input",updateForecast));
-  updateForecast();
-})();
+import {doctors,times,initialState,available,reserve,metrics} from './model.js';
+const $=s=>document.querySelector(s);
+const stage=$('#stage'), nav=$('.chapter-nav');
+let state=initialState(),scene=-1,guided=false,sound=false,callStep=-1,callTimer=null,callKind='appointment',need='general',selected=null,teamView='reception',tech=0,toastTimer;
+const names=['KI-Empfang','Terminwege','Ohne Papier','Praxiszentrale','SANA 2028'];
+const techs=[
+ ['Ein Empfang, der mitdenkt.','KI-Empfang','Anliegen erfassen. Menschen entlasten.','Eine Telefonassistenz könnte Anfragen auch dann aufnehmen, wenn das Team gerade im Patientengespräch ist. Anliegen werden strukturiert zur Prüfung übergeben.','Voraussetzungen: Telefonanbieter, Einwilligungs- und Datenschutzkonzept, klare Übergabe an das Praxisteam. Keine Diagnosen durch die KI.'],
+ ['Die passende Zeit. Für jeden.','Vernetzte Terminwege','Kapazität sichtbar machen.','Freie Termine könnten über das ganze Team sichtbar werden. Fachliche Eignung und Patientenwunsch bleiben Voraussetzung für jeden Alternativvorschlag.','Voraussetzungen: geprüfte Qualifikationsprofile, freigegebene Kalenderanbindung und verbindliche Regeln der Praxis.'],
+ ['Informationen reisen mit.','Digitale Patientenreise','Einmal erfassen. Gemeinsam vorbereiten.','Die bestehende digitale Aufnahme ist ein Ausgangspunkt. Mit passenden Schnittstellen und rollenbasierten Freigaben könnten Angaben bis ins Behandlungszimmer gelangen.','Voraussetzungen: sichere Identifikation, Berechtigungen, Aufbewahrungskonzept und Prüfung der Praxissoftware. In dieser Demo werden keine Angaben übertragen.'],
+ ['Eine Praxis. Ein Überblick.','Vorausschauende Steuerung','Entscheiden mit einem klaren Bild.','Anonymisierte Kennzahlen könnten helfen, Rückrufzeiten, Terminnutzung und den Stand der Aufnahme zu verstehen. Das Team entscheidet, welche Abläufe verbessert werden.','Voraussetzungen: verlässliche Daten, abgestimmte Kennzahlen und ein begrenzter, gemeinsam ausgewerteter Pilot. Keine Erfolgsprognose.']
+];
+function model(active=-1){return `<div class="spatial"><div class="blueprint"></div><div class="practice"><div class="practice-floor"><div class="connection"></div>${['Empfang','Behandlung','Warten','Diagnostik'].map((name,i)=>`<button class="room room-${'abcd'[i]} ${active===i?'selected':''}" data-room="${i}" aria-label="${name}: Zukunftsidee öffnen"><span>${name}</span><i class="furniture ${i===0?'desk':i===2?'sofa':'bed'}"></i>${i===0?'<i class="furniture chair"></i>':''}<i class="plant"></i></button>`).join('')}<div class="person"></div></div></div><div class="floating-label fl-a"><span class="live-dot"></span> VERNETZTE PRAXIS<b>Mehr Raum. Mehr Zeit.</b></div><div class="floating-label fl-b">MENSCHEN IM MITTELPUNKT<b>Technologie im Hintergrund.</b></div><div class="model-caption"><span>↗</span> RÄUME ANKLICKEN & ENTDECKEN</div><span class="orbit-word">RAUM FÜR MÖGLICHKEITEN / 2028</span></div>`;}
+function notify(message){$('.toast').textContent=message;$('.toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('.toast').classList.remove('visible'),3500);}
+function stopCall(){clearTimeout(callTimer);callTimer=null;window.speechSynthesis?.cancel();}
+function showTech(i){tech=i;const t=techs[i];$('#detail-content').innerHTML=`<div class="eyebrow">SANA 2028 · MÖGLICHKEIT ${i+1}</div><h2>${t[0]}</h2><p>${t[3]}</p><p class="hint">${t[4]}</p><span class="pill">Zukunftskonzept · nicht angebunden</span>`;$('#detail').showModal();}
+function intro(){return `<section class="hero"><div class="hero-copy"><div class="eyebrow">DIE PRAXIS. WEITERGEDACHT.</div><h1>Mehr Raum<br>für <em>Medizin.</em></h1><p>Weniger Warten. Weniger Papier.<br>Mehr Zeit für das, was wirklich zählt.</p><div class="hero-actions"><button class="primary" data-action="guided">Die Zukunft erleben <span>↗</span></button><button class="link-button" data-action="explore">Frei entdecken</button></div><div class="hero-note"><span class="line"></span> Fünf Erlebnisse. Eine vernetzte Praxis.</div></div>${model()}</section>`;}
+function header(n,title,aside){return `<div class="scene-header"><div><div class="eyebrow">${String(n+1).padStart(2,'0')} / 05 · ${names[n]}</div><h1 class="scene-title" tabindex="-1">${title}</h1></div><p class="scene-aside">${aside}</p></div>`;}
+function controls(text,button='Weiter erleben',disabled=false){return `<div class="scene-controls"><p class="guided-note">${text}</p><button class="primary" data-action="next" ${disabled?'disabled':''}>${button} <span>→</span></button></div>`;}
+function dialogue(){return [
+ ['SANA ASSISTENZ','Guten Tag beim Sana MVZ. Ich bin die digitale Assistenz. Darf ich Ihr Anliegen für das Praxisteam aufnehmen?'],
+ ['JULIA BERGER','Ja, gerne. Mein Name ist Julia Berger. '+(callKind==='appointment'?'Ich möchte einen Termin bei Dr. Wickler vereinbaren.':'Ich hätte gern einen Rückruf zur Organisation meines nächsten Besuchs.')],
+ ['SANA ASSISTENZ',callKind==='appointment'?'Gerne. Geht es um eine allgemeine orthopädische Sprechstunde oder eine Nachkontrolle?':'Gerne. Unter welcher Nummer und zu welcher Zeit sind Sie erreichbar?'],
+ ['JULIA BERGER',callKind==='appointment'?'Eine allgemeine Sprechstunde. Falls Dr. Wickler ausgebucht ist, wäre jemand aus dem passenden Fachteam auch in Ordnung.':'Unter der hinterlegten Beispielnummer. Am besten zwischen 14 und 16 Uhr.'],
+ ['SANA ASSISTENZ',callKind==='appointment'?'Ich nehme Ihren Wunsch auf. Das Team prüft die fachliche Eignung und meldet sich mit einem Terminvorschlag. Das ist noch keine Buchung.':'Ich notiere das Zeitfenster. Das Praxisteam prüft Ihren Rückrufwunsch. Eine feste Rückrufzeit kann ich noch nicht zusagen.'],
+ ['JULIA BERGER','Vielen Dank. Das hilft mir weiter.']
+ ];}
+function calls(){const done=callStep>=dialogue().length,started=callStep>=0;return `${header(0,'Ein Anruf.<br><em>Ein guter Anfang.</em>','Ein beispielhaftes Gespräch wird zu einem klaren nächsten Schritt für das Team.')}<div class="scene-grid"><div class="panel call-stage ${started&&!done?'playing':''}"><span class="panel-label">${done?'GESPRÄCH ABGESCHLOSSEN':started?'SIMULIERTES GESPRÄCH':'EINGEHENDER BEISPIELANRUF'}</span><div class="voice-orb" aria-hidden="true"></div><h2 class="call-name">Julia Berger</h2><span class="subtle">Fiktive Patientin · Beispielnummer endet auf 042</span><div class="wave" aria-hidden="true">${'<i></i>'.repeat(25)}</div><div class="call-actions">${!started?`<button class="primary" data-action="call">Anruf annehmen <span>↗</span></button>`:!done?`<button class="secondary" data-action="skip-call">Gespräch zu Ende zeigen →</button>`:`<span class="pill">Anliegen verstanden</span>`}</div><p class="hint">Skriptbasierte Simulation · Ton optional über ♫</p></div><div class="panel"><div class="panel-label">GESPRÄCH & ÜBERGABE <span class="pill">Nur Beispieldaten</span></div><div class="segmented" aria-label="Anrufanliegen"><button data-callkind="appointment" class="${callKind==='appointment'?'active':''}" ${started?'disabled':''}>Terminwunsch</button><button data-callkind="callback" class="${callKind==='callback'?'active':''}" ${started?'disabled':''}>Rückruf</button></div><div class="transcript" role="log" aria-label="Gesprächsverlauf">${started?dialogue().slice(0,Math.min(callStep+1,6)).map(([speaker,text])=>`<div class="bubble ${speaker==='JULIA BERGER'?'patient':''}"><small>${speaker}</small>${text}</div>`).join(''):'<p class="empty-state">Ein Anruf wartet.<br>Geben Sie dem Anliegen einen Anfang.</p>'}</div>${done?`<div class="request-card"><h3>${callKind==='appointment'?'Terminanfrage':'Rückrufwunsch'} vorbereitet</h3><div class="request-fields"><div><small>PATIENTIN</small>Julia Berger · fiktiv</div><div><small>${callKind==='appointment'?'ANLIEGEN':'ZEITFENSTER'}</small>${callKind==='appointment'?'Allgemeine Orthopädie':'14:00–16:00 Uhr'}</div><div><small>STATUS</small>Prüfung durch Praxisteam</div><div><small>${callKind==='appointment'?'ARZTWAHL':'KONTAKT'}</small>${callKind==='appointment'?'Alternative nach Prüfung erlaubt':'Beispielnummer · …042'}</div></div><button class="primary full-width" data-action="save-request" ${state.request?'disabled':''}>${state.request?'✓ In der Praxiszentrale erfasst':'An das Beispielteam übergeben'}</button></div>`:'<p class="hint">Keine echte Telefonie. Keine Aufnahme. Keine medizinische Beratung.</p>'}</div></div>${controls(state.request?'Die Anfrage ist jetzt in Ihrer Praxiszentrale sichtbar.':'Nehmen Sie den Anruf an und übergeben Sie das Anliegen an das Team.',callKind==='callback'&&state.request?'Zur Praxiszentrale':'Passende Terminwege entdecken',guided&&!state.request)}`;}
+function scheduling(){return `${header(1,'Nicht länger warten.<br><em>Passend weiterdenken.</em>','Freie Arztwahl bleibt. Alternativen werden erst nach fachlicher Prüfung und Zustimmung angeboten.')}<div class="scene-grid"><div class="panel"><div class="panel-label">BEISPIELKALENDER <span>DI · 10. NOVEMBER 2026</span></div>${doctors.map(d=>`<div class="doctor-summary"><span class="avatar">${d.initials}</span><div class="doctor-name">${d.name}<small>${d.field}</small></div><span class="capacity-value">${d.busy.length+(state.booking?.doctor===d.id?1:0)}/6</span></div><div class="calendar-slots">${times.map((time,i)=>{const booked=state.booking?.doctor===d.id&&state.booking?.index===i;const free=available(state,d.id,i,need);return `<button class="slot ${booked?'chosen':free?'':'busy'} ${selected?.doctor===d.id&&selected?.index===i?'chosen':''}" data-slot="${d.id}:${i}" ${!free||state.booking?'disabled':''} aria-label="${d.name}, ${time}, ${booked?'vorgemerkt':free?'frei':'nicht verfügbar'}">${booked?'✓ ':''}${time}</button>`;}).join('')}</div>`).join('')}<div class="legend"><span><i></i>Frei & im Beispielprofil passend</span><span><i class="busy"></i>Belegt / nicht passend</span></div></div><div class="panel"><div class="panel-label">DER PASSENDE NÄCHSTE SCHRITT</div><p class="overview">${state.request?state.request.type==='appointment'?'Julia Berger · Anfrage aus dem KI-Empfang':'Rückrufwunsch vorhanden · kein Terminauftrag':'Noch keine Anfrage · Kalender frei erkunden'}</p><div class="segmented"><button data-need="general" class="${need==='general'?'active':''}" ${state.booking?'disabled':''}>Allgemeine Sprechstunde</button><button data-need="followup" class="${need==='followup'?'active':''}" ${state.booking?'disabled':''}>Nachkontrolle bei Dr. Wickler</button></div><div class="match"><span class="pill ${need==='followup'?'amber':''}">${state.booking?'Im Beispiel vorgemerkt':need==='followup'?'Persönliche Rücksprache':'Kapazität im Team sichtbar'}</span><h3>${state.booking?`${times[state.booking.index]} Uhr · ${doctors.find(d=>d.id===state.booking.doctor).name}`:need==='followup'?'Kontinuität geht vor.':selected?`${times[selected.index]} Uhr · ${doctors.find(d=>d.id===selected.doctor).name}`:'Ein passender Platz ist frei.'}</h3><p>${state.booking?'Julia Berger ist vorgemerkt. Der Beispielkalender und die Praxiszentrale wurden gemeinsam aktualisiert.':need==='followup'?'Für eine arztgebundene Nachkontrolle wird kein anderer Arzt automatisch angeboten. Das Team klärt den weiteren Terminweg.':'Wählen Sie einen freien Termin links. Das fiktive Fachprofil passt zur allgemeinen Sprechstunde; die Praxis muss die konkrete Eignung prüfen.'}</p></div>${!state.booking&&need==='general'?`<label class="check-row"><input type="checkbox" id="clinical-review">Das Beispielteam hat die fachliche Eignung geprüft.</label><label class="check-row"><input type="checkbox" id="patient-consent">Die Patientin stimmt dem Alternativtermin zu.</label><button class="primary full-width" data-action="book" ${!selected||state.request?.type!=='appointment'?'disabled':''}>Beispieltermin vormerken <span>→</span></button>`:''}${!state.request||state.request.type!=='appointment'?'<button class="link-button" data-action="to-call">Zuerst eine Terminanfrage simulieren →</button>':''}<p class="hint">Alle Kalender, Qualifikationsprofile und Auslastungen sind fiktiv. Keine automatische Triage. Keine echte Terminbuchung.</p></div></div>${controls('Eine Vormerkung erhöht die belegte Kapazität in der Praxiszentrale.','Die Patientenreise fortsetzen',guided&&!state.booking)}`;}
+function paper(){return `${header(2,'Einmal erfassen.<br><em>Überall vorbereitet.</em>','Vom Smartphone über die Anmeldung bis zum Arzt. Sie steuern jede Freigabe.')}<div class="scene-grid paper-grid"><div class="panel device-scene"><div class="phone"><div class="panel-label">SANA · AUFNAHME</div><h3>Guten Tag,<br>Frau Berger.</h3><p class="subtle">Ihre Vorbereitung beginnt hier.<br>Nur fiktive Beispielangaben.</p><label for="mobility">Unterstützung beim Besuch</label><select id="mobility" ${state.intake?'disabled':''}><option value="Keine Unterstützung">Keine Unterstützung</option><option value="Barrierearmer Zugang">Barrierearmer Zugang</option><option value="Begleitperson vorgesehen">Begleitperson vorgesehen</option></select><label class="check-row"><input type="checkbox" id="intake-consent" ${state.intake?'checked disabled':''}>Beispielangaben zur Prüfung freigeben.</label><button class="primary" data-action="send-intake" ${state.intake?'disabled':''}>${state.intake?'✓ Beispielangaben übermittelt':'Beispielangaben senden →'}</button><p class="subtle">Keine echten Daten eingeben.</p></div><div class="flow-arrow ${state.intake?'active':''}" aria-hidden="true">→</div><div class="workstation"><div class="panel-label">PRAXISANSICHT <span class="live-dot"></span></div><div class="segmented"><button data-view="reception" class="${teamView==='reception'?'active':''}">Anmeldung</button><button data-view="doctor" class="${teamView==='doctor'?'active':''}">Arzt</button></div>${!state.intake?'<p class="empty-state">Noch keine Angaben.<br>Senden Sie das Beispiel<br>vom Smartphone.</p>':teamView==='doctor'&&!state.reviewed?'<p class="empty-state">Die Anmeldung prüft<br>die Angaben zuerst.</p>':`<div class="record"><h3>Julia Berger <span class="pill">Fiktiv</span></h3><div class="record-item"><span>Besuch</span><b>${state.booking?`${times[state.booking.index]} Uhr`:'Termin offen'}</b></div><div class="record-item"><span>Unterstützung</span><b>${state.intake.support}</b></div><div class="record-item"><span>Status</span><b>${state.reviewed?'Durch Anmeldung geprüft':'Prüfung ausstehend'}</b></div>${teamView==='reception'&&!state.reviewed?'<button class="primary full-width" data-action="review-intake">Prüfen & intern freigeben</button>':''}${teamView==='doctor'?'<p class="hint">Angaben der Patientin. Kein medizinischer Befund und keine Diagnose.</p>':''}</div>`}</div></div><div class="paper-copy"><span class="panel-label">INFORMATIONEN, DIE MITREISEN</span><h3>Der Mensch kommt an.<br>Die Informationen<br>sind schon da.</h3><p>Keine doppelte Eingabe. Ein nachvollziehbarer Weg – mit dem Praxisteam als Kontrollpunkt.</p><ol class="step-list"><li class="${state.intake?'done':''}"><span>01</span>Patientin gibt Beispielangaben frei</li><li class="${state.reviewed?'done':''}"><span>02</span>Anmeldung prüft & gibt frei</li><li class="${state.reviewed&&teamView==='doctor'?'done':''}"><span>03</span>Arzt sieht die Vorbereitung</li></ol><a class="link-button" href="/" target="_blank" rel="noopener">Bestehende Patientenaufnahme ansehen ↗</a><p class="hint">Diese Simulation arbeitet separat. Sie speichert und überträgt keine Daten in die vorhandene Patientenaufnahme.</p></div></div>${controls('Wählen Sie nach der Freigabe die Arztansicht. So wird der Informationsfluss sichtbar.','Die Wirkung sehen',guided&&(!state.reviewed||teamView!=='doctor'))}`;}
+function command(){const m=metrics(state);const events=[];if(state.request)events.push(`<div class="event"><span>↗</span><div>${state.request.type==='appointment'?'Terminanfrage erfasst':'Rückrufwunsch erfasst'}<small>Julia Berger · ${state.booking?'In Vormerkung überführt':state.callbackDone?'Vom Beispielteam erledigt':'Wartet auf das Praxisteam'}</small></div>${!state.booking&&!state.callbackDone?`<button class="secondary" data-action="${state.request.type==='appointment'?'to-schedule':'callback-done'}">${state.request.type==='appointment'?'Prüfen':'Erledigen'}</button>`:''}</div>`);if(state.booking)events.push(`<div class="event"><span>✓</span><div>Alternativtermin vorgemerkt<small>${doctors.find(d=>d.id===state.booking.doctor).name} · 10.11.2026 · ${times[state.booking.index]} Uhr</small></div></div>`);if(state.intake)events.push(`<div class="event"><span>◇</span><div>Digitale Aufnahme eingegangen<small>${state.reviewed?'Geprüft und für die Arztansicht freigegeben':'Wartet auf Prüfung durch die Anmeldung'}</small></div>${!state.reviewed?'<button class="secondary" data-action="to-paper">Prüfen</button>':''}</div>`);return `${header(3,'Alles im Blick.<br><em>Das Team im Fluss.</em>','Ihre Aktionen verändern diese Übersicht. Jeder Wert ist ein nachvollziehbarer Teil der Simulation.')}<div class="metric-row"><div class="metric"><small>OFFENE ANFRAGEN</small><strong>${m.requests.toString().padStart(2,'0')}</strong><p>Aus Ihrem simulierten Gespräch</p></div><div class="metric"><small>NEUE VORMERKUNGEN</small><strong>${m.bookings.toString().padStart(2,'0')}</strong><p>Nach Prüfung & Zustimmung</p></div><div class="metric"><small>DIGITALE AUFNAHMEN</small><strong>${m.records.toString().padStart(2,'0')}</strong><p>${state.reviewed?'Geprüft & intern freigegeben':'Aus Ihrer Patientenreise'}</p></div></div><div class="command-grid"><div class="panel"><div class="panel-label">TEAMKAPAZITÄT <span class="pill">${m.occupied} / ${m.total} Zeitfenster belegt</span></div><div class="chart">${doctors.map(d=>`<div class="chart-bar"><i data-height="${d.busy.length/6*100}"></i><i data-height="${(d.busy.length+(state.booking?.doctor===d.id?1:0))/6*100}"></i><small>${d.name}</small></div>`).join('')}</div><div class="legend chart-legend"><span><i class="busy"></i>Ausgangslage</span><span><i></i>Nach Ihren Aktionen</span></div><p class="hint">18 fiktive Zeitfenster · 11 anfangs belegt. Jede Vormerkung belegt genau ein zusätzliches Zeitfenster. Keine realen Praxiskennzahlen.</p></div><div class="panel"><div class="panel-label">DIE PRAXISREISE <span>BEISPIEL: JULIA BERGER</span></div><div class="event-log">${events.length?events.join(''):'<div class="empty-events">Ihre Praxis wartet auf den ersten Impuls.<br>Starten Sie einen Beispielanruf.<br><button class="link-button" data-action="to-call">Zum KI-Empfang →</button></div>'}</div></div></div>${controls('Keine erfundenen Einsparungen. Sichtbar wird nur, was Sie in dieser Demo tatsächlich verändert haben.','Ein Blick auf SANA 2028')}`;}
+function future(){return `${header(4,'Die Zukunft ist<br><em>ein Zusammenspiel.</em>','Kein isoliertes Werkzeug. Eine Praxis, in der Menschen, Räume und Informationen zusammenfinden.')}<div class="future-grid">${model(tech)}<div class="tech-list">${techs.map((t,i)=>`<button class="tech-item ${tech===i?'active':''}" data-tech="${i}"><span class="tech-num">0${i+1}</span><div><b>${t[1]}</b><small>${t[2]}</small></div><span>↗</span></button>`).join('')}<div class="finish"><span class="eyebrow">DER NÄCHSTE SCHRITT</span><p><b>Mit einem guten Anfang<br>beginnt eine andere Praxis.</b></p><button class="link-button" data-action="pilot">Einen möglichen Pilot entdecken ↗</button></div></div></div>${controls('Eine Vision für 2028. Alle Verbindungen und Technologien sind konzeptionell.','Noch einmal erleben')}`;}
+function render(){nav.hidden=scene<0;nav.innerHTML=names.map((name,i)=>`<button data-scene="${i}" class="${scene===i?'active':''}" ${scene===i?'aria-current="step"':''}><span class="num">0${i+1}</span>${name}</button>`).join('');stage.innerHTML=(scene>=0&&guided?`<div class="guide-strip"><b>GEFÜHRTE PRÄSENTATION</b><span>Schritt ${scene+1} von 5 · Sie bestimmen das Tempo.</span><button data-action="unguided">Frei erkunden ↗</button></div>`:'')+(scene<0?intro():`<section class="scene">${[calls,scheduling,paper,command,future][scene]()}</section>`);document.querySelectorAll('[data-height]').forEach(el=>el.style.height=`${el.dataset.height}%`);if(state.intake&&$('#mobility'))$('#mobility').value=state.intake.support;const transcript=$('.transcript');if(transcript)transcript.scrollTop=transcript.scrollHeight;}
+function go(n){if(scene===0&&n!==0){stopCall();if(callStep>=0&&callStep<6)callStep=6;}scene=n;render();window.scrollTo({top:0,behavior:'instant'});$('.scene-title')?.focus({preventScroll:true});}
+function speak(text){if(!sound||!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=1;const voice=window.speechSynthesis.getVoices().find(v=>v.lang.startsWith('de'));if(voice)u.voice=voice;window.speechSynthesis.speak(u);}
+function playLine(){if(scene!==0)return;render();if(callStep<6){speak(dialogue()[callStep][1]);const duration=sound?Math.max(4200,dialogue()[callStep][1].length*62):2300;callTimer=setTimeout(()=>{callStep++;playLine();},duration);}else stopCall();}
+function reset(){stopCall();state=initialState();callStep=-1;callKind='appointment';need='general';selected=null;teamView='reception';tech=0;go(-1);}
+document.addEventListener('click',e=>{const button=e.target.closest('button');if(!button||button.disabled)return;const d=button.dataset;if(d.scene!==undefined){go(Number(d.scene));return;}if(d.room!==undefined){showTech(Number(d.room));return;}if(d.tech!==undefined){tech=Number(d.tech);render();showTech(tech);return;}if(d.callkind){callKind=d.callkind;render();return;}if(d.need){need=d.need;selected=null;render();return;}if(d.slot){const [doctor,index]=d.slot.split(':');selected={doctor,index:Number(index)};render();return;}if(d.view){teamView=d.view;render();return;}switch(d.action){
+case 'guided':guided=true;go(0);break;
+case 'explore':guided=false;go(0);break;
+case 'unguided':guided=false;render();notify('Freies Entdecken ist aktiv.');break;
+case 'call':callStep=0;playLine();break;
+case 'skip-call':stopCall();callStep=6;render();break;
+case 'save-request':if(!state.request){state.request={type:callKind};render();notify('Anfrage in der Beispiel-Praxiszentrale erfasst.');}break;
+case 'next':if(scene===4){reset();}else if(scene===0&&state.request?.type==='callback'){go(3);}else go(Math.min(scene+1,4));break;
+case 'book':if(!$('#clinical-review')?.checked||!$('#patient-consent')?.checked){notify('Bitte fachliche Prüfung und Zustimmung bestätigen.');return;}if(selected&&reserve(state,{...selected,need,consent:true,review:true})){render();notify('Beispieltermin vorgemerkt. Praxiszentrale aktualisiert.');}break;
+case 'send-intake':if(!$('#intake-consent').checked){notify('Bitte die Freigabe der Beispielangaben bestätigen.');return;}if(!state.intake){state.intake={support:$('#mobility').value};render();notify('Beispielangaben sind bei der Anmeldung angekommen.');}break;
+case 'review-intake':if(state.intake&&!state.reviewed){state.reviewed=true;render();notify('Für die Arztansicht freigegeben.');}break;
+case 'to-call':if(state.request?.type==='callback'){notify('Für eine andere Patientenreise bitte „Neu beginnen“ wählen.');}else go(0);break;
+case 'to-schedule':go(1);break;
+case 'to-paper':go(2);break;
+case 'callback-done':state.callbackDone=true;render();notify('Beispiel-Rückruf als erledigt markiert.');break;
+case 'pilot':$('#detail-content').innerHTML='<div class="eyebrow">VON DER VISION ZUM PILOT</div><h2>Klein starten.<br>Spürbar besser werden.</h2><p>Gemeinsam mit dem Team einen Ablauf auswählen: Rückrufwünsche strukturiert erfassen oder die digitale Aufnahme im Alltag prüfen.</p><p>Vor dem Start: Verantwortlichkeiten, Datenschutz und technische Voraussetzungen klären. Danach mit definierten Kennzahlen auswerten – etwa Bearbeitungszeit und offene Anfragen.</p><a class="primary" href="/" target="_blank" rel="noopener">Bestehende Aufnahme ansehen ↗</a>';$('#detail').showModal();break;
+case 'confirm-reset':$('#detail').close();reset();notify('Alle Beispielaktionen wurden zurückgesetzt.');break;
+}});
+$('#home').addEventListener('click',()=>go(4));
+$('#reset').addEventListener('click',()=>{if(!state.request&&!state.intake&&!state.booking){reset();return;}$('#detail-content').innerHTML='<div class="eyebrow">NEU BEGINNEN</div><h2>Eine neue Praxisreise?</h2><p>Die Beispielanfrage, die Vormerkung und die simulierte Aufnahme werden zurückgesetzt. Die vorhandene Patientenaufnahme bleibt unberührt.</p><button class="primary" data-action="confirm-reset">Beispielreise zurücksetzen ↺</button>';$('#detail').showModal();});
+$('.close-dialog').addEventListener('click',()=>$('#detail').close());
+$('#detail').addEventListener('click',e=>{if(e.target===$('#detail')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close();}});
+$('#sound').addEventListener('click',()=>{if(!window.speechSynthesis){notify('Sprachausgabe ist in diesem Browser nicht verfügbar. Das Gespräch bleibt lesbar.');return;}sound=!sound;$('#sound').setAttribute('aria-pressed',String(sound));$('#sound').setAttribute('aria-label',sound?'Sprachausgabe ausschalten':'Deutsche Sprachausgabe einschalten');if(!sound)window.speechSynthesis.cancel();notify(sound?'Sprachausgabe aktiv · deutsche Browserstimme':'Sprachausgabe ausgeschaltet');});
+$('#fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notify('Vollbild wird von diesem Browser nicht unterstützt.');}catch{notify('Vollbild ist hier nicht verfügbar.');}});
+document.addEventListener('fullscreenchange',()=>$('#fullscreen').setAttribute('aria-label',document.fullscreenElement?'Vollbild beenden':'Vollbild öffnen'));
+document.addEventListener('keydown',e=>{if($('#detail').open||e.target.matches('input,select,textarea,button,a')||scene<0)return;if(e.key==='ArrowRight'&&scene<4){e.preventDefault();const next=$('[data-action="next"]');if(next&&!next.disabled)next.click();}if(e.key==='ArrowLeft'&&scene>0){e.preventDefault();go(scene-1);}});
+window.addEventListener('pagehide',stopCall);
+render();
