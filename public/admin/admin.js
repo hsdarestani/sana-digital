@@ -68,8 +68,7 @@
         }catch(err){selector.value=previous;alert(err.message);}finally{selector.disabled=false;}
       });
       const print=el('button','print-btn','Drucken');print.type='button';print.addEventListener('click',()=>window.print());
-      const documents=el('button','print-btn','✧ Dokument erstellen');documents.type='button';documents.addEventListener('click',()=>{window.location.href='/documents/?record='+encodeURIComponent(id);});
-      actions.append(selector,documents,print);heading.append(identity,actions);container.append(heading);
+      actions.append(selector,print);heading.append(identity,actions);container.append(heading);
       category(container,'Persönliche Daten',[
         ['Vorname',p.firstName],['Nachname',p.lastName],['Geburtsdatum',p.birthDate],['Mobil',p.mobile],['Telefon',p.phone],['E-Mail',p.email],['Straße',p.street],['PLZ / Ort',(p.postalCode||'')+' '+(p.city||'')],['Krankenkasse',p.insurance],['Versicherungsnummer',p.insuranceNumber],['Gesetzliche Vertretung',[p.guardianFirstName,p.guardianLastName].filter(Boolean).join(' ')],['Verhältnis',p.guardianRelation],['Vertreter geboren',p.guardianBirthDate],['Vertreter Anschrift',p.guardianAddress]]);
       category(container,'Gesundheit & Anamnese',[
