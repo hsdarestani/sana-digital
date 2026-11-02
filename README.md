@@ -1,0 +1,62 @@
+# Sana Digital – digitale Patientenaufnahme
+
+Responsive German-language patient intake for **Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend**, designed for Cloudflare Pages and Cloudflare D1.
+
+## Included
+- Five accessible, mobile-first steps: personal/insurance/contact, medical history, privacy/optional billing consent, information about IGeL + SLAP, review + touch signature.
+- Clinic source documents transcribed into read-only information views; IGeL is not a purchase, SLAP is not personalized medical advice.
+- Separate **opt-in** for external billing by Ärztliche Verrechnungsstelle Büdingen GmbH; refusing cannot block submitting patient data.
+- Submission via Pages Function to **AES-256-GCM encrypted D1 record**, minimal unencrypted metadata.
+- Restricted staff dashboard in /admin with verified **Cloudflare Access** JWT for listing, detail and status updates. No public read API.
+- No localStorage, no analytics, no remote fonts, no plaintext personal data logged.
+
+## Important: NOT production-ready for real patients until prerequisites are completed
+This repository alone does NOT create Cloudflare resources or grant approval for processing real patient health data. Before collecting real patient information:
+1. Have the actual healthcare controller / DPO verify the full Datenschutzinformation, legal bases, processor agreements (AVV/DPA with Cloudflare), retention/deletion policy, medical confidentiality and practice operating procedures. Current privacy dialog is a **placeholder/short summary**, not the legally finalized notice.
+2. Restrict access to the Cloudflare account, backups and D1; enforce staff MFA and least privilege.
+3. Protect both **/admin*** and **/api/admin*** with a Cloudflare Access application, restricted to authorized staff. Set ACCESS_TEAM_DOMAIN and ACCESS_AUD; API additionally verifies Cloudflare-signed JWT cryptographically.
+4. Add bot/rate limiting via Cloudflare WAF and optionally Turnstile. Confirm data-residency and audit/logging choices with the controller.
+5. Test consent wording with practice/legal representative, as well as signature acceptance, minors and accessibility.
+
+## Deploy to Cloudflare Pages
+Cloudflare Pages → Create project → Connect to Git → select this repo.
+- Framework preset: **None**
+- Build command: **leave blank**
+- Build output directory: **public**
+- Root: repository root
+- Pages Functions are auto-discovered from /functions.
+
+### D1
+Create a D1 database named **sana-digital-patients** through the dashboard (Workers & Pages → D1) or use:
+
+\`\`\`sh
+npx wrangler d1 create sana-digital-patients
+npx wrangler d1 execute sana-digital-patients --remote --file=migrations/0001_init.sql
+\`\`\`
+
+In Pages → your project → Settings → Bindings, add D1 database binding with the exact variable name **DB**, choose **sana-digital-patients**, apply for Production (and separate Preview DB if testing); **redeploy** for changes to take effect. For local development, wrangler can bind a separate local D1.
+
+### Secret configuration (Pages → Settings → Variables and Secrets)
+- **DATA_ENCRYPTION_KEY** (required, SECRET). Generate a cryptographically random, 32-byte base64 key using e.g. \`openssl rand -base64 32\`. Store securely OFF-repo, with recoverable backup. **Loss of key makes all stored submissions permanently unreadable. Never rotate without re-encrypting existing records.**
+- **ACCESS_TEAM_DOMAIN** (required for admin), e.g. \`your-team.cloudflareaccess.com\`.
+- **ACCESS_AUD** (required for admin) from your Access app JWT Audience tag.
+- **TURNSTILE_SECRET** (optional until Turnstile widget is configured; if set without a working widget, patient submission is intentionally rejected). Enable bot controls before real use.
+
+Never put live credentials, patient data or D1 backups in GitHub. Public source code is okay; use Cloudflare secrets for values.
+
+### Admin
+After securing Cloudflare Access policies, visit **/admin/**. The UI communicates with /api/admin/records. Without valid signed Access JWT claims, the API returns 401; without D1/key setup, it returns 503. Review records, inspect consent and signature, print as needed and mark a record as reviewed / archived. D1 status "archived" does not delete it.
+
+### Local development
+\`\`\`sh
+npx wrangler pages dev public --d1 DB=local-d1
+npx wrangler d1 execute local-d1 --local --file=migrations/0001_init.sql
+\`\`\`
+For actual local testing set \`DATA_ENCRYPTION_KEY\` in \`.dev.vars\` (gitignored); do not use a production key.
+If invoking Wrangler with a Pages config, see official Cloudflare docs for your version.
+
+## Retention
+Encrypted records are **not auto-deleted**. Configure a documented retention/deletion and backup policy BEFORE go-live. To delete records, use an authorized admin procedure or D1 with strict access; archiving is not deletion. Audit changes and patient data access outside of the app as required by the operator.
+
+## Source documents
+The content comes from six photographed German paper documents supplied by the operator, including two-page Anmeldebogen, external-billing consent/patient information, IGeL price list and SLAP protocol. Verify all prices and clinical details against the current authoritative documents before release.
