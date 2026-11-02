@@ -51,3 +51,24 @@ test('light Sana blue branding and navigable controls have no arrows',()=>{
  assert.match(css,/\.entry-grid/);
  assert.match(css,/\.chapter-nav\{position:sticky;top:0/);
 });
+
+test('human reception is a connected workflow instead of a cartoon or AI assistant',()=>{
+ const js=readFileSync(new URL('../public/vision/vision.js',import.meta.url),'utf8');
+ assert.match(js,/reception-process/);
+ assert.match(js,/reception-screen/);
+ assert.match(js,/case 'to-command':go\(3\)/);
+ assert.doesNotMatch(js,/staff-avatar|human-art|speechSynthesis/);
+ assert.doesNotMatch(js,/data-action="book"/);
+});
+test('responsive chapter navigation uses a native selector without emoji arrows',()=>{
+ const js=readFileSync(new URL('../public/vision/vision.js',import.meta.url),'utf8');
+ const html=readFileSync(new URL('../public/vision/index.html',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../public/vision/atelier.css',import.meta.url),'utf8');
+ assert.match(js,/mobile-chapter-select/);
+ assert.match(js,/desktop-chapters/);
+ assert.match(js,/case 'overview':guided=false;go\(-1\)/);
+ assert.match(html,/\/vision\/atelier\.css/);
+ assert.match(css,/\.mobile-chapters\{display:flex/);
+ assert.match(css,/\.reception-stage/);
+ assert.doesNotMatch(js+html,/[↗↘↖↙→←↺]/);
+});
