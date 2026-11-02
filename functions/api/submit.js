@@ -1,5 +1,6 @@
 import {json,configured,validatePatient,encrypt,verifyTurnstile} from '../_lib.js';
 export async function onRequestPost({request,env}){
+  if(env.INTAKE_ENABLED!=='true')return json({error:'Die Patientenaufnahme befindet sich noch im Vorschaumodus.'},503);
   if(!configured(env))return json({error:'Die sichere Speicherung ist noch nicht eingerichtet. Bitte wenden Sie sich an die Anmeldung.'},503);
   if(!['application/json','application/json; charset=utf-8'].includes((request.headers.get('content-type')||'').toLowerCase()))return json({error:'Ungültiger Inhaltstyp.'},415);
   const origin=request.headers.get('Origin');
