@@ -17,13 +17,41 @@ const techs=[
 function model(active=-1){return `<div class="spatial"><div class="blueprint"></div><div class="practice"><div class="practice-floor"><div class="connection"></div>${['Empfang','Behandlung','Warten','Organisation'].map((name,i)=>`<button class="room room-${'abcd'[i]} ${active===i?'selected':''}" data-room="${i}" aria-label="${name}: Zukunftsidee öffnen"><span>${name}</span><i class="furniture ${i===0?'desk':i===2?'sofa':'bed'}"></i>${i===0?'<i class="furniture chair"></i>':''}<i class="plant"></i></button>`).join('')}<div class="person"></div></div></div><div class="floating-label fl-a"><span class="live-dot"></span> VERNETZTE PRAXIS<b>Mehr Zeit für Menschen.</b></div><div class="floating-label fl-b">IM MITTELPUNKT<b>Ihr Praxisteam.</b></div><div class="model-caption">RÄUME ANKLICKEN & ENTDECKEN</div><span class="orbit-word">RAUM FÜR MÖGLICHKEITEN / 2028</span></div>`;}
 function notify(message){$('.toast').textContent=message;$('.toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('.toast').classList.remove('visible'),3300);}
 function showTech(i){tech=i;const t=techs[i];$('#detail-content').innerHTML=`<div class="eyebrow">SANA 2028 · MÖGLICHKEIT ${i+1}</div><h2>${t[0]}</h2><p>${t[3]}</p><p class="hint">${t[4]}</p><span class="pill">Zukunftskonzept · nicht angebunden</span>`;$('#detail').showModal();}
-function intro(){const features=[
- ['01','Empfang & Rückrufe','Anfragen erfassen','Empfang ansehen','telephone'],
- ['02','Ärzteauslastung','Kapazitäten verstehen','Auslastung ansehen','capacity'],
- ['03','Digitale Aufnahme','Papier vermeiden','Aufnahme testen','intake'],
- ['04','Praxisübersicht','Alles im Blick','Übersicht öffnen','dashboard'],
- ['05','SANA 2028','Die Zukunft erleben','Zukunft entdecken','future']
-];return `<section class="landing landing-focus"><div class="hero"><div class="hero-copy"><div class="eyebrow">SANA NEXT · FRANKFURT</div><h1>Die Praxis.<br><em>Neu gedacht.</em></h1><p>Weniger Papier. Mehr Überblick. Mehr Zeit für Patienten.</p><div class="hero-actions"><button class="primary" data-action="guided">Geführte Präsentation starten</button></div></div><div class="hero-preview" aria-label="Interaktives Praxismodell">${model()}</div></div><div class="landing-directory"><div class="directory-heading"><div><span class="eyebrow">FÜNF MÖGLICHKEITEN</span><h2>Ein Thema auswählen</h2></div><span class="directory-tip">Interaktive Konzeptdemo · fiktive Daten</span></div><div class="entry-grid">${features.slice(0,3).map((item,i)=>`<button class="entry-card entry-${item[4]}" data-scene="${i}" aria-label="${item[1]}: ${item[2]}"><span class="entry-index">${item[0]}</span><span class="entry-copy"><strong>${item[1]}</strong><span class="entry-desc">${item[2]}</span></span><span class="entry-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="entry-action">${item[3]}</span></button>`).join('')}</div><div class="extra-routes"><span>Weitere Einblicke</span>${features.slice(3).map((item,i)=>`<button data-scene="${i+3}">${item[1]}</button>`).join('')}</div></div></section>`;}
+function intro(){
+ const open=state.request&&!state.callbackDone;
+ const intakeStatus=state.reviewed?'Geprüft':state.intake?'Eingegangen':'Vorbereitet';
+ const contactStatus=open?'1 Anfrage offen':state.request?'Bearbeitet':'Rückruf organisieren';
+ const used=capacity(shift).reduce((sum,n)=>sum+n,0);
+ const topics=[
+  {id:0,num:'01',title:'Empfang & Rückrufe',desc:'Anliegen persönlich klären',status:contactStatus,type:'contact'},
+  {id:1,num:'02',title:'Ärzteauslastung',desc:'Kapazitäten im Blick',status:used+' / 18 Beispiele',type:'load'},
+  {id:2,num:'03',title:'Digitale Aufnahme',desc:'Weniger Papier',status:intakeStatus,type:'intake'}
+ ];
+ return `<section class="next-landing">
+ <div class="next-hero">
+  <div class="next-copy">
+   <div class="eyebrow">SANA NEXT · KONZEPT FÜR FRANKFURT</div>
+   <h1>Mehr Zeit.<br><em>Für Menschen.</em></h1>
+   <p>Drei Möglichkeiten, die den Praxisalltag einfacher machen könnten.</p>
+   <button class="primary next-start" data-action="guided">Präsentation starten</button>
+  </div>
+  <div class="next-console" aria-label="Drei interaktive Beispiele der zukünftigen Praxis">
+   <div class="console-top"><div class="console-brand"><span class="console-symbol">S</span><span>SANA <b>NEXT</b></span></div><span class="console-demo"><i></i> KONZEPTDEMO</span></div>
+   <div class="console-head"><span>PRAXISÜBERSICHT</span><strong>Was möchten Sie verbessern?</strong></div>
+   <div class="console-paths">
+    ${topics.map(topic=>`<button class="console-path" data-scene="${topic.id}" aria-label="${topic.title} öffnen">
+      <span class="path-numeral">${topic.num}</span>
+      <span class="path-content"><strong>${topic.title}</strong><small>${topic.desc}</small></span>
+      <span class="path-side"><span class="path-visual path-${topic.type}" aria-hidden="true"><i></i><i></i><i></i></span><small>${topic.status}</small></span>
+    </button>`).join('')}
+   </div>
+   <div class="console-bottom"><span><i class="console-online"></i> 3 LIVE-BEISPIELE</span><span>ANTIPPEN & ENTDECKEN</span></div>
+  </div>
+ </div>
+ <div class="next-more"><div class="next-more-copy"><strong>Die gesamte Praxis im Blick.</strong><span>Auch Organisation und Zukunftskonzept entdecken.</span></div><div class="next-more-actions"><button data-scene="3">Praxisübersicht</button><button data-scene="4">SANA 2028</button></div></div>
+ <p class="home-disclaimer">Alle Angaben sind fiktiv. Keine Verbindung zu Praxissystemen oder echten Patientendaten.</p>
+ </section>`;
+}
 function header(n,title,aside){return `<div class="scene-header"><div><div class="eyebrow">${String(n+1).padStart(2,'0')} / 05 · ${names[n]}</div><h1 class="scene-title" tabindex="-1">${title}</h1><p class="scene-explainer">${aside}</p></div></div>`;}
 function controls(message,button='Weiter erleben'){return `<div class="scene-controls"><button class="primary" data-action="next">${button}</button></div>`;}
 function calls(){
