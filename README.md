@@ -41,7 +41,8 @@ In Pages → your project → Settings → Bindings, add D1 database binding wit
 - **DATA_ENCRYPTION_KEY** (required, SECRET). Generate a cryptographically random, 32-byte base64 key using e.g. \`openssl rand -base64 32\`. Store securely OFF-repo, with recoverable backup. **Loss of key makes all stored submissions permanently unreadable. Never rotate without re-encrypting existing records.**
 - **ACCESS_TEAM_DOMAIN** (required for admin), e.g. \`your-team.cloudflareaccess.com\`.
 - **ACCESS_AUD** (required for admin) from your Access app JWT Audience tag.
-- **TURNSTILE_SECRET** (optional until Turnstile widget is configured; if set without a working widget, patient submission is intentionally rejected). Enable bot controls before real use.
+- **TURNSTILE_SITE_KEY** (recommended): public key for Cloudflare Turnstile, returned by the safe `/api/config` endpoint to render the widget.
+- **TURNSTILE_SECRET** (recommended, SECRET): Cloudflare Turnstile server-verification secret. Configure BOTH site key and secret for production. If the secret is set without a working widget, submissions are intentionally rejected. Also configure Cloudflare WAF rate limits.
 
 Never put live credentials, patient data or D1 backups in GitHub. Public source code is okay; use Cloudflare secrets for values.
 
