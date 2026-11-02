@@ -1,0 +1,195 @@
+
+/* SANA NEXT — presentation-grade art direction.
+   A single, isolated layer over vision.css; no external fonts or dependencies.
+   Draws UI elements with CSS, never font-dependent emoji arrows. */
+:root{--sana-ink:#12334c;--sana-mid:#315e7a;--sana-blue:#087db3;--sana-line:#e1e9ef;--sana-cloud:#f7f9fb}
+html{scroll-padding-top:70px}
+body{background:#f9fafb;color:var(--sana-ink);background-image:none;letter-spacing:-.007em}
+.masthead{height:68px;padding:0 clamp(19px,4.5vw,72px);border-bottom:1px solid #ecf0f4;background:#fff}
+.brand{gap:12px}
+.brand img{width:38px;height:38px;border-radius:10px;background:#00659c;padding:6px;box-shadow:none}
+.brand>span{font-size:17px;letter-spacing:.24em;font-weight:750;color:#103d5d}
+.brand-rule{display:none}
+.location{color:#70889b;letter-spacing:.12em;font-weight:550}
+.demo-label{background:transparent;border:0;color:#7290a4;font-size:10px;font-weight:660;padding:0}
+.demo-label i{width:5px;height:5px;box-shadow:none;background:#2c95be}
+#fullscreen{min-height:34px!important;height:34px;border-radius:6px!important;border:1px solid #dee7ee!important;background:#fff!important;color:#42677d!important;padding:0 13px!important;box-shadow:none!important;min-width:0!important}
+#fullscreen:hover{background:#f1f6f9!important}
+.header-tools{gap:18px}
+.chapter-nav{position:sticky;top:0;z-index:28;height:51px;width:100%;max-width:none;margin:0;padding:0 clamp(19px,4.5vw,72px);background:#fff;border:0;border-bottom:1px solid #e8eef2;box-shadow:none;backdrop-filter:blur(14px)}
+.desktop-chapters{width:100%;height:100%;display:flex;align-items:center;justify-content:flex-start;gap:clamp(13px,1.7vw,30px)}
+.chapter-nav .desktop-chapters button{height:51px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 2px;border-radius:0;background:transparent;border:0;border-bottom:2px solid transparent;color:#6b8496;font-weight:590;font-size:12px;white-space:nowrap;transition:border-color .18s,color .18s}
+.chapter-nav .desktop-chapters button:hover{background:transparent;color:#0c6797}
+.chapter-nav .desktop-chapters button.active{background:transparent;color:#075f90;border-bottom-color:#087cae;font-weight:780}
+.chapter-nav .desktop-chapters .overview-tab{color:#305d79;font-weight:750;margin-right:11px;position:relative}
+.chapter-nav .desktop-chapters .overview-tab:after{content:"";position:absolute;height:15px;width:1px;right:-12px;background:#dce6eb}
+.chapter-nav button .num{font-size:9px;font-weight:720;opacity:.63;letter-spacing:.08em}
+.mobile-chapters{display:none}
+.scene{padding:clamp(20px,2.8vw,40px) clamp(22px,5vw,70px) 34px;max-width:1510px}
+.scene-header{margin-bottom:24px}
+.scene-title{font-weight:480;letter-spacing:-.055em;line-height:1.04;font-size:clamp(35px,3.8vw,58px);color:#12364d;margin:11px 0 13px}
+.scene-title em{color:#0877ab;font-family:Georgia,"Times New Roman",serif;font-weight:400}
+.scene-header .eyebrow{font-size:10px;letter-spacing:.17em;font-weight:800;color:#287fa7}
+.scene-header .eyebrow:before{display:none}
+.scene-explainer{font-size:13px;color:#698092;max-width:760px;line-height:1.64}
+.try-tip{display:inline-flex;align-items:center;margin:15px 0 0;padding:0;background:none;border:0;border-radius:0;color:#427690;font-size:11px;letter-spacing:.005em;font-weight:630;gap:9px}
+.try-tip-dot{height:6px;width:6px;background:#0b8dbd;box-shadow:none}
+.panel{border-radius:12px;box-shadow:0 10px 28px rgba(28,61,83,.035);border:1px solid #e3ecf1;padding:27px}
+.panel-label{font-size:10px;color:#658398;font-weight:770;letter-spacing:.12em}
+.pill{border-radius:4px;background:#f2f6f9;border:1px solid #e2edf3;color:#52778f;font-size:9px;letter-spacing:.02em;padding:5px 8px}
+.primary{background:#0877aa;border-radius:7px;box-shadow:none;font-size:12px;letter-spacing:.015em}
+.primary:hover:not(:disabled){background:#075f8e;box-shadow:0 8px 20px rgba(2,84,123,.16)}
+.secondary{border-radius:7px;background:#f8fbfc;color:#165c7d}
+.segmented{background:#f2f5f7;border:1px solid #e7edf1;padding:4px;border-radius:8px}
+.segmented button{border-radius:5px;color:#687f8d;font-weight:600;min-height:43px}
+.segmented button.active{box-shadow:0 1px 6px rgba(19,49,72,.085);background:#fff;color:#086f9e}
+.match{border-radius:9px;background:#f8fafb;border-color:#edf1f3}
+.match h3{font-size:22px}
+.hint{color:#7b8e9a}
+.scene-controls{padding-top:17px;margin-top:22px;border-top:1px solid #e8eff2}
+.guided-note{max-width:750px;line-height:1.6}
+.guide-strip{background:#f1f6f9;border-color:#e6eef3;color:#496e85}
+.entry-card{border-radius:10px;box-shadow:none;min-height:188px;transition:border .2s,transform .2s,box-shadow .2s}
+.entry-card:hover{box-shadow:0 12px 23px rgba(9,67,100,.07);transform:translateY(-3px)}
+.entry-index{border-radius:6px;background:#eaf5fb;color:#0b7eae}
+.hero h1{font-weight:540}
+.hero-copy>p{max-width:530px}
+.hero .primary{min-height:49px}
+.bottom{color:#8497a5;background:#fff;border-color:#ebf0f3}
+.fiction{color:#8c9eac}
+dialog{border-radius:11px}
+
+/* Reception — a real workflow visualization, replacing the avatar cartoon. */
+.reception-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:22px;align-items:stretch}
+.reception-stage{min-width:0;display:flex;flex-direction:column;border-radius:12px;background:#092d47;box-shadow:0 22px 48px rgba(0,42,68,.13);overflow:hidden;position:relative;color:#f5fbff}
+.reception-stage:before{content:"";position:absolute;right:-110px;top:-140px;height:410px;width:410px;border-radius:50%;background:radial-gradient(circle,#0e78a775,transparent 63%);pointer-events:none}
+.reception-stage:after{content:"";position:absolute;inset:0;opacity:.25;pointer-events:none;background-image:linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:58px 100%;mask-image:linear-gradient(90deg,transparent 25%,#000 100%)}
+.reception-screen{position:relative;z-index:1;display:flex;flex-direction:column;padding:29px 31px 19px;min-height:455px;height:100%}
+.reception-topline,.reception-screen-foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.reception-topline{font-size:10px;letter-spacing:.16em;color:#bbd3e2}
+.reception-identity{display:flex;align-items:center;gap:10px;font-weight:760}
+.signal-mark{display:block;width:21px;height:21px;border:1px solid #91c7db;border-radius:50%;position:relative}
+.signal-mark:before,.signal-mark:after{content:"";position:absolute;border-radius:50%;background:#9bd5e7}
+.signal-mark:before{width:7px;height:7px;top:3px;left:6px}
+.signal-mark:after{width:12px;height:4px;bottom:4px;left:4px;border-radius:4px 4px 2px 2px}
+.reception-demo{opacity:.68;font-size:9px}
+.reception-feature{margin-top:44px;position:relative}
+.reception-kicker{color:#84c8e4;font-size:10px;letter-spacing:.16em;font-weight:660}
+.reception-feature h2{font-size:clamp(33px,3.4vw,47px);font-weight:420;line-height:1.1;letter-spacing:-.05em;margin:12px 0}
+.reception-feature h2 em{color:#7ccbe9;font-style:normal;font-family:Georgia,serif}
+.reception-feature p{font-size:12px;max-width:290px;color:#afc9d8;line-height:1.65}
+.signal-art{display:flex;align-items:center;gap:5px;position:absolute;top:24px;right:0;height:84px;opacity:.57}
+.signal-art span{width:3px;height:25px;background:#7ad4ee;border-radius:3px;animation:signal-wave 2.8s ease-in-out infinite}
+.signal-art span:nth-child(2){height:54px;animation-delay:.24s}
+.signal-art span:nth-child(3){height:73px;animation-delay:.37s}
+.signal-art span:nth-child(4){height:43px;animation-delay:.53s}
+.signal-art span:nth-child(5){height:19px;animation-delay:.65s}
+@keyframes signal-wave{50%{transform:scaleY(.58);opacity:.58}}
+.reception-process{margin-top:23px;border-top:1px solid #ffffff29}
+.process-item{display:flex;align-items:center;padding:11px 0;gap:14px;border-bottom:1px solid #ffffff22}
+.process-index{font-size:10px;font-weight:700;color:#71b6d1;align-self:flex-start;margin-top:2px}
+.process-item div{flex:1}
+.process-item strong{display:block;font-size:12px;font-weight:600;letter-spacing:.005em}
+.process-item small{color:#9cb9ca;display:block;font-size:10px;margin-top:1px}
+.process-indicator{display:block;width:7px;height:7px;border-radius:50%;border:1px solid #5e9ab5}
+.process-indicator.on{background:#79cce4;border-color:#79cce4;box-shadow:0 0 0 3px #6cbed520}
+.reception-screen-foot{font-size:9px;letter-spacing:.1em;color:#7fa7bd;margin-top:auto;padding-top:17px}
+.screen-status{color:#acd5e4;white-space:nowrap}
+.screen-status i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#86d5d8;margin-right:5px;vertical-align:middle}
+.reception-actions{padding:29px 30px;display:flex;flex-direction:column;min-height:455px}
+.reception-actions .panel-label{gap:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.reception-action-heading{font-size:26px;letter-spacing:-.035em;line-height:1.2;margin:27px 0 4px;font-weight:520;color:#173950}
+.reception-actions .overview{font-size:12px;margin:3px 0 8px;border:0;padding:0;color:#7d92a0}
+.reception-choices{margin:17px 0 18px}
+.reception-request-preview{padding:0 0 17px;border-bottom:1px solid #e8edf1;flex:1}
+.request-preview-label{display:block;letter-spacing:.14em;font-size:9px;font-weight:730;color:#8a9eab}
+.reception-request-preview h3{font-size:23px;font-weight:500;letter-spacing:-.035em;margin:9px 0 5px}
+.reception-request-preview>p{color:#5c7689;font-size:12px;line-height:1.6;margin:0 0 17px}
+.request-next{display:flex;justify-content:space-between;gap:13px;align-items:start}
+.request-next span{font-size:10px;color:#92a3ae;white-space:nowrap}
+.request-next strong{font-size:11px;color:#275670;text-align:right;font-weight:650}
+.reception-actions .primary.full-width,.reception-actions .secondary.full-width{margin-top:18px;min-height:45px;width:100%}
+.reception-legal{font-size:10px;color:#91a1ad;line-height:1.45;margin:14px 0 0}
+.receipt-confirm{margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:#edf8fb;border-radius:7px;padding:11px}
+.receipt-confirm strong{font-size:12px;color:#176b8f}
+.receipt-confirm p{font-size:10px;line-height:1.4;color:#62839a;margin:2px 0}
+.receipt-check{height:17px;width:17px;background:#0a8fb7;border-radius:50%;flex:0 0 17px;position:relative}
+.receipt-check:after{content:"";position:absolute;left:5px;top:3px;width:5px;height:8px;border:solid white;border-width:0 2px 2px 0;transform:rotate(45deg)}
+
+/* Wider labels and stronger hierarchy for all existing scenes */
+.metric{border-radius:10px;box-shadow:none}
+.workstation{background:#f5f9fc}
+.tech-item.active{background:#e8f4fa}
+@media(max-width:1040px){
+ .desktop-chapters{gap:11px}
+ .chapter-nav .desktop-chapters button{font-size:10px}
+ .reception-grid{grid-template-columns:1fr 1fr;gap:14px}
+ .reception-screen{padding:24px 21px;min-height:440px}
+ .reception-actions{padding:23px;min-height:440px}
+ .reception-feature h2{font-size:37px}
+ .signal-art{right:5px;opacity:.3}
+}
+@media(max-width:760px){
+ .masthead{height:63px;padding:0 20px}
+ .brand img{height:36px;width:36px;border-radius:8px;padding:6px}
+ .brand>span{font-size:16px}
+ .demo-label{font-size:9px;letter-spacing:.06em}
+ #fullscreen{display:none}
+ .header-tools{gap:7px}
+ .chapter-nav{top:0;height:54px;padding:0 20px;box-shadow:0 5px 20px rgba(33,65,86,.035)}
+ .desktop-chapters{display:none}
+ .mobile-chapters{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;height:100%}
+ .mobile-overview{background:transparent;border:0;padding:7px 0;color:#3e6a86;font-size:12px;font-weight:630;flex-shrink:0}
+ .mobile-current{display:flex;align-items:center;gap:9px;min-width:0;position:relative;flex:0 1 68%;justify-content:flex-end}
+ .mobile-current>span{font-size:10px;letter-spacing:.1em;color:#9aabba;font-weight:730;white-space:nowrap}
+ .mobile-current select{appearance:none;-webkit-appearance:none;background:transparent;border:0;outline-offset:3px;color:#0d638f;font-size:12px;font-weight:740;padding:9px 19px 9px 0;max-width:100%;min-width:0;text-align:right;cursor:pointer}
+ .select-chevron{pointer-events:none;position:absolute;right:2px;top:calc(50% - 4px);width:8px;height:8px;border-right:1.6px solid #14749e;border-bottom:1.6px solid #14749e;transform:rotate(45deg)}
+ .scene{padding:23px 20px 32px}
+ .scene-header{margin:0 0 18px}
+ .scene-header .eyebrow{font-size:10px;letter-spacing:.1em}
+ .scene-title{font-size:clamp(33px,9vw,42px);line-height:1.05;margin:11px 0 9px;font-weight:470}
+ .scene-explainer{font-size:12px;line-height:1.55;color:#677e8c}
+ .try-tip{margin-top:11px;font-size:11px;line-height:1.45;align-items:flex-start;color:#396e89}
+ .try-tip-dot{flex-shrink:0;margin-top:5px}
+ .scene-grid,.scene-grid.paper-grid,.command-grid,.future-grid{grid-template-columns:minmax(0,1fr);gap:13px}
+ .reception-grid{grid-template-columns:minmax(0,1fr);gap:13px}
+ .reception-stage{border-radius:10px;box-shadow:0 12px 33px rgba(0,42,68,.12)}
+ .reception-screen{min-height:359px;padding:20px 22px 15px}
+ .reception-topline{font-size:9px}
+ .reception-feature{margin-top:23px}
+ .reception-feature h2{font-size:35px;line-height:1.04;margin:9px 0}
+ .reception-feature p{font-size:11px;line-height:1.5;max-width:250px}
+ .signal-art{right:0;top:12px;opacity:.28}
+ .reception-process{margin-top:9px}
+ .process-item{padding:8px 0;gap:12px}
+ .process-item strong{font-size:11px}
+ .process-item small{font-size:9px}
+ .reception-screen-foot{font-size:8px;padding-top:12px}
+ .reception-actions{padding:23px;min-height:unset}
+ .reception-action-heading{margin:20px 0 4px;font-size:23px}
+ .reception-choices{margin:13px 0 15px}
+ .reception-request-preview{padding-bottom:15px}
+ .reception-request-preview h3{font-size:21px}
+ .reception-legal{margin-top:12px}
+ .panel{padding:19px;border-radius:10px}
+ .landing-directory{padding-bottom:35px}
+ .entry-card{border-radius:9px}
+ .primary{min-height:46px}
+ .scene-controls{flex-direction:column;align-items:stretch;gap:12px}
+ .scene-controls .primary{width:100%}
+ .bottom{min-height:63px;padding:12px 19px;gap:9px}
+ .fiction{font-size:9px;max-width:175px;text-align:center}
+ .text-button{font-size:11px}
+ .guide-strip{padding:10px 20px}
+}
+@media(max-width:380px){
+ .masthead{padding:0 14px}
+ .chapter-nav{padding:0 15px}
+ .scene{padding:18px 15px 28px}
+ .mobile-current>span{font-size:9px}
+ .mobile-current select{font-size:11px}
+ .reception-screen{padding:18px}
+ .reception-feature h2{font-size:32px}
+ .reception-screen-foot span:last-child{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){.signal-art span{animation:none}}
