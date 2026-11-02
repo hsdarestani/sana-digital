@@ -6,7 +6,7 @@ Responsive German-language patient intake for **Sana MVZ Orthopädie und Chirurg
 - Five accessible, mobile-first steps: personal/insurance/contact, medical history, privacy/optional billing consent, information about IGeL + SLAP, review + touch signature.
 - Clinic source documents transcribed into read-only information views; IGeL is not a purchase, SLAP is not personalized medical advice.
 - Separate **opt-in** for external billing by Ärztliche Verrechnungsstelle Büdingen GmbH; refusing cannot block submitting patient data.
-- Submission via Pages Function to **AES-256-GCM encrypted D1 record**, minimal unencrypted metadata.
+- Submission via Pages Function to **AES-256-GCM encrypted D1 record**, minimal unencrypted metadata. **Preview-only by default**; production storage requires explicit activation.
 - Restricted staff dashboard in /admin with verified **Cloudflare Access** JWT for listing, detail and status updates. No public read API.
 - No localStorage, no analytics, no remote fonts, no plaintext personal data logged.
 
@@ -37,6 +37,7 @@ npx wrangler d1 execute sana-digital-patients --remote --file=migrations/0001_in
 In Pages → your project → Settings → Bindings, add D1 database binding with the exact variable name **DB**, choose **sana-digital-patients**, apply for Production (and separate Preview DB if testing); **redeploy** for changes to take effect. For local development, wrangler can bind a separate local D1.
 
 ### Secret configuration (Pages → Settings → Variables and Secrets)
+- **INTAKE_ENABLED** (required for live patient submissions): use `true` ONLY after all legal, clinical, technical, access and data-protection approvals. Defaults to a non-submitting **preview mode**.
 - **DATA_ENCRYPTION_KEY** (required, SECRET). Generate a cryptographically random, 32-byte base64 key using e.g. \`openssl rand -base64 32\`. Store securely OFF-repo, with recoverable backup. **Loss of key makes all stored submissions permanently unreadable. Never rotate without re-encrypting existing records.**
 - **ACCESS_TEAM_DOMAIN** (required for admin), e.g. \`your-team.cloudflareaccess.com\`.
 - **ACCESS_AUD** (required for admin) from your Access app JWT Audience tag.
