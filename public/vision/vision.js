@@ -2,7 +2,7 @@ import {doctors,initialState,capacity,metrics} from './model.js';
 const $=s=>document.querySelector(s);
 const stage=$('#stage'),nav=$('.chapter-nav');
 let state=initialState(),scene=-1,guided=false,contactKind='callback',shift='morning',teamView='reception',tech=0,toastTimer;
-const names=['Persönlicher Empfang','Kapazität verstehen','Ohne Papier','Praxiszentrale','SANA 2028'];
+const names=['Empfang & Rückrufe','Ärzteauslastung','Digitale Aufnahme','Praxisübersicht','SANA 2028'];
 const kinds={
  callback:{title:'Rückrufwunsch',description:'Julia Berger bittet um einen Rückruf zur Organisation ihres Praxisbesuchs.',action:'Rückruf durch das Praxisteam'},
  documents:{title:'Unterlagenfrage',description:'Julia Berger benötigt Informationen zu Unterlagen für den nächsten Praxisbesuch.',action:'Informationen vom Empfang bereitstellen'},
@@ -17,8 +17,20 @@ const techs=[
 function model(active=-1){return `<div class="spatial"><div class="blueprint"></div><div class="practice"><div class="practice-floor"><div class="connection"></div>${['Empfang','Behandlung','Warten','Organisation'].map((name,i)=>`<button class="room room-${'abcd'[i]} ${active===i?'selected':''}" data-room="${i}" aria-label="${name}: Zukunftsidee öffnen"><span>${name}</span><i class="furniture ${i===0?'desk':i===2?'sofa':'bed'}"></i>${i===0?'<i class="furniture chair"></i>':''}<i class="plant"></i></button>`).join('')}<div class="person"></div></div></div><div class="floating-label fl-a"><span class="live-dot"></span> VERNETZTE PRAXIS<b>Mehr Zeit für Menschen.</b></div><div class="floating-label fl-b">IM MITTELPUNKT<b>Ihr Praxisteam.</b></div><div class="model-caption">RÄUME ANKLICKEN & ENTDECKEN</div><span class="orbit-word">RAUM FÜR MÖGLICHKEITEN / 2028</span></div>`;}
 function notify(message){$('.toast').textContent=message;$('.toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('.toast').classList.remove('visible'),3300);}
 function showTech(i){tech=i;const t=techs[i];$('#detail-content').innerHTML=`<div class="eyebrow">SANA 2028 · MÖGLICHKEIT ${i+1}</div><h2>${t[0]}</h2><p>${t[3]}</p><p class="hint">${t[4]}</p><span class="pill">Zukunftskonzept · nicht angebunden</span>`;$('#detail').showModal();}
-function intro(){return `<section class="hero"><div class="hero-copy"><div class="eyebrow">DIE PRAXIS. WEITERGEDACHT.</div><h1>Mehr Raum<br>für <em>Medizin.</em></h1><p>Ein erreichbarer Empfang. Weniger Papier. Bessere Übersicht im Team. Mehr Zeit für Menschen.</p><div class="hero-actions"><button class="primary" data-action="guided">Die Zukunft erleben</button><button class="link-button" data-action="explore">Frei entdecken</button></div><div class="hero-note"><span class="line"></span> Fünf Erlebnisse. Eine menschlich organisierte Praxis.</div></div>${model()}</section>`;}
-function header(n,title,aside){return `<div class="scene-header"><div><div class="eyebrow">${String(n+1).padStart(2,'0')} / 05 · ${names[n]}</div><h1 class="scene-title" tabindex="-1">${title}</h1></div><p class="scene-aside">${aside}</p></div>`;}
+function intro(){const features=[
+ ['01','Empfang & Rückrufe','Anfragen persönlich aufnehmen und im Team nachverfolgen.','Empfang ansehen'],
+ ['02','Ärzteauslastung','Freie Kapazitäten erkennen. Doctolib bleibt bestehen.','Auslastung ansehen'],
+ ['03','Digitale Aufnahme','Informationen vom Patienten bis zum Arzt vorbereiten.','Aufnahme testen'],
+ ['04','Praxisübersicht','Offene Aufgaben und den Bearbeitungsstand sehen.','Übersicht öffnen'],
+ ['05','SANA 2028','Entdecken, wie die Praxis künftig zusammenarbeiten könnte.','Zukunft entdecken']
+];return `<section class="landing"><div class="hero"><div class="hero-copy"><div class="eyebrow">SANA NEXT · KONZEPT FÜR FRANKFURT</div><h1>Eine Praxis.<br><em>Viele Möglichkeiten.</em></h1><p>Entdecken Sie fünf Ideen für einen leichteren Praxisalltag. Wählen Sie einfach das Thema, das Sie interessiert.</p><div class="hero-actions"><button class="primary" data-action="guided">Geführte Präsentation starten</button><span class="hero-hint">Oder direkt unten ein Thema auswählen.</span></div></div><div class="hero-preview" aria-label="Interaktives Praxismodell">${model()}</div></div><div class="landing-directory"><div class="directory-heading"><div><span class="eyebrow">WAS MÖCHTEN SIE ENTDECKEN?</span><h2>Ein Thema auswählen</h2></div><span class="directory-tip">Alle Beispiele sind interaktiv und verwenden fiktive Daten.</span></div><div class="entry-grid">${features.map((item,i)=>`<button class="entry-card" data-scene="${i}" aria-label="${item[1]}: ${item[2]}"><span class="entry-index">${item[0]}</span><strong>${item[1]}</strong><span class="entry-desc">${item[2]}</span><span class="entry-action">${item[3]}</span></button>`).join('')}</div></div></section>`;}
+function header(n,title,aside){const how=[
+ 'Probieren: Anliegen auswählen und im Praxisteam erfassen.',
+ 'Probieren: Vormittag und Nachmittag vergleichen.',
+ 'Probieren: Angaben senden, bei Anmeldung prüfen, Arztansicht öffnen.',
+ 'Probieren: Offene Anliegen ansehen oder als erledigt markieren.',
+ 'Probieren: Einen Raum im Modell oder eine Möglichkeit auswählen.'
+];return `<div class="scene-header"><div><div class="eyebrow">${String(n+1).padStart(2,'0')} / 05 · ${names[n]}</div><h1 class="scene-title" tabindex="-1">${title}</h1><p class="scene-explainer">${aside}</p><div class="try-tip"><span class="try-tip-dot"></span>${how[n]}</div></div></div>`;}
 function controls(message,button='Weiter erleben'){return `<div class="scene-controls"><p class="guided-note">${message}</p><button class="primary" data-action="next">${button}</button></div>`;}
 function calls(){
  const item=kinds[contactKind];
@@ -49,7 +61,7 @@ function future(){return header(4,'Die Zukunft ist<br><em>ein Zusammenspiel.</em
 +controls('Alles konzeptionell. Die eigentliche Terminbuchung bleibt in Doctolib.','Noch einmal erleben');}
 function render(){
  nav.hidden=scene<0;
- nav.innerHTML=names.map((name,i)=>`<button data-scene="${i}" class="${scene===i?'active':''}" ${scene===i?'aria-current="step"':''}><span class="num">0${i+1}</span>${name}</button>`).join('');
+ nav.innerHTML=`<button data-action="overview" class="overview-tab" aria-label="Zur Startübersicht">Übersicht</button>`+names.map((name,i)=>`<button data-scene="${i}" class="${scene===i?'active':''}" ${scene===i?'aria-current="step"':''}><span class="num">0${i+1}</span>${name}</button>`).join('');
  stage.innerHTML=(scene>=0&&guided?`<div class="guide-strip"><b>GEFÜHRTE PRÄSENTATION</b><span>Schritt ${scene+1} von 5 · Sie bestimmen das Tempo.</span><button data-action="unguided">Frei erkunden</button></div>`:'')+(scene<0?intro():`<section class="scene">${[calls,scheduling,paper,command,future][scene]()}</section>`);
  document.querySelectorAll('[data-height]').forEach(el=>el.style.height=el.dataset.height+'%');
  if(state.intake&&$('#mobility'))$('#mobility').value=state.intake.support;
@@ -67,7 +79,8 @@ document.addEventListener('click',e=>{
  switch(d.action){
  case 'guided':guided=true;go(0);break;
  case 'explore':guided=false;go(0);break;
- case 'unguided':guided=false;render();notify('Freies Entdecken ist aktiv.');break;
+ case 'unguided':guided=false;render();notify('Sie können alle Bereiche frei auswählen.');break;
+ case 'overview':guided=false;go(-1);break;
  case 'record-contact':if(!state.request){state.request={kind:contactKind};render();notify('Anliegen im fiktiven Praxisteam erfasst.');}break;
  case 'next':if(scene===4)reset();else go(Math.min(scene+1,4));break;
  case 'send-intake':if(!$('#intake-consent')?.checked){notify('Bitte die Freigabe der Beispielangaben bestätigen.');return;}if(!state.intake){state.intake={support:$('#mobility').value};render();notify('Beispielangaben wurden intern an die Anmeldung übergeben.');}break;
@@ -79,7 +92,7 @@ document.addEventListener('click',e=>{
  case 'confirm-reset':$('#detail').close();reset();notify('Alle Beispielaktionen wurden zurückgesetzt.');break;
  }
 });
-$('#home').addEventListener('click',()=>go(4));
+$('#home').addEventListener('click',()=>{guided=false;go(-1);});
 $('#reset').addEventListener('click',()=>{
  if(!state.request&&!state.intake){reset();return;}
  $('#detail-content').innerHTML='<div class="eyebrow">NEU BEGINNEN</div><h2>Eine neue Praxisreise?</h2><p>Die simulierten Anliegen und die Beispielaufnahme werden zurückgesetzt. Die vorhandene Patientenaufnahme bleibt unberührt.</p><button class="primary" data-action="confirm-reset">Beispielreise zurücksetzen</button>';
