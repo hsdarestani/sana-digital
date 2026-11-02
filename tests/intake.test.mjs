@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {validatePatient,encrypt,decrypt} from '../functions/_lib.js';
+import {validatePatient,encrypt,decrypt,configured} from '../functions/_lib.js';
+import {onRequestGet as publicConfig} from '../functions/api/config.js';
 const patient=()=>({
   firstName:'Max',lastName:'Mustermann',birthDate:'1993-04-22',mobile:'+49 151 12345678',phone:'',email:'',
   street:'Musterstraße 10',postalCode:'60313',city:'Frankfurt',insurance:'TK',insuranceNumber:'',
@@ -38,4 +39,17 @@ test('AES-GCM encrypted records round-trip and do not contain plaintext name',as
   assert.ok(!encrypted.data.includes(original.firstName));
   const restored=await decrypt({iv:encrypted.iv,encrypted_payload:encrypted.data},env);
   assert.deepEqual(restored,original);
+});
+
+test('activation requires valid D1 binding, key and migrated table',async()=>{
+  const key=Buffer.from(new Uint8Array(32).fill(25)).toString('base64');
+  const goodDb={prepare:(sql)=>({first:async()=>{assert.match(sql,/FROM intakes/);return null;}})};
+  const good={INTAKE_ENABLED:'true',DB:goodDb,DATA_ENCRYPTION_KEY:key};
+  assert.equal(configured(good),true);
+  assert.equal((await (await publicConfig({env:good})).json()).enabled,true);
+  assert.equal((await (await publicConfig({env:{...good,DB:undefined}})).json()).enabled,false);
+  assert.equal((await (await publicConfig({env:{...good,DATA_ENCRYPTION_KEY:'invalid'}})).json()).enabled,false);
+  assert.equal((await (await publicConfig({env:{...good,DB:{prepare:()=>({first:async()=>{throw new Error('no such table');}})}}})).json()).enabled,false);
+  assert.equal((await (await publicConfig({env:{...good,TURNSTILE_SECRET:'secret',TURNSTILE_SITE_KEY:undefined}})).json()).enabled,false);
+  assert.equal((await (await publicConfig({env:{...good,INTAKE_ENABLED:'false'}})).json()).enabled,false);
 });
