@@ -100,7 +100,7 @@ function collect(form){
  return [...form.querySelectorAll(".step")].map((step,i)=>{
    const rows=[],seen=new Set();
    step.querySelectorAll("input[name],textarea[name],select[name]").forEach(el=>{
-     if(!el.name||seen.has(el.name)||el.name==="website"||el.closest(".hidden")||el.closest("[hidden]"))return;
+     if(!el.name||seen.has(el.name)||el.name==="website"||el.closest(".hidden")||(el.closest("[hidden]") && el.closest("[hidden]")!==step))return;
      if(["hidden","file","submit"].includes(el.type))return;
      seen.add(el.name);
      const siblings=[...step.querySelectorAll("input[name],textarea[name],select[name]")].filter(x=>x.name===el.name);
