@@ -1,0 +1,11 @@
+# Example local Pages configuration. DO NOT rename to wrangler.toml for production
+# until you've created the D1 DB and reviewed Cloudflare's source-of-truth configuration warning.
+name = "sana-digital"
+compatibility_date = "2026-11-02"
+pages_build_output_dir = "./public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sana-digital-patients"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_UUID"
+preview_database_id = "DB"
