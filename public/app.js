@@ -90,7 +90,6 @@
 
   function value(name) {return String(form.elements[name]?.value || '').trim();}
   function radio(name) {return form.querySelector('input[name="'+name+'"]:checked')?.value || 'Keine Angabe';}
-  function escapeHtml(s) {return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function reviewRow(title,body,step){
     const card=document.createElement('div');card.className='review-card';
     const left=document.createElement('div'),head=document.createElement('h3'),p=document.createElement('p');
@@ -112,33 +111,7 @@
   canvas.addEventListener('pointerup',endDrawing);canvas.addEventListener('pointercancel',endDrawing);
   document.getElementById('clearSignature').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);signed=false;document.getElementById('signaturePlaceholder').hidden=false;});
 
-  const igelRows=[
-    ['Fokussierte Stoßwellentherapie (Storz)','90,00 € / Termin'],
-    ['Radiale Stoßwellentherapie','51,00 € / Termin'],
-    ['PRP','179,97 € / Termin'],
-    ['Hyaluronsäure – Ostenil','3er Serie: 164,38 €; 5er Serie: 266,82 €'],
-    ['Hyaluronsäure – Tiaflex Bioline / Biocross','3er Serie: 255,57 €'],
-    ['Akupunktur','37,01 € / Termin'],
-    ['Spineliner','30,00 € / Termin'],
-    ['Knochendichtemessung (DEXA)','80,00 € / Termin'],
-    ['Osteopathie (Dr. Müller)','ca. 130,00 € / Termin'],
-    ['Bescheinigung Anwesenheit / Schule','5,00 €'],
-    ['Ärztliches Attest','20,00 €'],
-    ['Berichte auf Patientenwunsch','25,00 €'],
-    ['Röntgen-CD','6,00 €']
-  ];
   const info = {
-    igel: { title:'IGeL – Preisübersicht',eyebrow:'SELBSTZAHLERLEISTUNGEN',html:
-      '<p>Übersicht aus der von der Praxis bereitgestellten Preisliste. Sie dient ausschließlich der Information. Vor einer kostenpflichtigen Behandlung sind medizinische Aufklärung und gesonderte Vereinbarung notwendig. Eine Preisliste allein stellt kein Vertragsangebot dar; klären Sie Nutzen, Risiken, Alternativen und mögliche Erstattung mit Ärztin/Arzt bzw. Krankenkasse.</p><table><thead><tr><th>Leistung</th><th>Kosten</th></tr></thead><tbody>'+
-      igelRows.map(r=>'<tr><td>'+escapeHtml(r[0])+'</td><td>'+escapeHtml(r[1])+'</td></tr>').join('')+
-      '</tbody></table><p><small>Preise laut bereitgestelltem Dokument; Änderungen und ärztliche Beratung vorbehalten.</small></p>'},
-    slap: {title:'SLAP – Nachbehandlung',eyebrow:'BEHANDLUNGSPLAN',html:
-      '<p>Diese Hinweise entsprechen dem bereitgestellten Plan und ersetzen keine individuelle ärztliche Anweisung. Die tatsächliche Nachbehandlung richtet sich nach Ihrer Operation und Ihrem behandelnden Team.</p>'+
-      '<h3>Ab dem 1. Tag</h3><ul><li>Gilchrist: zwei Wochen Tag und Nacht, insgesamt drei Wochen.</li><li>Handgelenk und Finger aktiv bewegen; intermittierende Eisauflage.</li><li>Zwei Wochen Gewichte nur bis 2 kg; keine volle Streckung im Ellenbogen für zwei Wochen.</li><li>Physiotherapie 3× wöchentlich: aktiv-assistierte Bewegung im Ellenbogen bis Ext/Flex 0°/30°/150°, keine aktive Flexion; Schulter aktiv-assistiert bis Ante/Abd/ARO 90°/90°/20° ohne Widerstand, schmerzadaptiert.</li></ul>'+
-      '<h3>Nach 2 Wochen</h3><ul><li>Physiotherapie 3× pro Woche: frühfunktionelle, beschwerdeangepasste Nachbehandlung ohne Widerstand.</li><li>Gewichte bis 3 kg.</li></ul>'+
-      '<h3>Nach 4 Wochen</h3><ul><li>Physiotherapie 2× pro Woche: Zentrierungs- und Stabilisationsübungen.</li><li>Physiotherapie 2× pro Woche: Anleitung zur Eigenübung.</li><li>Tägliche Eigenübungen, schrittweiser Muskelaufbau mit elastischen Bändern.</li><li>Leichter Sport: Brustschwimmen, Nordic Walking ohne Stöcke.</li></ul>'+
-      '<h3>Nach 6 Wochen</h3><ul><li>Tägliche Eigenübungen und unterstützende Krankengymnastik, beschwerdeangepasste freie Belastung.</li><li>Gewichte bis 10 kg.</li><li>Moderater Sport ohne Maximalbelastung, keine Kontaktsportarten (Fußball/Handball nur Einzeltraining), kein Kraftsport oder Wurfsport.</li></ul>'+
-      '<h3>Nach 3 Monaten</h3><ul><li>Schwere Gewichte laut Plan wieder möglich.</li><li>Sportlicher Aufbau schrittweise und nach ärztlicher Freigabe.</li></ul>'},
     billing:{title:'Externe Abrechnung',eyebrow:'PATIENTENINFORMATION',html:
       '<p>Die Ärztliche Verrechnungsstelle Büdingen GmbH, Gymnasiumstraße 18–20, 63654 Büdingen, übernimmt bei erteilter Einwilligung die Honorarabrechnung und den Einzug der Forderung. Die Einwilligung erfolgt freiwillig und ist für zukünftige Vorgänge widerrufbar.</p>'+
       '<h3>Welche Daten?</h3><p>Für Abrechnung und Forderungsabwicklung erforderliche Stammdaten, Behandlungs- und Rechnungsdaten sowie die mit der Abrechnung zusammenhängenden Informationen.</p>'+
