@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f9fb">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Digitale Patientenaufnahme – Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend.">
+  <title>Patientenaufnahme | Sana MVZ Frankfurt-Westend</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="masthead">
+      <a class="brand" href="/" aria-label="Sana Patientenaufnahme, Startseite">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 42 48" fill="none"><path d="M26 5c-7-2-13 2-13 8 0 5 7 7 13 11 8 5 7 15-3 17-5 1-10 0-14-2" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><circle cx="30" cy="7" r="4" fill="currentColor"/><path d="M12 26h22" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span>
+        <span><b>sana<span class="brand-dot">.</span></b><small>MVZ Frankfurt-Westend</small></span>
+      </a>
+      <span class="masthead-side"><span class="secure-dot"></span> Digitale Patientenaufnahme</span>
+    </header>
+
+    <div class="workspace">
+      <aside class="intro">
+        <div class="intro-top">
+          <span class="eyebrow"><span class="sparkle">✦</span> HERZLICH WILLKOMMEN</span>
+          <h1>Weniger Papier.<br><em>Mehr Zeit für Sie.</em></h1>
+          <p>Ihr erster Schritt bei uns. Erfassen Sie Ihre Angaben bequem, sicher und in Ihrem Tempo.</p>
+        </div>
+        <div class="intro-illustration" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="visual-card behind-card"><span class="visual-bullet"></span><span class="ghost-line medium"></span><span class="ghost-line small"></span></div>
+          <div class="visual-card front-card"><span class="mini-cross">✚</span><span class="ghost-line"></span><span class="ghost-line medium"></span><span class="visual-tick">✓</span></div>
+          <div class="floating-plus">+</div>
+        </div>
+        <div class="intro-bottom"><div class="care-icon">✳</div><div><b>Gut zu wissen</b><span>Das Ausfüllen dauert ca. 5–8 Minuten. Pflichtfelder sind mit * markiert.</span></div></div>
+      </aside>
+
+      <main class="form-panel" id="formPanel">
+        <div class="progress-head">
+          <div><span class="kicker">PATIENTENAUFNAHME</span><div class="step-heading" id="step-heading">Persönliche Daten</div></div>
+          <div class="step-counter"><span id="step-count">01</span><span class="step-divider"> / </span>05</div>
+        </div>
+        <div class="progress-track" role="progressbar" id="progress" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
+        <div class="step-tags" id="step-tags" aria-label="Schritte"></div>
+
+        <form id="intakeForm" novalidate autocomplete="on">
+          <div class="step active" data-step="0" aria-labelledby="title-1">
+            <div class="section-heading"><span class="section-index">01 / KONTAKT</span><h2 id="title-1">Schön, dass Sie da sind.</h2><p>Beginnen wir mit Ihren persönlichen Angaben.</p></div>
+            <div class="fields two">
+              <label class="field">Vorname <span>*</span><input name="firstName" autocomplete="given-name" maxlength="80" required placeholder="Ihr Vorname"></label>
+              <label class="field">Nachname <span>*</span><input name="lastName" autocomplete="family-name" maxlength="80" required placeholder="Ihr Nachname"></label>
+              <label class="field">Geburtsdatum <span>*</span><input name="birthDate" type="date" autocomplete="bday" required></label>
+              <label class="field">Mobilnummer <span>*</span><input name="mobile" type="tel" autocomplete="tel" maxlength="30" required placeholder="+49 ..."></label>
+              <label class="field">Telefon <span class="optional">optional</span><input name="phone" type="tel" maxlength="30" placeholder="Festnetznummer"></label>
+              <label class="field">E-Mail <span class="optional">optional</span><input name="email" type="email" autocomplete="email" maxlength="150" placeholder="name@beispiel.de"></label>
+            </div>
+            <div class="inline-divider"><span>ANSCHRIFT</span></div>
+            <div class="fields two">
+              <label class="field full">Straße und Hausnummer <span>*</span><input name="street" autocomplete="street-address" maxlength="160" required placeholder="Musterstraße 12"></label>
+              <label class="field">Postleitzahl <span>*</span><input name="postalCode" autocomplete="postal-code" inputmode="numeric" maxlength="12" required placeholder="60313"></label>
+              <label class="field">Ort <span>*</span><input name="city" autocomplete="address-level2" maxlength="90" required placeholder="Frankfurt am Main"></label>
+              <label class="field">Krankenkasse / Kostenträger <span>*</span><input name="insurance" maxlength="120" required placeholder="Name Ihrer Versicherung"></label>
+              <label class="field">Versicherungsnummer <span class="optional">optional</span><input name="insuranceNumber" maxlength="40" placeholder="Falls vorhanden"></label>
+            </div>
+            <div class="disclosure" id="guardianBox">
+              <div class="disclosure-head"><div><b>Gesetzliche Vertretung</b><p>Nur wenn Sie unter 18 Jahre alt sind.</p></div><span id="guardianRequiredLabel">Optional</span></div>
+              <div class="fields two">
+                <label class="field">Vorname Vertreter/in<input name="guardianFirstName" maxlength="80" placeholder="Vorname"></label>
+                <label class="field">Nachname Vertreter/in<input name="guardianLastName" maxlength="80" placeholder="Nachname"></label>
+                <label class="field">Geburtsdatum Vertreter/in<input name="guardianBirthDate" type="date"></label>
+                <label class="field">Verhältnis<select name="guardianRelation"><option value="">Bitte wählen</option><option>Mutter</option><option>Vater</option><option>Sonstige</option></select></label>
+                <label class="field full">Anschrift der Vertretung <span class="optional">falls abweichend</span><input name="guardianAddress" maxlength="180" placeholder="Straße, PLZ, Ort"></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="step" data-step="1" hidden aria-labelledby="title-2">
+            <div class="section-heading"><span class="section-index">02 / GESUNDHEIT</span><h2 id="title-2">Ihre Gesundheit zählt.</h2><p>Diese Angaben helfen uns, Ihre Behandlung optimal vorzubereiten.</p></div>
+            <div class="fields two">
+              <label class="field">Hausarzt / Hausärztin <span class="optional">optional</span><input name="familyDoctor" maxlength="130" placeholder="Name oder Praxis"></label>
+              <label class="field">Beruf <span class="optional">optional</span><input name="occupation" maxlength="110" placeholder="Ihre Tätigkeit"></label>
+              <label class="field">Größe (cm) <span class="optional">optional</span><input type="number" name="heightCm" min="50" max="250" step="0.1" inputmode="decimal" placeholder="175"></label>
+              <label class="field">Gewicht (kg) <span class="optional">optional</span><input type="number" name="weightKg" min="10" max="400" step="0.1" inputmode="decimal" placeholder="70"></label>
+            </div>
+            <fieldset class="question"><legend>Betreiben Sie Sport?</legend><div class="choice-row"><label class="choice"><input type="radio" name="sports" value="ja"><span>Ja</span></label><label class="choice"><input type="radio" name="sports" value="nein"><span>Nein</span></label></div><label class="field followup hidden" data-show="sports:ja">Welche Sportarten?<input name="sportsDetails" maxlength="240" placeholder="Zum Beispiel Schwimmen"></label></fieldset>
+            <fieldset class="question"><legend>Nehmen Sie regelmäßig Medikamente ein?</legend><div class="choice-row"><label class="choice"><input type="radio" name="medications" value="ja"><span>Ja</span></label><label class="choice"><input type="radio" name="medications" value="nein"><span>Nein</span></label></div><label class="field followup hidden" data-show="medications:ja">Welche Medikamente?<textarea name="medicationDetails" rows="2" maxlength="1500" placeholder="Name, Dosierung – soweit bekannt"></textarea></label></fieldset>
+            <fieldset class="question"><legend>Sind Vorerkrankungen bekannt?</legend><p class="question-hint">Mehrfachauswahl möglich.</p>
+              <div class="condition-grid">
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Bluthochdruck"><span>Bluthochdruck</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Niedriger Blutdruck"><span>Niedriger Blutdruck</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Herzerkrankungen"><span>Herzerkrankungen</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Gefäßerkrankungen"><span>Gefäßerkrankungen</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Nierenerkrankungen"><span>Nierenerkrankungen</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Lungenerkrankungen"><span>Lungenerkrankungen</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Bauchspeicheldrüse"><span>Bauchspeicheldrüse</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Diabetes"><span>Diabetes</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Gicht"><span>Gicht</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Blutungsneigung"><span>Blutungsneigung</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Lebererkrankungen"><span>Lebererkrankungen</span></label>
+                <label class="check-tile"><input type="checkbox" name="conditions" value="Thrombose"><span>Zustand nach Thrombose</span></label>
+              </div>
+              <label class="field followup">Ergänzungen <span class="optional">optional</span><textarea name="conditionDetails" rows="2" maxlength="1500" placeholder="Weitere Erkrankungen oder ergänzende Angaben"></textarea></label>
+            </fieldset>
+            <fieldset class="question"><legend>Haben Sie Allergien oder Medikamentenunverträglichkeiten?</legend><div class="choice-row"><label class="choice"><input type="radio" name="allergies" value="ja"><span>Ja</span></label><label class="choice"><input type="radio" name="allergies" value="nein"><span>Nein</span></label></div><label class="field followup hidden" data-show="allergies:ja">Welche?<textarea name="allergyDetails" rows="2" maxlength="1500" placeholder="Bitte beschreiben"></textarea></label></fieldset>
+            <fieldset class="question"><legend>Wurden Sie bereits operiert?</legend><div class="choice-row"><label class="choice"><input type="radio" name="operations" value="ja"><span>Ja</span></label><label class="choice"><input type="radio" name="operations" value="nein"><span>Nein</span></label></div><label class="field followup hidden" data-show="operations:ja">Welche Operationen und wann?<textarea name="operationDetails" rows="2" maxlength="1500" placeholder="Art der Operation, Jahr"></textarea></label></fieldset>
+            <fieldset class="question"><legend>Rauchen Sie?</legend><div class="choice-row"><label class="choice"><input type="radio" name="smoking" value="ja"><span>Ja</span></label><label class="choice"><input type="radio" name="smoking" value="nein"><span>Nein</span></label></div><label class="field followup hidden" data-show="smoking:ja">Zigaretten pro Tag<input name="cigarettesPerDay" type="number" min="0" max="150" inputmode="numeric" placeholder="Anzahl"></label></fieldset>
+          </div>
+
+          <div class="step" data-step="2" hidden aria-labelledby="title-3">
+            <div class="section-heading"><span class="section-index">03 / DATENSCHUTZ</span><h2 id="title-3">Transparent und verständlich.</h2><p>Wir erklären Ihnen, wie Ihre Angaben verwendet werden.</p></div>
+            <div class="info-box"><span class="info-icon">i</span><div><b>Verarbeitung Ihrer Gesundheitsdaten</b><p>Die Angaben dienen der Patientenaufnahme und Behandlung. Informationen zu Verantwortlichkeit, Empfängern, Aufbewahrung und Ihren Rechten erhalten Sie in den Datenschutzhinweisen der Praxis.</p><button class="text-link" type="button" data-dialog="privacy">Datenschutzhinweise lesen <span aria-hidden="true">↗</span></button></div></div>
+            <div class="consent-panel"><div class="consent-top"><div class="consent-symbol">↗</div><div><h3>Externe Honorarabrechnung</h3><p>Ärztliche Verrechnungsstelle Büdingen GmbH</p></div><span class="optional-pill">FREIWILLIG</span></div>
+              <p>Mit Ihrer Zustimmung darf die Praxis die für eine externe Rechnungsstellung und Forderungsabwicklung erforderlichen Patientendaten an Büdingen weitergeben. Dafür entbinden Sie die behandelnden Ärztinnen und Ärzte insoweit von der Schweigepflicht.</p>
+              <button class="text-link" type="button" data-dialog="billing">Vollständige Patienteninformation anzeigen <span aria-hidden="true">↗</span></button>
+              <label class="big-check"><input name="externalBillingConsent" type="checkbox"><span><b>Ich willige in die externe Abrechnung ein.</b><small>Freiwillig und mit Wirkung für die Zukunft widerrufbar. Meine Behandlung ist davon unabhängig.</small></span></label>
+            </div>
+            <label class="big-check muted-check"><input name="informationConsent" type="checkbox"><span><b>Ich möchte über ergänzende Gesundheitsleistungen informiert werden.</b><small>Freiwillig – ohne Auswahl erhalten Sie keine entsprechenden Informationen auf Basis dieser Einwilligung.</small></span></label>
+            <label class="field found-field">Wie sind Sie auf unsere Praxis aufmerksam geworden? <span class="optional">optional</span><select name="discovery"><option value="">Bitte auswählen</option><option>Empfehlung</option><option>Google / Internet</option><option>Social Media</option><option>Arztüberweisung</option><option>Sonstiges</option></select></label>
+          </div>
+
+          <div class="step" data-step="3" hidden aria-labelledby="title-4">
+            <div class="section-heading"><span class="section-index">04 / INFORMATION</span><h2 id="title-4">Alles auf einen Blick.</h2><p>Wichtige Unterlagen für Ihren Besuch – ganz ohne Papier.</p></div>
+            <div class="resource-cards">
+              <article class="resource-card"><div class="resource-icon">€</div><div class="resource-text"><span class="micro">INFORMATION</span><h3>Individuelle Gesundheitsleistungen (IGeL)</h3><p>Preise zu Stoßwellentherapie, PRP, Hyaluron und weiteren Leistungen. Keine Buchung oder Zahlung durch das Öffnen.</p><button class="outline-action" type="button" data-dialog="igel">Preisliste ansehen <span aria-hidden="true">↗</span></button></div></article>
+              <article class="resource-card"><div class="resource-icon">✳</div><div class="resource-text"><span class="micro">NACHBEHANDLUNG</span><h3>SLAP – Nachbehandlungsplan</h3><p>Hinweise für die Rehabilitation nach einer SLAP-Behandlung, nach Wochen gegliedert. Nur relevant, falls ärztlich für Sie vorgesehen.</p><button class="outline-action" type="button" data-dialog="slap">Behandlungsplan ansehen <span aria-hidden="true">↗</span></button></div></article>
+            </div>
+            <div class="soft-note"><span>✦</span><p>Diese Dokumente dienen Ihrer Information. Zusätzliche kostenpflichtige Leistungen werden nicht automatisch ausgewählt oder beauftragt.</p></div>
+          </div>
+
+          <div class="step" data-step="4" hidden aria-labelledby="title-5">
+            <div class="section-heading"><span class="section-index">05 / ABSCHLUSS</span><h2 id="title-5">Fast geschafft.</h2><p>Bitte prüfen Sie Ihre Angaben und unterschreiben Sie.</p></div>
+            <div id="review" class="review-stack"></div>
+            <div class="signature-block">
+              <div class="signature-heading"><div><h3>Ihre Unterschrift <span>*</span></h3><p>Unterschreiben Sie mit Finger, Maus oder Stift im Feld.</p></div><button type="button" class="text-link" id="clearSignature">Löschen</button></div>
+              <div class="signature-canvas-wrap"><canvas id="signature" aria-label="Unterschriftsfeld" width="800" height="260"></canvas><span class="signature-placeholder" id="signaturePlaceholder">Hier unterschreiben</span><span class="signature-line"></span></div>
+            </div>
+            <label class="big-check required-check"><input name="accuracyConfirm" type="checkbox" required><span><b>Ich bestätige die Richtigkeit meiner Angaben und habe die Patienteninformationen zur Kenntnis genommen. <em>*</em></b><small>Eine optionale Einwilligung in die externe Abrechnung bleibt davon getrennt.</small></span></label>
+            <label class="field honeypot" aria-hidden="true">Bitte dieses Feld frei lassen<input name="website" tabindex="-1" autocomplete="off"></label>
+            <div class="error-box" id="formError" role="alert" hidden></div>
+          </div>
+          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button" hidden><span aria-hidden="true">←</span> Zurück</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter <span aria-hidden="true">→</span></button><button type="submit" id="submitBtn" class="primary-button" hidden>Verbindlich absenden <span aria-hidden="true">→</span></button></div>
+        </form>
+        <div id="success" class="success-screen" hidden aria-live="polite"><span class="success-mark">✓</span><span class="section-index">ERFOLGREICH ÜBERMITTELT</span><h2>Vielen Dank!</h2><p>Ihre Angaben sind eingegangen. Bitte melden Sie sich wie gewohnt an der Anmeldung.</p><div class="reference-box">Ihre Vorgangsnummer <strong id="reference"></strong></div><button class="outline-action" id="newForm" type="button">Neue Aufnahme starten</button></div>
+        <footer class="panel-footer"><span>© Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend</span><span class="footer-lock">♧ <span>Vertraulich behandelt</span></span></footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="dialogTitle"><div class="dialog-inner"><div class="dialog-top"><div><span class="section-index" id="dialogEyebrow">INFORMATION</span><h2 id="dialogTitle"></h2></div><button type="button" id="closeDialog" aria-label="Schließen" class="close-dialog">×</button></div><div id="dialogContent" class="dialog-content"></div><div class="dialog-bottom"><button type="button" id="doneDialog" class="primary-button">Verstanden <span aria-hidden="true">✓</span></button></div></div></dialog>
+</body>
+</html>
