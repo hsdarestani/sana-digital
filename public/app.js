@@ -45,7 +45,7 @@
       const radio = form.querySelector('input[name="'+bits[0]+'"]:checked');
       const visible = !!radio && radio.value===bits[1];
       el.classList.toggle('hidden',!visible);
-      if (!visible) el.querySelectorAll('input,textarea,select').forEach(input=>{input.required=false;});
+      el.querySelectorAll('input,textarea,select').forEach(input=>{input.required=visible;if(!visible){input.value='';input.removeAttribute('aria-invalid');}});
     });
   }
   function moveTo(step){
@@ -200,7 +200,7 @@
       document.getElementById('success').hidden=false;
       document.getElementById('success').scrollIntoView({block:'center',behavior:'smooth'});
     }catch(error){fail(error.message||'Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.');}
-    finally{sending=false;submitBtn.disabled=!intakeEnabled;submitBtn.innerHTML='Verbindlich absenden <span aria-hidden="true">→</span>';}
+    finally{sending=false;submitBtn.disabled=!intakeEnabled;submitBtn.innerHTML='Angaben sicher senden <span aria-hidden="true">→</span>';}
   });
   document.getElementById('newForm').addEventListener('click',()=>window.location.reload());
   window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
