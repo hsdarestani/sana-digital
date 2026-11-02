@@ -23,6 +23,7 @@ This repository alone does NOT create Cloudflare resources or grant approval for
 If the Pages project and D1 resource already exist, **do not recreate either**:
 
 1. Verify Pages project → Settings → Bindings → Production D1 binding name is exactly `DB`, with the selected existing database. After changing it, **redeploy**.
+   **Sensitive health data:** confirm the existing database has EU jurisdiction (`eu`). Cloudflare documents that jurisdiction can only be set at D1 creation time, not retrofitted later. A simple western-Europe location hint is not the same as an EU jurisdiction guarantee. If jurisdiction is wrong, create a correctly located replacement **before** any patient submissions and bind that instead.
 2. Open the existing D1 database in Cloudflare Dashboard → Console, and apply the statements in [migrations/0001_init.sql](migrations/0001_init.sql) to that database. Creating a D1 resource or binding does not create the `intakes` table.
 3. In Pages → Settings → Variables and Secrets (Production), add `DATA_ENCRYPTION_KEY` as a **secret**, 32 random bytes in base64. Never share it in chat or push it to Git.
 4. Before enabling real submissions, have the controller/DPO approve consent wording, privacy notice, retention and access policies. The current privacy dialog is only a short placeholder, so keep preview enabled until approved.
