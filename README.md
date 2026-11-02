@@ -2,6 +2,14 @@
 
 Responsive German-language patient intake for **Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend**, designed for Cloudflare Pages and Cloudflare D1.
 
+## SANA NEXT (November 3, 2026): presentation and working concept demos
+
+- `/vision/`: two clearly explained options suitable for iPad presentations: an **A+ Solution staffed telephone hotline** and the **existing digital patient intake**. The previously confusing capacity and command-center concepts are not presented as standalone products.
+- `/vision/hotline/`: employee call intake form with first/last name, birth date, phone number, call reason, notes, prescription, physician callback, document request, delivery preference (email, fax, WhatsApp, post), appointment-routing *options*, and a local demonstration PIN.
+- Hotline provides a live on-screen summary and a downloadable branded A4 PDF. No database writes, SMS sending, WhatsApp/fax/email sending, calendar access, prescription processing, or patient verification are connected. Do not enter real health data into the demo.
+- `/`: the original five-step patient intake remains intact, with clearer navigation, larger touch controls, and **PDF-Zusammenfassung herunterladen** at its final step after all required fields and signature have been provided. PDF is composed locally in the browser using `/pdf-summary.js`; it is not evidence that any intake was submitted. A fictional PDF sample is available directly from `/vision/`.
+- **Not production ready:** the practice must approve data handling, actual identity verification, secure communication channels, permissions, telephone staffing, Doctolib integration (if needed), the official medical document design, and end-to-end device testing before handling real patients. Cloudflare intake activation remains separate.
+
 ## Included
 - Five accessible, mobile-first steps: personal/insurance/contact, medical history, privacy/optional billing consent, optional independent IGeL decision helper, review + touch signature.
 - IGeL patient education is voluntary, with no price list, booking, purchase or clinical rehabilitation protocol included.
