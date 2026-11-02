@@ -36,7 +36,7 @@ function intro(){
    <button class="primary next-start" data-action="guided">Präsentation starten</button>
   </div>
   <div class="next-console" aria-label="Drei interaktive Beispiele der zukünftigen Praxis">
-   <div class="console-top"><div class="console-brand"><span class="console-symbol">S</span><span>SANA <b>NEXT</b></span></div><span class="console-demo"><i></i> KONZEPTDEMO</span></div>
+   <div class="console-top"><div class="console-brand"><span class="console-symbol">S</span><span>SANA <b>NEXT</b></span></div><span class="console-demo"><i></i> INTERAKTIVE VORSCHAU</span></div>
    <div class="console-head"><span>PRAXISÜBERSICHT</span><strong>Was möchten Sie verbessern?</strong></div>
    <div class="console-paths">
     ${topics.map(topic=>`<button class="console-path" data-scene="${topic.id}" aria-label="${topic.title} öffnen">
@@ -45,7 +45,7 @@ function intro(){
       <span class="path-side"><span class="path-visual path-${topic.type}" aria-hidden="true"><i></i><i></i><i></i></span><small>${topic.status}</small></span>
     </button>`).join('')}
    </div>
-   <div class="console-bottom"><span><i class="console-online"></i> 3 LIVE-BEISPIELE</span><span>ANTIPPEN & ENTDECKEN</span></div>
+   <div class="console-bottom"><span><i class="console-online"></i> 3 INTERAKTIVE BEISPIELE</span><span>ANTIPPEN & ENTDECKEN</span></div>
   </div>
  </div>
  <div class="next-more"><div class="next-more-copy"><strong>Die gesamte Praxis im Blick.</strong><span>Auch Organisation und Zukunftskonzept entdecken.</span></div><div class="next-more-actions"><button data-scene="3">Praxisübersicht</button><button data-scene="4">SANA 2028</button></div></div>
@@ -89,7 +89,7 @@ function calls(){
 function scheduling(){
  const numbers=capacity(shift),total=numbers.reduce((sum,v)=>sum+v,0);
  return header(1,'Eine Praxis.<br><em>Den Überblick behalten.</em>','Wo ist das Team ausgelastet, wo gibt es Kapazität?')
- +`<div class="scene-grid"><div class="panel"><div class="panel-label">AUSLASTUNGSÜBERSICHT <span class="pill">Fiktive Zahlen</span></div><div class="segmented capacity-choices"><button data-shift="morning" class="${shift==='morning'?'active':''}">Vormittag</button><button data-shift="afternoon" class="${shift==='afternoon'?'active':''}">Nachmittag</button></div><div class="capacity-doctors">${doctors.map((d,i)=>`<div class="capacity-item"><div class="doctor-summary"><span class="avatar">${d.initials}</span><div class="doctor-name">${d.name}<small>${d.field}</small></div><span class="capacity-value">${numbers[i]}/6</span></div><div class="capacity-track"><span style="width:${Math.round(numbers[i]/6*100)}%"></span></div></div>`).join('')}</div></div><div class="panel"><div class="panel-label">INTERAKTIVE BETRACHTUNG</div><div class="utilization-number">${total}<small> von 18 Beispiel-Zeitfenstern</small></div><div class="utilization-track"><span style="width:${Math.round(total/18*100)}%"></span></div><div class="match"><span class="pill">MÖGLICHE FRAGE AN DAS TEAM</span><h3>Wo entstehen Engpässe?</h3><p>Kapazitäten erkennen und Maßnahmen im Team entscheiden.</p></div><details class="demo-fineprint"><summary>Zur Simulation</summary><p>Fiktive Zahlen und Arztprofile. Keine echten Kalender, Reservierungen oder automatische Arztzuweisung. Doctolib bleibt bestehen.</p></details></div></div>`
+ +`<div class="scene-grid"><div class="panel"><div class="panel-label">AUSLASTUNGSÜBERSICHT <span class="pill">Fiktive Zahlen</span></div><div class="segmented capacity-choices"><button data-shift="morning" class="${shift==='morning'?'active':''}">Vormittag</button><button data-shift="afternoon" class="${shift==='afternoon'?'active':''}">Nachmittag</button></div><div class="capacity-doctors">${doctors.map((d,i)=>`<div class="capacity-item"><div class="doctor-summary"><span class="avatar">${d.initials}</span><div class="doctor-name">${d.name}<small>${d.field}</small></div><span class="capacity-value">${numbers[i]}/6</span></div><div class="capacity-track"><span style="width:${Math.round(numbers[i]/6*100)}%"></span></div></div>`).join('')}</div></div><div class="panel"><div class="panel-label">INTERAKTIVE BETRACHTUNG</div><div class="utilization-number">${total}<small> von 18 Beispiel-Zeitfenstern</small></div><div class="utilization-track"><span style="width:${Math.round(total/18*100)}%"></span></div><div class="match"><span class="pill">MÖGLICHE FRAGE AN DAS TEAM</span><h3>Wo entstehen Engpässe?</h3><p>Kapazität sehen. Organisatorische Schritte gemeinsam entscheiden.</p></div><details class="demo-fineprint"><summary>Zur Simulation</summary><p>Fiktive Zahlen und Arztprofile. Keine echten Kalender, Reservierungen oder automatische Arztzuweisung. Doctolib bleibt bestehen.</p></details></div></div>`
  +controls('Vergleichen Sie die beiden Tageshälften. Die Zahlen dienen allein zur Veranschaulichung.','Weniger Papier erleben');
 }
 function paper(){return header(2,'Einmal erfassen.<br><em>Besser vorbereitet.</em>','Patientendaten einmal eingeben und intern prüfen.')
