@@ -43,6 +43,7 @@
         </div>
         <div class="progress-track" role="progressbar" id="progress" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
         <div class="step-tags" id="step-tags" aria-label="Schritte"></div>
+        <div class="preview-notice" id="previewNotice" role="status"><b>VORSCHAU</b> Das Formular ist noch nicht für echte Patientendaten freigegeben.</div>
 
         <form id="intakeForm" novalidate autocomplete="on">
           <div class="step active" data-step="0" aria-labelledby="title-1">
@@ -140,7 +141,7 @@
             <label class="field honeypot" aria-hidden="true">Bitte dieses Feld frei lassen<input name="website" tabindex="-1" autocomplete="off"></label>
             <div class="error-box" id="formError" role="alert" hidden></div>
           </div>
-          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button" hidden><span aria-hidden="true">←</span> Zurück</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter <span aria-hidden="true">→</span></button><button type="submit" id="submitBtn" class="primary-button" hidden>Verbindlich absenden <span aria-hidden="true">→</span></button></div>
+          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button" hidden><span aria-hidden="true">←</span> Zurück</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter <span aria-hidden="true">→</span></button><button type="submit" id="submitBtn" class="primary-button" hidden disabled>Verbindlich absenden <span aria-hidden="true">→</span></button></div>
         </form>
         <div id="success" class="success-screen" hidden aria-live="polite"><span class="success-mark">✓</span><span class="section-index">ERFOLGREICH ÜBERMITTELT</span><h2>Vielen Dank!</h2><p>Ihre Angaben sind eingegangen. Bitte melden Sie sich wie gewohnt an der Anmeldung.</p><div class="reference-box">Ihre Vorgangsnummer <strong id="reference"></strong></div><button class="outline-action" id="newForm" type="button">Neue Aufnahme starten</button></div>
         <footer class="panel-footer"><span>© Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend</span><span class="footer-lock">♧ <span>Vertraulich behandelt</span></span></footer>
