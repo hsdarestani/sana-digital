@@ -7,6 +7,7 @@
   const nextBtn = document.getElementById('nextBtn');
   const backBtn = document.getElementById('backBtn');
   const submitBtn = document.getElementById('submitBtn');
+  const downloadPdfBtn = document.getElementById('downloadPdf');
   const formError = document.getElementById('formError');
   const dialog = document.getElementById('detailDialog');
   const canvas = document.getElementById('signature');
@@ -59,6 +60,7 @@
     backBtn.hidden=step===0;
     nextBtn.hidden=step===steps.length-1;
     submitBtn.hidden=step!==steps.length-1;
+    downloadPdfBtn.hidden=step!==steps.length-1;
     formError.hidden=true;
     if(step===4) renderReview();
     const panel=document.getElementById('formPanel');
@@ -67,7 +69,7 @@
   function fail(message){formError.textContent=message;formError.hidden=false;formError.scrollIntoView({behavior:'smooth',block:'center'});}
   function validateStep(i){
     minorRequirements();
-    const visibleInputs=Array.from(steps[i].querySelectorAll('input,textarea,select')).filter(el=>!el.closest('.hidden') && !el.closest('[hidden]') && el.name!=='website');
+    const visibleInputs=Array.from(steps[i].querySelectorAll('input,textarea,select')).filter(el=>!el.closest('.hidden') && (!el.closest('[hidden]') || el.closest('[hidden]')===steps[i]) && el.name!=='website');
     for(const input of visibleInputs){
       input.removeAttribute('aria-invalid');
       if(!input.checkValidity()){
@@ -157,6 +159,26 @@
     data.website=value('website');
     return data;
   }
+  downloadPdfBtn.addEventListener('click',()=>{
+    if(sending)return;
+    for(let i=0;i<steps.length;i++){
+      if(!validateStep(i)){moveTo(i);fail('Bitte vervollständigen Sie zuerst die Pflichtfelder.');return;}
+    }
+    if(!signed){fail('Bitte unterschreiben Sie zuerst im Unterschriftsfeld.');return;}
+    if(!form.elements.accuracyConfirm.checked){fail('Bitte bestätigen Sie Ihre Angaben.');return;}
+    try{
+      const first=value('firstName'),last=value('lastName');
+      const name=[first,last].filter(Boolean).join('_').replace(/[^a-z0-9äöüÄÖÜß_-]/gi,'_');
+      window.SanaPDF.download({
+        title:'Digitale Patientenaufnahme',
+        subtitle:intakeEnabled?'Zusammenfassung Ihrer eingegebenen Angaben':'MUSTER · Nur Vorschau · Nicht an die Praxis gesendet',
+        sections:window.SanaPDF.collect(form),
+        signature:canvas,
+        filename:'SANA_Patientenaufnahme_'+(name||'Muster')+'.pdf'
+      });
+      formError.hidden=true;
+    }catch(error){fail('Die PDF-Datei konnte nicht erstellt werden. Bitte versuchen Sie es erneut.');}
+  });
   form.addEventListener('submit',async ev=>{
     ev.preventDefault();
     if(sending)return;
@@ -176,7 +198,7 @@
       document.getElementById('success').hidden=false;
       document.getElementById('success').scrollIntoView({block:'center',behavior:'smooth'});
     }catch(error){fail(error.message||'Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.');}
-    finally{sending=false;submitBtn.disabled=!intakeEnabled;submitBtn.innerHTML='Angaben sicher senden <span aria-hidden="true">→</span>';}
+    finally{sending=false;submitBtn.disabled=!intakeEnabled;submitBtn.textContent='Angaben sicher senden';}
   });
   document.getElementById('newForm').addEventListener('click',()=>window.location.reload());
   window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
