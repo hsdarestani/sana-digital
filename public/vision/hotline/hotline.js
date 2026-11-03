@@ -8,11 +8,21 @@ let demoPin=null,verified=false,pinIdentity='',pinTime=0,exporting=false;
 const today=new Date();today.setMinutes(today.getMinutes()-today.getTimezoneOffset());form.elements.birthDate.max=today.toISOString().slice(0,10);
 document.getElementById('summaryDetails').open=matchMedia('(min-width:960px)').matches;
 const identity=()=>[value('firstName'),value('lastName'),value('birthDate'),value('phone')].join('|');
+function clearValidation(field){
+  const fields=field?[field]:Array.from(form.elements);
+  fields.forEach(el=>{el.removeAttribute('aria-invalid');const errorId='call-error-'+el.name;document.getElementById(errorId)?.remove();const descriptions=(el.getAttribute('aria-describedby')||'').split(' ').filter(id=>id&&id!==errorId);if(descriptions.length)el.setAttribute('aria-describedby',descriptions.join(' '));else el.removeAttribute('aria-describedby');});
+}
+function markInvalid(field){
+  clearValidation(field);field.setAttribute('aria-invalid','true');
+  const note=document.createElement('span');note.id='call-error-'+field.name;note.className='field-error';note.setAttribute('role','alert');
+  note.textContent=field.validity.valueMissing?'Bitte dieses Pflichtfeld ausfüllen.':'Bitte diese Angabe prüfen.';
+  field.insertAdjacentElement('afterend',note);field.setAttribute('aria-describedby',[field.getAttribute('aria-describedby'),note.id].filter(Boolean).join(' '));field.focus();
+}
 function resetPin(){demoPin=null;verified=false;pinIdentity='';pinTime=0;pinInput.value='';pinLabel.textContent='Noch kein Testcode';verifiedLabel.textContent='Nicht geprüft · Simulation';}
 function sync(){
   config.forEach(([name,id,children])=>{
     const active=yes(name);document.getElementById(id).hidden=!active;
-    children.forEach(key=>{form.elements[key].required=active;form.elements[key].disabled=!active;if(!active)form.elements[key].value='';});
+    children.forEach(key=>{form.elements[key].required=active;form.elements[key].disabled=!active;if(!active){form.elements[key].value='';clearValidation(form.elements[key]);}});
   });
   if(demoPin && identity()!==pinIdentity)resetPin();
   const rows=[['Patient',[value('firstName'),value('lastName')].filter(Boolean).join(' ')||'Noch nicht angegeben'],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))||'Noch nicht angegeben'],['Telefon',value('phone')||'Noch nicht angegeben'],['Anliegen',value('reason')||'Noch nicht ausgewählt']];
@@ -29,18 +39,18 @@ form.elements.reason.addEventListener('change',()=>{
   const relation={'Rezept':'needPrescription','Rückruf vom Arzt':'needCallback','Unterlagen':'needDocuments','Terminanfrage':'needAppointment'};
   const key=relation[value('reason')];if(key)form.elements[key].checked=true;sync();
 });
-function edited(event){event.target.removeAttribute('aria-invalid');resultRoot.hidden=true;sync();}
+function edited(event){clearValidation(event.target);resultRoot.hidden=true;sync();}
 form.addEventListener('input',edited);form.addEventListener('change',edited);
 document.getElementById('fillDemo').addEventListener('click',()=>{
-  form.reset();resetPin();sync();
+  form.reset();clearValidation();resetPin();sync();
   const example={firstName:'Julia',lastName:'Müller',birthDate:'1972-09-18',phone:'+49 170 0000000',reason:'Mehrere Anliegen',prescription:'Folgerezept für das bereits verordnete Medikament; ärztliche Prüfung erforderlich.',notes:'Fiktives Gespräch: Die Patientin bittet um Rückruf zum Befund. Rückruf möglichst am Nachmittag. Keine medizinische Auskunft erteilt.',callbackDoctor:'Dr. Wickler',documents:'Befundbericht der letzten Untersuchung',delivery:'E-Mail',deliveryAddress:'julia.mueller@example.invalid',appointmentMode:'Terminanfrage für das Praxisteam aufnehmen'};
   config.forEach(([name])=>form.elements[name].checked=true);sync();
   for(const [k,v]of Object.entries(example))form.elements[k].value=v;
   resultRoot.hidden=true;feedback.textContent='Fiktives Beispiel geladen. Sie können alle Angaben ändern und die PDF erstellen.';sync();
 });
-document.getElementById('clearForm').addEventListener('click',()=>{form.reset();resetPin();form.querySelectorAll('[aria-invalid]').forEach(el=>el.removeAttribute('aria-invalid'));resultRoot.hidden=true;feedback.textContent='Formular geleert.';sync();form.elements.firstName.focus();});
+document.getElementById('clearForm').addEventListener('click',()=>{form.reset();clearValidation();resetPin();resultRoot.hidden=true;feedback.textContent='Formular geleert.';sync();form.elements.firstName.focus();});
 document.getElementById('sendDemoPin').addEventListener('click',()=>{
-  if(!form.elements.phone.checkValidity()){feedback.textContent='Bitte zuerst eine gültige Beispieltelefonnummer eintragen.';form.elements.phone.reportValidity();return;}
+  if(!form.elements.phone.checkValidity()){feedback.textContent='Bitte zuerst eine gültige Beispieltelefonnummer eintragen.';markInvalid(form.elements.phone);return;}
   const bytes=new Uint32Array(1);crypto.getRandomValues(bytes);demoPin=String(bytes[0]%1000000).padStart(6,'0');verified=false;pinIdentity=identity();pinTime=Date.now();pinInput.value='';
   pinLabel.textContent='Test-PIN: '+demoPin+' · 5 Minuten gültig';verifiedLabel.textContent='Testcode noch nicht bestätigt · Simulation';feedback.textContent='Keine SMS versendet. Nur lokale Testsimulation.';sync();
 });
@@ -51,7 +61,7 @@ document.getElementById('verifyDemoPin').addEventListener('click',()=>{
 form.addEventListener('submit',async event=>{
   event.preventDefault();if(exporting)return;feedback.textContent='';sync();
   const invalid=Array.from(form.elements).find(el=>el.willValidate&&!el.checkValidity());
-  if(invalid){invalid.setAttribute('aria-invalid','true');invalid.focus();invalid.reportValidity();feedback.textContent='Bitte ergänzen Sie das markierte Pflichtfeld.';return;}
+  if(invalid){markInvalid(invalid);feedback.textContent='Bitte ergänzen Sie das markierte Pflichtfeld.';return;}
   if(verified&&Date.now()-pinTime>=300000){resetPin();sync();}
   const parts=[{title:'Patient und Kontakt',rows:[['Vorname',value('firstName')],['Nachname',value('lastName')],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))],['Telefon',value('phone')],['Grund des Anrufes',value('reason')]]},{title:'Anliegen und Bearbeitung',rows:[
     ['Rezept benötigt',yes('needPrescription')?'Ja':'Nein'],['Welches Rezept',value('prescription')],['Arztrückruf gewünscht',yes('needCallback')?'Ja':'Nein'],['Gewünschter Arzt',value('callbackDoctor')],['Unterlagen benötigt',yes('needDocuments')?'Ja':'Nein'],['Welche Unterlagen',value('documents')],['Versandweg (Simulation)',value('delivery')],['Kontaktadresse / Empfänger',value('deliveryAddress')],['Termin gewünscht',yes('needAppointment')?'Ja':'Nein'],['Terminorganisation (Simulation)',value('appointmentMode')],['Notizen',value('notes')]

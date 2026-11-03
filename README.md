@@ -116,3 +116,18 @@ The optional decision helper in Step 4 is a condensed, clearly attributed adapta
 - Offers **nine optional browser-only questions** before deciding; the source's tenth question applies **after** treatment and is displayed as advice only.
 - No checklist responses are transmitted, retained, or included in D1. No medical advice, service selection or payment is generated.
 - **The PDF is historical (2012/2014)**; its legal or medical statements have NOT been revalidated for current practice and need clinical/legal review before real-patient use. IGeL pricing and the SLAP rehabilitation sheet have been deliberately excluded from the patient application.
+
+## Digitaler Sichtbarkeits-Check (03.11.2026)
+
+The separate German presentation at [`/vision/sichtbarkeit/`](https://sana-digital.pages.dev/vision/sichtbarkeit/) is linked from SANA NEXT. Seven chapters cover public Google observations, three local competitors, concrete website findings, an explicitly labelled design concept and a 30/60/90-day roadmap. The optional guided tour advances every eleven seconds and pauses on interaction or when the tab becomes hidden.
+
+- [Readable evidence report](https://sana-digital.pages.dev/vision/sichtbarkeit/belege.html), with dated methods and limitations for every record.
+- [Tracked German source report](docs/sichtbarkeit/Quellenbericht_DE.md), also downloadable as Markdown from the presentation.
+- Raw public Google lists: `public/vision/sichtbarkeit/google-stichprobe.json`; five-page HTTP/HTML sample: `website-pruefung.json`.
+- The Google snapshots use `hl=de`, `gl=de`, `pws=0`, with an unknown precise location. They are **not** Frankfurt-pinned or durable rankings. Positive doctor/directory appearances remain in the report.
+- There is no authorized Search Console, Analytics or Business Profile performance dataset; no verified search volumes, traffic, conversions, patient/revenue estimates or usable Core Web Vitals scores are asserted.
+- Website images are documented renders of original public resources, checked against the live browser. The concept does not modify the official practice website. Google screenshot export was unavailable and is not represented as an archived image.
+
+The new section performs public, same-origin GET requests only. It introduces no analytics, storage, patient collection or operational integrations. Backend, encryption, activation gates, admin authorization, intake fields and PDF generation are preserved. A Safari validation issue in the hotline demo is corrected with accessible inline guidance instead of native validation bubbles.
+
+Validation: `npm run check`, `npm test`, `npm run test:journeys`. Browser coverage includes desktop and Android Chromium, iPad WebKit in both orientations and iPhone WebKit. These are device emulations, not physical Apple-device testing. See [German handover](docs/sichtbarkeit/Aenderungsbericht_DE.md).

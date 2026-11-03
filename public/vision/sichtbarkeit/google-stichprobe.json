@@ -1,0 +1,286 @@
+{
+  "title": "Öffentliche Google-Prüfung – Sana MVZ Frankfurt-Westend",
+  "version": 1,
+  "measurementDate": "2026-11-03",
+  "timezone": "UTC",
+  "entity": {
+    "name": "Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend",
+    "address": "Holzhausenstraße 81, 60322 Frankfurt am Main",
+    "officialWebsite": "https://www.ortho-frankfurt.de/",
+    "phone": "+49 69 87002730"
+  },
+  "methodology": {
+    "sourceType": "Direktbeobachtung der öffentlichen Google-Oberfläche in Chrome (Cloud-Browser)",
+    "googleSearchParameters": {
+      "hl": "de",
+      "gl": "de",
+      "pws": "0"
+    },
+    "visibleFooter": [
+      "Ergebnisse sind nicht personalisiert",
+      "Deutschland",
+      "Unbekannt – Standort kann nicht bestimmt werden"
+    ],
+    "preciseFrankfurtLocationPinned": false,
+    "locationPermissionRequestedOrGranted": false,
+    "sessionNote": "Vorhandene Browser-Sitzung; keine Anmeldung oder Änderung von Konto-/Standorteinstellungen. Google bezeichnete die Ergebnisse in der Fußzeile als nicht personalisiert.",
+    "organicCountingRule": "Nur einzelne reguläre Webergebnis-Blöcke auf der ersten Ergebnisseite gezählt. Anzeigen, KI-Übersicht, Karten, Local Pack, Knowledge Panels, Weitere Websites, Sitelinks, Fragen und ähnliche Suchanfragen ausgeschlossen.",
+    "caveats": [
+      "Einzelne zeitpunktbezogene Stichprobe, keine allgemeingültige oder standortgenaue Rankingmessung.",
+      "Suchergebnisse können sich mit Zeitpunkt, Standort, Gerät und Google-Ausspielung ändern.",
+      "Die Aussage zur fehlenden Praxiswebsite bezieht sich ausschließlich auf ortho-frankfurt.de auf der beobachteten ersten Ergebnisseite.",
+      "Nicht mit fehlender Indexierung oder genereller Unsichtbarkeit gleichsetzen.",
+      "Ältere Gemeinschaftspraxis-Profile und einzelne Ärzte nicht mit dem neuen Sana-Profil zusammenführen.",
+      "Keine Klicks, Impressionen, CTR, Suchvolumina, Patienten- oder Umsatzverluste gemessen."
+    ]
+  },
+  "googleBusinessProfile": {
+    "id": "G01",
+    "observedAtUtc": "2026-11-03T08:47:48Z",
+    "displayName": "SANA MVZ Orthopädie und Chirurgie",
+    "displayAddress": "Holzhausenstraße 81, 60322 Innenstadt I, Germany",
+    "displayPhone": "+49 69 87002730",
+    "displayWebsite": "ortho-frankfurt.de",
+    "websiteTarget": "https://www.ortho-frankfurt.de/kontakt/",
+    "rating": 5,
+    "ratingMaximum": 5,
+    "reviewCount": 19,
+    "matchingBasis": [
+      "Praxisname",
+      "Holzhausenstraße 81",
+      "+49 69 87002730",
+      "ortho-frankfurt.de"
+    ],
+    "categoryObservation": "Im öffentlichen Überblick wurde keine Unternehmenskategorie angezeigt; unter 'Add missing information' bot Google 'Add category' an.",
+    "categoryConclusionLimit": "Dies ist eine Beobachtung der Oberfläche, kein Zugriff auf die hinterlegte Primär-/Sekundärkategorie im Profilmanagement.",
+    "ownershipStatus": "Nicht geprüft. Der sichtbare Link 'Claim this business' beweist keinen Inhaberschaftsstatus.",
+    "canonicalObservedUrl": "https://www.google.com/maps/place/SANA+MVZ+Orthop%C3%A4die+und+Chirurgie/@50.1264391,8.6730831,17z/data=!3m1!4b1!4m6!3m5!1s0x47bd0eb548455555:0xf0e728c97328ca12!8m2!3d50.1264391!4d8.6730831!16s%2Fg%2F11q46nq7cx?entry=ttu&g_ep=EgoyMDI2MTAyOC4wIKXMDSoASAFQAw%3D%3D",
+    "screenshotStatus": "Screenshot visuell aufgenommen und geprüft; Export aus Cloud-Browser konnte nicht in den Main-Workspace synchronisiert werden. Kein lokaler Screenshot-Link verfügbar.",
+    "googleFeatureIdObservedInUrl": "/g/11q46nq7cx"
+  },
+  "searches": [
+    {
+      "id": "G02",
+      "query": "Orthopäde Frankfurt Westend",
+      "observedBetweenUtc": [
+        "2026-11-03T08:48:00Z",
+        "2026-11-03T08:49:00Z"
+      ],
+      "url": "https://www.google.com/search?q=Orthop%C3%A4de+Frankfurt+Westend&hl=de&gl=de&pws=0",
+      "page": 1,
+      "organicResultCount": 7,
+      "ownPracticeDomainObserved": false,
+      "organicResults": [
+        {
+          "positionInObservedOrganicList": 1,
+          "title": "Orthopädie Frankfurt Westend – Dr. Dara Emanuel Frömel",
+          "url": "https://orthopaede-frankfurt-westend.de/"
+        },
+        {
+          "positionInObservedOrganicList": 2,
+          "title": "Dr. Albrecht-Schoeck und Dr. Sandberg – Orthopäde Westend",
+          "url": "https://www.orthopaede-westend.de/"
+        },
+        {
+          "positionInObservedOrganicList": 3,
+          "title": "Orthopädisches Centrum Prof. Rangger, Dr. Pfeifer & Dr. Latif …",
+          "url": "https://orthopaedie-frankfurt.de/"
+        },
+        {
+          "positionInObservedOrganicList": 4,
+          "title": "Orthopädie Frankfurt Westend – main medic all",
+          "url": "https://www.mainmedicall.de/leistungsspektrum/orthopaedie-frankfurt/"
+        },
+        {
+          "positionInObservedOrganicList": 5,
+          "title": "Praxis Orthopädie im Westend – Doctolib",
+          "url": "https://www.doctolib.de/praxis/frankfurt-am-main/praxis-fuer-orthopaedie-frankfurt-westend"
+        },
+        {
+          "positionInObservedOrganicList": 6,
+          "title": "Orthopädische Gemeinschaftspraxis in Frankfurt am Main – Orthinform",
+          "url": "https://orthinform.de/institutionen/mvz-sana-orthopaedie-chirurgie-frankfurt-westend-frankfurt-am-main",
+          "sanaConnection": "Snippet nennt MVZ Sana Orthopädie + Chirurgie Frankfurt-Westend, Holzhausenstr. 81, 069 87002730."
+        },
+        {
+          "positionInObservedOrganicList": 7,
+          "title": "Orthopädie im Westend – Dr. Frömel – Facebook",
+          "url": "https://www.facebook.com/drfroemel/?locale=de_DE"
+        }
+      ],
+      "localPack": [
+        {
+          "displayName": "Orthopädie Frankfurt Westend – Dr. med. univ. Dara Emanuel Frömel",
+          "address": "Lindenstraße 42",
+          "rating": 4.2,
+          "reviewCount": 190,
+          "displayedCategory": "Orthopäde"
+        },
+        {
+          "displayName": "Dr. Albrecht-Schoeck & Dr. Sandberg – Orthopädie & Unfallchirurgie im Westend",
+          "address": "Freiherr-vom-Stein-Straße 15",
+          "rating": 4.5,
+          "reviewCount": 23,
+          "displayedCategory": "Orthopäde"
+        },
+        {
+          "displayName": "Orthopädie in Med. Villa Westend",
+          "address": "Grüneburgweg 95",
+          "rating": null,
+          "reviewCount": null,
+          "displayedCategory": "Orthopäde"
+        }
+      ],
+      "additionalMapPinObservation": {
+        "displayName": "Orthopädisches Centrum Frankfurt Prof. Rangger, Dr. Pfeifer und Dr. Latif-Richter",
+        "rating": 4.8,
+        "reviewCount": 57,
+        "displayedCategory": "Orthopädische Klinik",
+        "limit": "Auf der Karte sichtbar, nicht in den drei angezeigten Local-Pack-Listenblöcken."
+      },
+      "interpretation": "Alle drei ausgewählten lokalen Wettbewerber hatten eigene Websites vor der ersten Sana-nennenden Drittanbieter-Seite. Die Praxisdomain ortho-frankfurt.de erschien auf der beobachteten Seite 1 nicht.",
+      "screenshotStatus": "Screenshot des Local Pack visuell geprüft; Export nicht zum Main-Workspace synchronisiert."
+    },
+    {
+      "id": "G03",
+      "query": "Kniespezialist Frankfurt",
+      "observedBetweenUtc": [
+        "2026-11-03T08:48:00Z",
+        "2026-11-03T08:50:00Z"
+      ],
+      "url": "https://www.google.com/search?q=Kniespezialist+Frankfurt&hl=de&gl=de&pws=0",
+      "page": 1,
+      "organicResultCount": 9,
+      "ownPracticeDomainObserved": false,
+      "organicResults": [
+        {
+          "positionInObservedOrganicList": 1,
+          "title": "SPORTHOLOGICUM® Kniezentrum Frankfurt | #noshortcuts",
+          "url": "https://www.sporthologicum.de/"
+        },
+        {
+          "positionInObservedOrganicList": 2,
+          "title": "Kniezentrum Frankfurt – Versorgungsgemeinschaft für akute …",
+          "url": "https://www.kniezentrum-frankfurt.de/"
+        },
+        {
+          "positionInObservedOrganicList": 3,
+          "title": "Kniechirurgie | BG Unfallklinik Frankfurt am Main",
+          "url": "https://www.bg-kliniken.de/unfallklinik-frankfurt/fachbereiche/detail/kniechirurgie/"
+        },
+        {
+          "positionInObservedOrganicList": 4,
+          "title": "Sportorthopäde Frankfurt | Facharztpraxis chirurgie maintaunus",
+          "url": "https://www.sportorthopaede-frankfurt.de/"
+        },
+        {
+          "positionInObservedOrganicList": 5,
+          "title": "Knie – ORTHOmedic Frankfurt Offenbach",
+          "url": "https://www.orthomedic-of.de/knie/"
+        },
+        {
+          "positionInObservedOrganicList": 6,
+          "title": "Kniechirurgie – Universitätsmedizin Frankfurt",
+          "url": "https://www.unimedizin-ffm.de/einrichtungen/kliniken/zentrum-der-chirurgie/klinik-fuer-unfallchirurgie-und-orthopaedie/behandlungsspektrum/kniechirurgie"
+        },
+        {
+          "positionInObservedOrganicList": 7,
+          "title": "Ihr Kniespezialist in Frankfurt am Main – Lumedis",
+          "url": "https://www.lumedis.de/knie.html"
+        },
+        {
+          "positionInObservedOrganicList": 8,
+          "title": "Orthopaedicum Frankfurt",
+          "url": "https://www.orthopaedicum-frankfurt.de/"
+        },
+        {
+          "positionInObservedOrganicList": 9,
+          "title": "Prof. Dr. med. Dr. rer. nat. Thomas Stein – SPORTHOLOGICUM",
+          "url": "https://www.sporthologicum.de/sporthologicum/stein"
+        }
+      ],
+      "screenshotStatus": "Screenshot-API lief in Timeout; kein lokales Bild vorhanden."
+    },
+    {
+      "id": "G04",
+      "query": "Schulterspezialist Frankfurt",
+      "observedAtUtc": "2026-11-03T08:50:46Z",
+      "url": "https://www.google.com/search?q=Schulterspezialist+Frankfurt&hl=de&gl=de&pws=0",
+      "page": 1,
+      "organicResultCount": 10,
+      "ownPracticeDomainObserved": false,
+      "organicResults": [
+        {
+          "positionInObservedOrganicList": 1,
+          "title": "Professor Dr. Aristotelis Kaisidis – Leading Medicine Guide",
+          "url": "https://www.leading-medicine-guide.com/de/spezialisten/aristotelis-kaisidis-frankfurt-am-main"
+        },
+        {
+          "positionInObservedOrganicList": 2,
+          "title": "Schulterchirurgie – Über uns – Frankfurter Rotkreuz-Kliniken",
+          "url": "https://www.rotkreuzkliniken.de/medizin-pflege/orthopaedie/schulterchirurgie/ueber-uns"
+        },
+        {
+          "positionInObservedOrganicList": 3,
+          "title": "Schulterchirurgie | BG Unfallklinik Frankfurt am Main",
+          "url": "https://www.bg-kliniken.de/unfallklinik-frankfurt/fachbereiche/detail/schulterchirurgie/"
+        },
+        {
+          "positionInObservedOrganicList": 4,
+          "title": "Zentrum für Schulterchirurgie in Frankfurt – Orthopädisches Zentrum Dr. A. Rümelin",
+          "url": "https://www.dr-ruemelin.de/zentrum-fuer-schulterchirurgie-in-frankfurt/"
+        },
+        {
+          "positionInObservedOrganicList": 5,
+          "title": "Schulter – ORTHOmedic Frankfurt Offenbach",
+          "url": "https://www.orthomedic-of.de/schulter/"
+        },
+        {
+          "positionInObservedOrganicList": 6,
+          "title": "Schulter – Orthopaedicum Frankfurt",
+          "url": "https://www.orthopaedicum-frankfurt.de/diagnosen/schulter/"
+        },
+        {
+          "positionInObservedOrganicList": 7,
+          "title": "herresthal.info: Aktuelles – Orthopäde – Knie- und …",
+          "url": "https://www.herresthal.info/",
+          "sanaConnection": "Website des mit der Sana-Praxis verbundenen Arztes Dr. Jens Herresthal. Positiver Befund; nicht als vollständige Unsichtbarkeit der Ärzte interpretieren."
+        },
+        {
+          "positionInObservedOrganicList": 8,
+          "title": "Ihr Schulterspezialist in Frankfurt – Lumedis",
+          "url": "https://www.lumedis.de/schulter.html"
+        },
+        {
+          "positionInObservedOrganicList": 9,
+          "title": "Schulterschmerzen – Frankfurt am Main – Dr. Baron & Kollegen",
+          "url": "https://www.drbaron.de/leistungen/schulter/"
+        },
+        {
+          "positionInObservedOrganicList": 10,
+          "title": "Spezialsprechstunde Schulter – Orthopädie am Kurhaus",
+          "url": "https://www.orthopaedie-am-kurhaus.de/diagnostik/sprechstunde-schulter.html"
+        }
+      ],
+      "displayedLocalPackNames": [
+        "Dr. Aristotelis Kaisidis",
+        "Dr. med. Jürgen Specht",
+        "Orthopädie MainMed MVZ Frankfurt"
+      ],
+      "screenshotStatus": "Screenshot mit KI-Übersicht und Karte visuell geprüft; Export nicht zum Main-Workspace synchronisiert."
+    }
+  ],
+  "officialContactMapsLink": {
+    "id": "G05",
+    "observedBetweenUtc": [
+      "2026-11-03T08:52:00Z",
+      "2026-11-03T08:55:00Z"
+    ],
+    "sourceContactPage": "https://www.ortho-frankfurt.de/kontakt/",
+    "shortLink": "https://goo.gl/maps/TfwdnC2xLnAwk8vN7",
+    "observedRedirectUrl": "https://www.google.com/maps?q=Herzlich+willkommen!,+Eschersheimer+Landstra%C3%9Fe+119,+60322+Frankfurt+am+Main&ftid=0x47bd0eb546afeba9:0x187623d43bbaad94&hl=de-DE&gl=de&entry=gps&lucs=a1&shorturl=1",
+    "finding": "Das verknüpfte Karten-URL-Ziel enthält Eschersheimer Landstraße 119 statt der auf der Praxis-Kontaktseite angegebenen Holzhausenstraße 81.",
+    "visibleDestinationLimit": "Google zeigte nach der Weiterleitung eine Karte mit unbenanntem Detailpanel. Die abweichende Adresse wurde direkt in der tatsächlich aufgerufenen Ziel-URL beobachtet; kein bestehendes Unternehmen an dieser Adresse behauptet.",
+    "recommendedAction": "Karten-/Anfahrtslink gegen einen eindeutig geprüften Holzhausenstraße-81-Link bzw. das exakt bestätigte Sana-Unternehmensprofil austauschen."
+  }
+}

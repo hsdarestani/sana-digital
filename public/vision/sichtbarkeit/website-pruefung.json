@@ -1,0 +1,293 @@
+[
+  {
+    "name": "home",
+    "url": "https://www.ortho-frankfurt.de/",
+    "status": 200,
+    "htmlBytes": 352187,
+    "measuredAt": "2026-11-03T08:44:30.843702+00:00",
+    "h1": [],
+    "h2": [
+      "Öffnungszeiten",
+      "Ärzte",
+      "Patienten",
+      "Sana MVZ für Orthopädie, Unfallchirurgie, Sportmedizin und Wirbelsäulenchirurgie",
+      "Behandlung",
+      "Netzwerk",
+      "Gerätetechnik",
+      "Prävention",
+      "Leistungen",
+      "Übersicht",
+      "Arthroskopie",
+      "Chirotherapie",
+      "Wirbelsäulenchirurgie",
+      "Endoprothetik",
+      "Sportmedizin",
+      "Osteopathie",
+      "Akupunktur",
+      "Kreuzbandchirurgie",
+      "Schulterchirurgie",
+      "Kniechirurgie",
+      "Unsere Ärzte",
+      "Komm inunser Team!",
+      "Wir suchen ab sofort zur Verstärkung unseres Praxis-Teams ein/e MFA (m/w/d) in Vollzeit oder Teilzeit.",
+      "jobs"
+    ],
+    "description": [
+      "Die Orthopädische Gemeinschaftspraxis Frankfurt am Main kümmert sich mit erfahrenen Fachärzten sowie einem gut eingespielten Praxisteam um Ihre Gesundheit."
+    ],
+    "robots": [
+      "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    ],
+    "canonical": [
+      "https://www.ortho-frankfurt.de/"
+    ],
+    "jsonld": [
+      "{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":[\"MedicalBusiness\",\"Organization\"],\"@id\":\"https://www.ortho-frankfurt.de/#organization\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"url\":\"https://www.ortho-frankfurt.de\",\"logo\":{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/#logo\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"contentUrl\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"caption\":\"Orthop\\u00e4die Frankfurt\",\"inLanguage\":\"de\"},\"openingHours\":[\"Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00\"],\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/#logo\"}},{\"@type\":\"WebSite\",\"@id\":\"https://www.ortho-frankfurt.de/#website\",\"url\":\"https://www.ortho-frankfurt.de\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"inLanguage\":\"de\",\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":\"https://www.ortho-frankfurt.de/?s={search_term_string}\",\"query-input\":\"required name=search_term_string\"}},{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-bei-einer-Arthroskopie.jpg\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-bei-einer-Arthroskopie.jpg\",\"width\":\"200\",\"height\":\"200\",\"inLanguage\":\"de\"},{\"@type\":\"WebPage\",\"@id\":\"https://www.ortho-frankfurt.de/#webpage\",\"url\":\"https://www.ortho-frankfurt.de/\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Startseite\",\"datePublished\":\"2021-09-24T21:22:43+00:00\",\"dateModified\":\"2026-10-24T18:24:54+00:00\",\"about\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/#website\"},\"primaryImageOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-bei-einer-Arthroskopie.jpg\"},\"inLanguage\":\"de\"},{\"@type\":\"Person\",\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\",\"url\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"url\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"caption\":\"admin\",\"inLanguage\":\"de\"},\"worksFor\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"}},{\"@type\":\"Article\",\"headline\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Startseite\",\"keywords\":\"Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt\",\"datePublished\":\"2021-09-24T21:22:43+00:00\",\"dateModified\":\"2026-10-24T18:24:54+00:00\",\"author\":{\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\"},\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"description\":\"Die Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main k\\u00fcmmert sich mit erfahrenen Fach\\u00e4rzten sowie einem gut eingespielten Praxisteam um Ihre Gesundheit.\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Startseite\",\"@id\":\"https://www.ortho-frankfurt.de/#richSnippet\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/#webpage\"},\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-bei-einer-Arthroskopie.jpg\"},\"inLanguage\":\"de\",\"mainEntityOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/#webpage\"}}]}"
+    ],
+    "images": 23,
+    "missingAlt": 0,
+    "emptyAlt": 8,
+    "telLinks": 0,
+    "mailtoLinks": 4,
+    "doctolibLinks": [],
+    "mapLinks": [],
+    "internalLinks": [
+      "https://www.ortho-frankfurt.de",
+      "https://www.ortho-frankfurt.de/",
+      "https://www.ortho-frankfurt.de/jobs/",
+      "https://www.ortho-frankfurt.de/kontakt/",
+      "https://www.ortho-frankfurt.de/leistungen/",
+      "https://www.ortho-frankfurt.de/partner/",
+      "https://www.ortho-frankfurt.de/team/",
+      "https://www.ortho-frankfurt.de/termine/",
+      "mailto:info@ortho-frankfurt.de"
+    ],
+    "wicklerMentions": 0,
+    "sha256": "7f35c96c7fa2f87aa294691ca95b64c6c37766d3c79eacfbf58ed4d9aa776683",
+    "documentTitle": "Orthopädie Frankfurt - Orthopädische Gemeinschaftspraxis Frankfurt am Main - Startseite"
+  },
+  {
+    "name": "team",
+    "url": "https://www.ortho-frankfurt.de/team/",
+    "status": 200,
+    "htmlBytes": 206892,
+    "measuredAt": "2026-11-03T08:44:30.536783+00:00",
+    "h1": [],
+    "h2": [
+      "Team",
+      "Das Ärzteteam",
+      "Das Praxisteam"
+    ],
+    "description": [
+      "Startseite / Team"
+    ],
+    "robots": [
+      "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    ],
+    "canonical": [
+      "https://www.ortho-frankfurt.de/team/"
+    ],
+    "jsonld": [
+      "{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":[\"MedicalBusiness\",\"Organization\"],\"@id\":\"https://www.ortho-frankfurt.de/#organization\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"url\":\"https://www.ortho-frankfurt.de\",\"logo\":{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/#logo\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"contentUrl\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"caption\":\"Orthop\\u00e4die Frankfurt\",\"inLanguage\":\"de\"},\"openingHours\":[\"Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00\"],\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/#logo\"}},{\"@type\":\"WebSite\",\"@id\":\"https://www.ortho-frankfurt.de/#website\",\"url\":\"https://www.ortho-frankfurt.de\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"inLanguage\":\"de\"},{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2026/06/herresthal-2.jpg\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2026/06/herresthal-2.jpg\",\"width\":\"200\",\"height\":\"200\",\"inLanguage\":\"de\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https://www.ortho-frankfurt.de/team/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":\"1\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de\",\"name\":\"Home\"}},{\"@type\":\"ListItem\",\"position\":\"2\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de/team/\",\"name\":\"Team\"}}]},{\"@type\":\"WebPage\",\"@id\":\"https://www.ortho-frankfurt.de/team/#webpage\",\"url\":\"https://www.ortho-frankfurt.de/team/\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Team\",\"datePublished\":\"2021-09-29T12:02:04+00:00\",\"dateModified\":\"2026-08-18T08:27:49+00:00\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/#website\"},\"primaryImageOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2026/06/herresthal-2.jpg\"},\"inLanguage\":\"de\",\"breadcrumb\":{\"@id\":\"https://www.ortho-frankfurt.de/team/#breadcrumb\"}},{\"@type\":\"Person\",\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\",\"url\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"url\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"caption\":\"admin\",\"inLanguage\":\"de\"},\"worksFor\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"}},{\"@type\":\"Article\",\"headline\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Team\",\"keywords\":\"Team\",\"datePublished\":\"2021-09-29T12:02:04+00:00\",\"dateModified\":\"2026-08-18T08:27:49+00:00\",\"author\":{\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\"},\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"description\":\"Startseite / Team\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Team\",\"@id\":\"https://www.ortho-frankfurt.de/team/#richSnippet\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/team/#webpage\"},\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2026/06/herresthal-2.jpg\"},\"inLanguage\":\"de\",\"mainEntityOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/team/#webpage\"}}]}"
+    ],
+    "images": 21,
+    "missingAlt": 0,
+    "emptyAlt": 12,
+    "telLinks": 0,
+    "mailtoLinks": 4,
+    "doctolibLinks": [],
+    "mapLinks": [],
+    "internalLinks": [
+      "https://www.ortho-frankfurt.de",
+      "https://www.ortho-frankfurt.de/",
+      "https://www.ortho-frankfurt.de/jobs/",
+      "https://www.ortho-frankfurt.de/kontakt/",
+      "https://www.ortho-frankfurt.de/leistungen/",
+      "https://www.ortho-frankfurt.de/partner/",
+      "https://www.ortho-frankfurt.de/team/",
+      "https://www.ortho-frankfurt.de/termine/",
+      "https://www.ortho-frankfurt.de/wp-content/uploads/2023/06/Jameda_2023-thoma-3.png",
+      "mailto:info@ortho-frankfurt.de"
+    ],
+    "wicklerMentions": 0,
+    "sha256": "91cf8704b84c0c011ff0f6ac21b5ac82282010268b853d7407755d9ee4564cd0",
+    "documentTitle": "Orthopädie Frankfurt - Orthopädische Gemeinschaftspraxis Frankfurt am Main - Team"
+  },
+  {
+    "name": "leistungen",
+    "url": "https://www.ortho-frankfurt.de/leistungen/",
+    "status": 200,
+    "htmlBytes": 166479,
+    "measuredAt": "2026-11-03T08:44:30.834419+00:00",
+    "h1": [
+      "Leistungen"
+    ],
+    "h2": [
+      "Unsere Leistungen im Bereich Konservative Orthopädie",
+      "Unsere Leistungen im Bereich Operative Orthopädie",
+      "Individuelle Gesundheitsleistungen (IGel)"
+    ],
+    "description": [
+      "Startseite / Leistungen"
+    ],
+    "robots": [
+      "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    ],
+    "canonical": [
+      "https://www.ortho-frankfurt.de/leistungen/"
+    ],
+    "jsonld": [
+      "{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":[\"MedicalBusiness\",\"Organization\"],\"@id\":\"https://www.ortho-frankfurt.de/#organization\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"url\":\"https://www.ortho-frankfurt.de\",\"logo\":{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/#logo\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"contentUrl\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"caption\":\"Orthop\\u00e4die Frankfurt\",\"inLanguage\":\"de\"},\"openingHours\":[\"Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00\"],\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/#logo\"}},{\"@type\":\"WebSite\",\"@id\":\"https://www.ortho-frankfurt.de/#website\",\"url\":\"https://www.ortho-frankfurt.de\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"inLanguage\":\"de\"},{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-besprechen-Diagnose.jpg\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-besprechen-Diagnose.jpg\",\"width\":\"200\",\"height\":\"200\",\"inLanguage\":\"de\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https://www.ortho-frankfurt.de/leistungen/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":\"1\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de\",\"name\":\"Home\"}},{\"@type\":\"ListItem\",\"position\":\"2\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de/leistungen/\",\"name\":\"Leistungen\"}}]},{\"@type\":\"WebPage\",\"@id\":\"https://www.ortho-frankfurt.de/leistungen/#webpage\",\"url\":\"https://www.ortho-frankfurt.de/leistungen/\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Leistungen\",\"datePublished\":\"2021-09-29T12:31:55+00:00\",\"dateModified\":\"2024-09-08T16:34:06+00:00\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/#website\"},\"primaryImageOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-besprechen-Diagnose.jpg\"},\"inLanguage\":\"de\",\"breadcrumb\":{\"@id\":\"https://www.ortho-frankfurt.de/leistungen/#breadcrumb\"}},{\"@type\":\"Person\",\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\",\"url\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"url\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"caption\":\"admin\",\"inLanguage\":\"de\"},\"worksFor\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"}},{\"@type\":\"Article\",\"headline\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Leistungen\",\"keywords\":\"Leistungen\",\"datePublished\":\"2021-09-29T12:31:55+00:00\",\"dateModified\":\"2024-09-08T16:34:06+00:00\",\"author\":{\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\"},\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"description\":\"Startseite / Leistungen\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Leistungen\",\"@id\":\"https://www.ortho-frankfurt.de/leistungen/#richSnippet\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/leistungen/#webpage\"},\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Zwei-Aerzte-besprechen-Diagnose.jpg\"},\"inLanguage\":\"de\",\"mainEntityOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/leistungen/#webpage\"}}]}"
+    ],
+    "images": 5,
+    "missingAlt": 0,
+    "emptyAlt": 1,
+    "telLinks": 0,
+    "mailtoLinks": 4,
+    "doctolibLinks": [],
+    "mapLinks": [],
+    "internalLinks": [
+      "https://www.ortho-frankfurt.de",
+      "https://www.ortho-frankfurt.de/",
+      "https://www.ortho-frankfurt.de/jobs/",
+      "https://www.ortho-frankfurt.de/kontakt/",
+      "https://www.ortho-frankfurt.de/leistungen/",
+      "https://www.ortho-frankfurt.de/leistungen/akupunktur",
+      "https://www.ortho-frankfurt.de/leistungen/arthroskopie",
+      "https://www.ortho-frankfurt.de/leistungen/chirotherapie/",
+      "https://www.ortho-frankfurt.de/leistungen/osteopathie",
+      "https://www.ortho-frankfurt.de/leistungen/spineliner",
+      "https://www.ortho-frankfurt.de/partner/",
+      "https://www.ortho-frankfurt.de/team/",
+      "https://www.ortho-frankfurt.de/termine/",
+      "mailto:info@ortho-frankfurt.de"
+    ],
+    "wicklerMentions": 0,
+    "sha256": "84a7391d168da52b4b3178722e2a039bdc47d22da64612d401c054471849adb4",
+    "documentTitle": "Orthopädie Frankfurt - Orthopädische Gemeinschaftspraxis Frankfurt am Main - Leistungen"
+  },
+  {
+    "name": "termine",
+    "url": "https://www.ortho-frankfurt.de/termine/",
+    "status": 200,
+    "htmlBytes": 167233,
+    "measuredAt": "2026-11-03T08:44:35.616920+00:00",
+    "h1": [
+      "Termine"
+    ],
+    "h2": [
+      "Terminvereinbarung",
+      "Öffnungszeiten",
+      "Kontaktformular"
+    ],
+    "description": [
+      "Startseite / Terminvereinbarung"
+    ],
+    "robots": [
+      "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    ],
+    "canonical": [
+      "https://www.ortho-frankfurt.de/termine/"
+    ],
+    "jsonld": [
+      "{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":[\"MedicalBusiness\",\"Organization\"],\"@id\":\"https://www.ortho-frankfurt.de/#organization\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"url\":\"https://www.ortho-frankfurt.de\",\"logo\":{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/#logo\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"contentUrl\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"caption\":\"Orthop\\u00e4die Frankfurt\",\"inLanguage\":\"de\"},\"openingHours\":[\"Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00\"],\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/#logo\"}},{\"@type\":\"WebSite\",\"@id\":\"https://www.ortho-frankfurt.de/#website\",\"url\":\"https://www.ortho-frankfurt.de\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"inLanguage\":\"de\"},{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Frau-bei-der-Terminverwaltung.jpg\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Frau-bei-der-Terminverwaltung.jpg\",\"width\":\"200\",\"height\":\"200\",\"inLanguage\":\"de\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https://www.ortho-frankfurt.de/termine/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":\"1\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de\",\"name\":\"Home\"}},{\"@type\":\"ListItem\",\"position\":\"2\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de/termine/\",\"name\":\"Termine\"}}]},{\"@type\":\"WebPage\",\"@id\":\"https://www.ortho-frankfurt.de/termine/#webpage\",\"url\":\"https://www.ortho-frankfurt.de/termine/\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Termine\",\"datePublished\":\"2021-09-29T12:33:00+00:00\",\"dateModified\":\"2026-08-18T08:19:17+00:00\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/#website\"},\"primaryImageOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Frau-bei-der-Terminverwaltung.jpg\"},\"inLanguage\":\"de\",\"breadcrumb\":{\"@id\":\"https://www.ortho-frankfurt.de/termine/#breadcrumb\"}},{\"@type\":\"Person\",\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\",\"url\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"url\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"caption\":\"admin\",\"inLanguage\":\"de\"},\"worksFor\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"}},{\"@type\":\"Article\",\"headline\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Termine\",\"keywords\":\"Termine\",\"datePublished\":\"2021-09-29T12:33:00+00:00\",\"dateModified\":\"2026-08-18T08:19:17+00:00\",\"author\":{\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\"},\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"description\":\"Startseite / Terminvereinbarung\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Termine\",\"@id\":\"https://www.ortho-frankfurt.de/termine/#richSnippet\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/termine/#webpage\"},\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Frau-bei-der-Terminverwaltung.jpg\"},\"inLanguage\":\"de\",\"mainEntityOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/termine/#webpage\"}}]}"
+    ],
+    "images": 2,
+    "missingAlt": 0,
+    "emptyAlt": 1,
+    "telLinks": 0,
+    "mailtoLinks": 4,
+    "doctolibLinks": [
+      "https://www.doctolib.de/medizinisches-versorgungszentrum-mvz/frankfurt-am-main/sana-mvz-orthopaedie-und-chirurgie-frankfurt"
+    ],
+    "mapLinks": [],
+    "internalLinks": [
+      "https://www.ortho-frankfurt.de",
+      "https://www.ortho-frankfurt.de/",
+      "https://www.ortho-frankfurt.de/jobs/",
+      "https://www.ortho-frankfurt.de/kontakt/",
+      "https://www.ortho-frankfurt.de/leistungen/",
+      "https://www.ortho-frankfurt.de/partner/",
+      "https://www.ortho-frankfurt.de/team/",
+      "https://www.ortho-frankfurt.de/termine/",
+      "mailto:info@ortho-frankfurt.de"
+    ],
+    "wicklerMentions": 0,
+    "sha256": "b155cbe81a53d735977e480e5d7f99978b0261e2e66f209be928c80b554f09a9",
+    "documentTitle": "Orthopädie Frankfurt - Orthopädische Gemeinschaftspraxis Frankfurt am Main - Termine"
+  },
+  {
+    "name": "kontakt",
+    "url": "https://www.ortho-frankfurt.de/kontakt/",
+    "status": 200,
+    "htmlBytes": 174720,
+    "measuredAt": "2026-11-03T08:44:35.449080+00:00",
+    "h1": [
+      "Kontakt"
+    ],
+    "h2": [
+      "Anfahrt",
+      "Öffnungszeiten",
+      "Anfahrt",
+      "Öffnungszeiten",
+      "Kontaktformular"
+    ],
+    "description": [
+      "Startseite / Kontakt"
+    ],
+    "robots": [
+      "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    ],
+    "canonical": [
+      "https://www.ortho-frankfurt.de/kontakt/"
+    ],
+    "jsonld": [
+      "{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":[\"MedicalBusiness\",\"Organization\"],\"@id\":\"https://www.ortho-frankfurt.de/#organization\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"url\":\"https://www.ortho-frankfurt.de\",\"logo\":{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/#logo\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"contentUrl\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2024/03/cropped-Sana-Logo-150x150.png\",\"caption\":\"Orthop\\u00e4die Frankfurt\",\"inLanguage\":\"de\"},\"openingHours\":[\"Mo,Tu,We,Th,Fr,Sa,Su 09:00-17:00\"],\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/#logo\"}},{\"@type\":\"WebSite\",\"@id\":\"https://www.ortho-frankfurt.de/#website\",\"url\":\"https://www.ortho-frankfurt.de\",\"name\":\"Orthop\\u00e4die Frankfurt\",\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"inLanguage\":\"de\"},{\"@type\":\"ImageObject\",\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Standortkarte.jpg\",\"url\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Standortkarte.jpg\",\"width\":\"200\",\"height\":\"200\",\"inLanguage\":\"de\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https://www.ortho-frankfurt.de/kontakt/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":\"1\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de\",\"name\":\"Home\"}},{\"@type\":\"ListItem\",\"position\":\"2\",\"item\":{\"@id\":\"https://www.ortho-frankfurt.de/kontakt/\",\"name\":\"Kontakt\"}}]},{\"@type\":\"WebPage\",\"@id\":\"https://www.ortho-frankfurt.de/kontakt/#webpage\",\"url\":\"https://www.ortho-frankfurt.de/kontakt/\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Kontakt\",\"datePublished\":\"2022-01-27T15:19:48+00:00\",\"dateModified\":\"2026-06-26T22:21:31+00:00\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/#website\"},\"primaryImageOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Standortkarte.jpg\"},\"inLanguage\":\"de\",\"breadcrumb\":{\"@id\":\"https://www.ortho-frankfurt.de/kontakt/#breadcrumb\"}},{\"@type\":\"Person\",\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\",\"url\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"url\":\"https://secure.gravatar.com/avatar/afc978416fd2da4ea484ad998ece086e91a67662c208756055ba54aab25ce7f8?s=96&amp;d=mm&amp;r=g\",\"caption\":\"admin\",\"inLanguage\":\"de\"},\"worksFor\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"}},{\"@type\":\"Article\",\"headline\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Kontakt\",\"keywords\":\"Kontakt\",\"datePublished\":\"2022-01-27T15:19:48+00:00\",\"dateModified\":\"2026-06-26T22:21:31+00:00\",\"author\":{\"@id\":\"https://www.ortho-frankfurt.de/author/admin_u84cv070/\",\"name\":\"admin\"},\"publisher\":{\"@id\":\"https://www.ortho-frankfurt.de/#organization\"},\"description\":\"Startseite / Kontakt\",\"name\":\"Orthop\\u00e4die Frankfurt - Orthop\\u00e4dische Gemeinschaftspraxis Frankfurt am Main - Kontakt\",\"@id\":\"https://www.ortho-frankfurt.de/kontakt/#richSnippet\",\"isPartOf\":{\"@id\":\"https://www.ortho-frankfurt.de/kontakt/#webpage\"},\"image\":{\"@id\":\"https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Standortkarte.jpg\"},\"inLanguage\":\"de\",\"mainEntityOfPage\":{\"@id\":\"https://www.ortho-frankfurt.de/kontakt/#webpage\"}}]}"
+    ],
+    "images": 3,
+    "missingAlt": 0,
+    "emptyAlt": 1,
+    "telLinks": 0,
+    "mailtoLinks": 4,
+    "doctolibLinks": [],
+    "mapLinks": [
+      "https://goo.gl/maps/TfwdnC2xLnAwk8vN7",
+      "https://goo.gl/maps/nPjkbxw3eYRpKb439"
+    ],
+    "internalLinks": [
+      "https://www.ortho-frankfurt.de",
+      "https://www.ortho-frankfurt.de/",
+      "https://www.ortho-frankfurt.de/jobs/",
+      "https://www.ortho-frankfurt.de/kontakt/",
+      "https://www.ortho-frankfurt.de/leistungen/",
+      "https://www.ortho-frankfurt.de/partner/",
+      "https://www.ortho-frankfurt.de/team/",
+      "https://www.ortho-frankfurt.de/termine/",
+      "https://www.ortho-frankfurt.de/wp-content/uploads/2022/02/Standortkarte.jpg",
+      "mailto:info@ortho-frankfurt.de"
+    ],
+    "wicklerMentions": 0,
+    "sha256": "7b25fba5c1928dfc9fa6a3eba8d987a66c52118e52c7300524d5ecb2da60181b",
+    "documentTitle": "Orthopädie Frankfurt - Orthopädische Gemeinschaftspraxis Frankfurt am Main - Kontakt"
+  },
+  {
+    "name": "robots",
+    "url": "https://www.ortho-frankfurt.de/robots.txt",
+    "status": 200,
+    "htmlBytes": 126,
+    "measuredAt": "2026-11-03T08:44:36.740487+00:00",
+    "content": "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n\nSitemap: https://www.ortho-frankfurt.de/sitemap_index.xml\n",
+    "sha256": "c94fa7c57e23618433343e6259256db39785f29fa832ab8ea1ac9dc2a4d48e3b",
+    "documentTitle": null
+  },
+  {
+    "name": "sitemap",
+    "url": "https://www.ortho-frankfurt.de/sitemap_index.xml",
+    "status": 200,
+    "htmlBytes": 419,
+    "measuredAt": "2026-11-03T08:44:40.850476+00:00",
+    "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><?xml-stylesheet type=\"text/xsl\" href=\"//www.ortho-frankfurt.de/main-sitemap.xsl\"?>\n<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n\t<sitemap>\n\t\t<loc>https://www.ortho-frankfurt.de/page-sitemap.xml</loc>\n\t\t<lastmod>2026-10-24T18:24:54+00:00</lastmod>\n\t</sitemap>\n</sitemapindex>\n<!-- XML Sitemap generated by Rank Math SEO Plugin (c) Rank Math - rankmath.com -->",
+    "sha256": "b46e15d2435cd41fb7f867ba0b7f81cb0bc2f47da625adeed92c6ab0680836e0",
+    "documentTitle": null
+  }
+]

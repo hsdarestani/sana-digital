@@ -1,0 +1,99 @@
+import {evidenceItem,loadEvidence,wireDownloads} from './evidence-view.js';
+const scenes=[...document.querySelectorAll('.scene')];
+const chapters=[...document.querySelectorAll('[data-scene]')];
+const previous=document.querySelector('#prevScene'),next=document.querySelector('#nextScene');
+const play=document.querySelector('#playTour'),pause=document.querySelector('#pauseTour');
+const progress=document.querySelector('#tourProgress');
+const dialog=document.querySelector('#evidenceDialog'),evidenceContent=document.querySelector('#evidenceContent');
+let sceneIndex=0,timer=null,opener=null,evidenceGeneration=0;
+document.documentElement.classList.add('enhanced');
+wireDownloads();
+
+function stopTour(){
+  if(timer!==null)window.clearInterval(timer);timer=null;
+  document.body.classList.remove('tour-running');progress.hidden=true;
+  play.setAttribute('aria-pressed','false');play.textContent='77-Sekunden-Rundgang';
+  if(pause)pause.hidden=true;
+}
+function showScene(index,{focus=true,manual=true}={}){
+  if(manual)stopTour();sceneIndex=Math.min(Math.max(index,0),scenes.length-1);
+  scenes.forEach((scene,i)=>{scene.hidden=i!==sceneIndex;});
+  chapters.forEach((chapter,i)=>{if(i===sceneIndex)chapter.setAttribute('aria-current','step');else chapter.removeAttribute('aria-current');});
+  previous.disabled=sceneIndex===0;next.textContent=sceneIndex===scenes.length-1?'Zur Übersicht':'Weiter';
+  document.querySelector('#pageCount').replaceChildren(document.createTextNode(`${String(sceneIndex+1).padStart(2,'0')} `),Object.assign(document.createElement('span'),{textContent:'/ 07'}));
+  history.replaceState(null,'',`#${scenes[sceneIndex].id}`);
+  document.title=`${scenes[sceneIndex].dataset.title} | Sichtbarkeits-Check · SANA NEXT`;
+  if(focus){window.scrollTo({top:0,behavior:'auto'});scenes[sceneIndex].querySelector('h1,h2')?.focus({preventScroll:true});}
+  if(timer!==null){progress.hidden=true;requestAnimationFrame(()=>{if(timer!==null)progress.hidden=false;});}
+}
+previous.addEventListener('click',()=>showScene(sceneIndex-1));
+next.addEventListener('click',()=>{if(sceneIndex===scenes.length-1)window.location.assign('/vision/');else showScene(sceneIndex+1);});
+chapters.forEach(chapter=>chapter.addEventListener('click',()=>showScene(Number(chapter.dataset.scene))));
+document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>showScene(sceneIndex+1)));
+document.querySelector('#restartTour').addEventListener('click',()=>showScene(0));
+play.addEventListener('click',()=>{
+  if(timer!==null){stopTour();return;}
+  showScene(0,{manual:false,focus:false});
+  timer=window.setInterval(()=>{if(sceneIndex===scenes.length-1){stopTour();return;}showScene(sceneIndex+1,{manual:false});},11000);
+  document.body.classList.add('tour-running');play.setAttribute('aria-pressed','true');play.textContent='Rundgang pausieren';
+  progress.hidden=false;if(pause)pause.hidden=false;
+});
+pause?.addEventListener('click',stopTour);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopTour();});
+document.addEventListener('keydown',event=>{
+  if(dialog.open||event.altKey||event.ctrlKey||event.metaKey)return;
+  const active=document.activeElement;if(active?.closest('button,a,input,select,textarea,[contenteditable]'))return;
+  if(event.key==='ArrowRight'&&sceneIndex<scenes.length-1){event.preventDefault();showScene(sceneIndex+1);}
+  if(event.key==='ArrowLeft'&&sceneIndex>0){event.preventDefault();showScene(sceneIndex-1);}
+});
+window.addEventListener('hashchange',()=>{const index=scenes.findIndex(scene=>`#${scene.id}`===location.hash);if(index>=0&&index!==sceneIndex)showScene(index);});
+const initial=scenes.findIndex(scene=>`#${scene.id}`===location.hash);showScene(initial>=0?initial:0,{focus:false});
+
+const queries=[
+  {query:'Orthopäde Frankfurt Westend',count:7,results:[['1','Dr. Dara Emanuel Frömel','orthopaede-frankfurt-westend.de'],['2','Albrecht-Schoeck & Sandberg','orthopaede-westend.de'],['3','Orthopädisches Centrum','orthopaedie-frankfurt.de']],counter:'SANA ist dennoch vertreten: Orthinform-Praxiseintrag auf organischer Position 6.'},
+  {query:'Kniespezialist Frankfurt',count:9,results:[['1','SPORTHOLOGICUM Kniezentrum','sporthologicum.de'],['2','Kniezentrum Frankfurt','kniezentrum-frankfurt.de'],['3','BG Unfallklinik · Kniechirurgie','bg-kliniken.de']],counter:'Gezeigt: die ersten drei der neun beobachteten organischen Ergebnisse. Vollständige Liste im Quellenbericht.'},
+  {query:'Schulterspezialist Frankfurt',count:10,results:[['1','Prof. Aristotelis Kaisidis','leading-medicine-guide.com'],['2','Frankfurter Rotkreuz-Kliniken','rotkreuzkliniken.de'],['3','BG Unfallklinik · Schulterchirurgie','bg-kliniken.de']],counter:'Positiver Gegenbefund: herresthal.info, Website des Sana-Praxisarztes, auf organischer Position 7.'}
+];
+document.querySelectorAll('[data-query]').forEach(button=>button.addEventListener('click',()=>{
+  stopTour();const index=Number(button.dataset.query),data=queries[index];
+  document.querySelectorAll('[data-query]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
+  document.querySelector('#observedQuery').textContent=`„${data.query}“`;document.querySelector('#resultCount').textContent=`${data.count} organische Ergebnisse`;
+  const list=document.querySelector('#resultList');list.replaceChildren();
+  for(const [position,title,domain]of data.results){const li=document.createElement('li'),rank=document.createElement('span'),copy=document.createElement('div'),name=document.createElement('strong'),site=document.createElement('small');rank.textContent=position;name.textContent=title;site.textContent=domain;copy.append(name,site);li.append(rank,copy);list.append(li);}
+  document.querySelector('#searchCounter').textContent=data.counter;
+}));
+
+document.querySelectorAll('[data-finding]').forEach(button=>button.addEventListener('click',()=>{
+  stopTour();document.querySelectorAll('[data-finding]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));document.querySelector(`#finding-${b.dataset.finding}`).hidden=b!==button;});
+}));
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{
+  stopTour();const concept=button.dataset.view==='concept';
+  document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
+  document.querySelector('#todayView').hidden=concept;document.querySelector('#conceptView').hidden=!concept;
+  document.querySelector('#viewLabel').textContent=concept?'Gestaltungsvorschlag · offizielle Website unverändert':'Öffentlicher Website-Abruf · 03.11.2026';
+  document.querySelector('#conceptExplanation').textContent=concept?'Ein verständliches Leistungsversprechen. Der Terminzugang direkt sichtbar. Die Telefonnummer als klarer Kontaktweg.':'Die Hauptaktion führt zu „Unsere Leistungen“. Der Online-Termin liegt auf einer Unterseite.';
+}));
+const periods={
+  '30':{priority:'PRIORITÄT 1 · VERLÄSSLICHE PRAXISDATEN',title:'Richtig gefunden.\nRichtig angekommen.',tasks:['Kartenlink und strukturierte Öffnungszeiten berichtigen; Name, Adresse und Telefon abgleichen.','Google-Profil mit Praxiszugang prüfen: Kategorien, Leistungen, Zeiten, Fotos, Terminlink und mögliche Altprofile.','Search Console und vorhandene Statistik auswerten; Ausgangswerte und datensparsame Messung festlegen.'],kpi:'Geprüfter Kartenlink, konsistente Praxisdaten und dokumentierte Ausgangswerte – ohne erfundene Wachstumsziele.',access:'Benötigt: Website/CMS, Google-Unternehmensprofil und lesender Search-Console-Zugang.'},
+  '60':{priority:'PRIORITÄT 2 · INHALTE UND PATIENTENWEG',title:'Kompetenz sichtbar.\nKontakt einfach.',tasks:['Arztprofile und lokale Leistungsseiten für freigegebene Schwerpunkte aktualisieren; verständliche Antworten und interne Links ergänzen.','Termin- und Anrufwege vereinfachen; mobile Lesbarkeit, Tastaturbedienung und nach erneuter Messung belegte Ladehürden verbessern.','Neutralen, freiwilligen Rezensionsprozess mit der Praxis abstimmen – ohne Belohnung und ohne Auswahl nur zufriedener Patienten.'],kpi:'Freigegebene Inhalte, geprüfte Touch- und Tastaturwege sowie dokumentierte technische Testergebnisse.',access:'Benötigt: CMS-Zugang, medizinische Redaktion, Profilfreigaben und abgestimmtes Mess-/Datenschutzkonzept.'},
+  '90':{priority:'PRIORITÄT 3 · WIRKUNG NACHVOLLZIEHEN',title:'Ergebnisse verstehen.\nGezielt weiterentwickeln.',tasks:['Klicks, Impressionen und CTR in 28-Tage-Zeiträumen vergleichen; Filter, Wochentage und Saisonalität dokumentieren.','Profilaktionen und freigegebene Kontakt-Klicks prüfen. Anfragen und Termine nur mit aggregierten Praxis-/Buchungsdaten zuordnen.','Lokale Suchstichproben unter gleichen Bedingungen wiederholen und gemeinsam die nächsten Maßnahmen priorisieren.'],kpi:'Nachvollziehbarer Vorher-/Nachher-Bericht mit Zeitraum und Quelle. Ein Terminlink-Klick bleibt von einer bestätigten Buchung getrennt.',access:'Benötigt: autorisierte Leistungsdaten, freigegebene Ereignismessung und gegebenenfalls aggregierte Buchungsdaten.'}
+};
+document.querySelectorAll('[data-period]').forEach(button=>button.addEventListener('click',()=>{
+  stopTour();const data=periods[button.dataset.period];document.querySelectorAll('[data-period]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
+  document.querySelector('#roadmapPriority').textContent=data.priority;
+  const title=document.querySelector('#roadmapTitle');title.replaceChildren();data.title.split('\n').forEach((line,i)=>{if(i)title.append(document.createElement('br'));title.append(document.createTextNode(line));});
+  document.querySelector('#roadmapTasks').replaceChildren(...data.tasks.map(text=>Object.assign(document.createElement('li'),{textContent:text})));
+  document.querySelector('#roadmapKpi').textContent=data.kpi;document.querySelector('#roadmapAccess').textContent=data.access;
+}));
+
+async function openEvidence(link){
+  stopTour();opener=link;const generation=++evidenceGeneration;
+  evidenceContent.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Belege werden geladen …'}));
+  if(!dialog.open)dialog.showModal();
+  try{const data=await loadEvidence();if(generation!==evidenceGeneration)return;const ids=link.dataset.evidence.split(',');const selected=ids.includes('all')?data.sources:data.sources.filter(source=>ids.includes(source.id));evidenceContent.replaceChildren(...selected.map(source=>evidenceItem(source)));dialog.scrollTop=0;}
+  catch{evidenceContent.replaceChildren(Object.assign(document.createElement('p'),{textContent:'Die Belege konnten gerade nicht geladen werden. Der vollständige Quellenbericht ist unten verlinkt.'}));}
+}
+document.querySelectorAll('[data-evidence]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();openEvidence(link);}));
+document.querySelector('#closeEvidence').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('close',()=>{evidenceGeneration++;opener?.focus({preventScroll:true});});
+dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
