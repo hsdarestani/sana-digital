@@ -9,7 +9,6 @@
   <title>Patientenaufnahme | Sana MVZ Frankfurt-Westend</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/accessible.css">
-  <script defer src="/igel-guide.js"></script>
   <script defer src="/vendor/pdf-lib.min.js"></script>
   <script defer src="/vendor/fontkit.min.js"></script>
   <script defer src="/pdf-summary.js"></script>
@@ -17,27 +16,13 @@
 </head>
 <body>
   <div class="app-shell">
-    <div class="navigation-rail"><a href="/vision/" class="back-to-presentation">Zurück zu SANA NEXT</a><span>Einfach ausfüllen · Schritt für Schritt</span></div>
-    <header class="masthead">
-      <a class="brand" href="/vision/" aria-label="Zur SANA NEXT Übersicht">
-        <span class="brand-icon" aria-hidden="true"><img src="/assets/sana-logo.png" alt="" width="34" height="34"></span>
-        <span><b>sana<span class="brand-dot">.</span></b><small>MVZ Frankfurt-Westend</small></span>
-      </a>
-      <span class="masthead-side"><span class="secure-dot"></span> Digitale Patientenaufnahme</span>
-    </header>
-
     <div class="workspace">
-      <aside class="intro">
-        <div class="intro-top"><span class="eyebrow">DIGITALE PATIENTENAUFNAHME</span><h1>In Ihrem Tempo.<br><em>Schritt für Schritt.</em></h1><p>Bitte halten Sie Ihre Kontaktdaten und Angaben zu Medikamenten bereit. Mit * markierte Felder sind erforderlich.</p></div>
-        <div class="intro-bottom"><b>Sie entscheiden.</b><p>Freiwillige Einwilligungen bleiben freiwillig. Sie können Ihre Angaben vor dem Abschluss ändern.</p><span>Fünf Schritte · ca. 5 bis 8 Minuten</span></div>
-      </aside>
-
-      <main class="form-panel" id="formPanel">
+<main class="form-panel" id="formPanel">
         <div class="progress-head">
           <div><span class="kicker">PATIENTENAUFNAHME</span><div class="step-heading" id="step-heading">Persönliche Daten</div><p class="easy-help">Große Felder, klare Schritte. Sie können jederzeit zurückgehen.</p></div>
-          <div class="step-counter"><span id="step-count">01</span><span class="step-divider"> / </span>05</div>
+          <div class="step-counter"><span id="step-count">01</span><span class="step-divider"> / </span>04</div>
         </div>
-        <div class="progress-track" role="progressbar" id="progress" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
+        <div class="progress-track" role="progressbar" id="progress" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span id="progress-fill"></span></div>
         <div class="step-tags" id="step-tags" aria-label="Schritte"></div>
         <div class="preview-notice" id="previewNotice" role="status"><b>VORSCHAU</b> Nur zur Vorführung. Bitte keine echten Patientendaten eingeben. Es wird nichts an die Praxis gesendet.</div>
 
@@ -51,6 +36,8 @@
               <label class="field">Geburtsdatum <span>*</span><input name="birthDate" type="date" autocomplete="bday" required></label>
               <label class="field">Mobilnummer <span>*</span><input name="mobile" type="tel" autocomplete="tel" maxlength="30" required placeholder="+49 ..."></label>
               <label class="field">Telefon <span class="optional">optional</span><input name="phone" type="tel" maxlength="30" placeholder="Festnetznummer"></label>
+              <label class="field">Krankenkasse / Kostenträger <span>*</span><input name="insurance" maxlength="120" required placeholder="Name Ihrer Versicherung"></label>
+              <label class="field">Versicherungsnummer <span class="optional">optional</span><input name="insuranceNumber" maxlength="40" placeholder="Falls vorhanden"></label>
               <label class="field">E-Mail <span class="optional">optional</span><input name="email" type="email" autocomplete="email" maxlength="150" placeholder="name@beispiel.de"></label>
             </div>
             <div class="inline-divider"><span>ANSCHRIFT</span></div>
@@ -58,8 +45,6 @@
               <label class="field full">Straße und Hausnummer <span>*</span><input name="street" autocomplete="street-address" maxlength="160" required placeholder="Musterstraße 12"></label>
               <label class="field">Postleitzahl <span>*</span><input name="postalCode" autocomplete="postal-code" inputmode="numeric" maxlength="12" required placeholder="60313"></label>
               <label class="field">Ort <span>*</span><input name="city" autocomplete="address-level2" maxlength="90" required placeholder="Frankfurt am Main"></label>
-              <label class="field">Krankenkasse / Kostenträger <span>*</span><input name="insurance" maxlength="120" required placeholder="Name Ihrer Versicherung"></label>
-              <label class="field">Versicherungsnummer <span class="optional">optional</span><input name="insuranceNumber" maxlength="40" placeholder="Falls vorhanden"></label>
             </div>
             <div class="disclosure" id="guardianBox">
               <div class="disclosure-head"><div><b>Gesetzliche Vertretung</b><p>Nur wenn Sie unter 18 Jahre alt sind.</p></div><span id="guardianRequiredLabel">Optional</span></div>
@@ -119,22 +104,7 @@
           </div>
 
           <div class="step" data-step="3" hidden aria-labelledby="title-4">
-            <div class="section-heading"><span class="section-index">04 / ENTSCHEIDUNGSHILFE</span><h2 id="title-4" tabindex="-1">Gut informiert entscheiden.</h2><p>Ein freiwilliger Leitfaden für Selbstzahlerleistungen – unabhängig von Ihrer Anmeldung.</p></div>
-            <div class="resource-cards">
-              <article class="resource-card igel-guide-card">
-                <div class="resource-icon" aria-hidden="true">?</div>
-                <div class="resource-text">
-                  <span class="micro">FREIWILLIGE ENTSCHEIDUNGSHILFE</span>
-                  <h3>IGeL verstehen – gut informiert entscheiden</h3>
-                  <p>Was bringen Selbstzahlerleistungen? Welche Risiken, Rechte und Kosten gibt es? Neun einfache Fragen helfen Ihnen, vor einer Entscheidung mit Ihrer Ärztin oder Ihrem Arzt alles Wichtige zu klären.</p>
-                  <button class="outline-action" type="button" data-dialog="igelguide">IGeL-Check starten </button>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <div class="step" data-step="4" hidden aria-labelledby="title-5">
-            <div class="section-heading"><span class="section-index">05 / ABSCHLUSS</span><h2 id="title-5" tabindex="-1">Prüfen und unterschreiben.</h2><p>Bitte prüfen Sie Ihre Angaben und unterschreiben Sie.</p></div>
+            <div class="section-heading"><span class="section-index">04 / ABSCHLUSS</span><h2 id="title-4" tabindex="-1">Prüfen und unterschreiben.</h2><p>Bitte prüfen Sie Ihre Angaben und unterschreiben Sie.</p></div>
             <div id="review" class="review-stack"></div>
             <div class="signature-block">
               <div class="signature-heading"><div><h3>Ihre Unterschrift <span>*</span></h3><p>Unterschreiben Sie mit Finger, Maus oder Stift im Feld.</p></div><button type="button" class="text-link" id="clearSignature">Löschen</button></div>
