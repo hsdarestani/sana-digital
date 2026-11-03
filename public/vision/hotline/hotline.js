@@ -25,7 +25,7 @@ function sync(){
     children.forEach(key=>{form.elements[key].required=active;form.elements[key].disabled=!active;if(!active){form.elements[key].value='';clearValidation(form.elements[key]);}});
   });
   if(demoPin && identity()!==pinIdentity)resetPin();
-  const rows=[['Patient',[value('firstName'),value('lastName')].filter(Boolean).join(' ')||'Noch nicht angegeben'],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))||'Noch nicht angegeben'],['Telefon',value('phone')||'Noch nicht angegeben'],['Anliegen',value('reason')||'Noch nicht ausgewählt']];
+  const rows=[['Patient',[value('firstName'),value('lastName')].filter(Boolean).join(' ')||'Noch nicht angegeben'],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))||'Noch nicht angegeben'],['Telefon',value('phone')||'Noch nicht angegeben'],['Versicherung',value('insurance')||'Nicht angegeben'],['Versicherungsnummer',value('insuranceNumber')||'Nicht angegeben'],['Anliegen',value('reason')||'Noch nicht ausgewählt']];
   if(yes('needPrescription'))rows.push(['Rezept',value('prescription')||'Bitte ergänzen']);
   if(yes('needCallback'))rows.push(['Arztrückruf',value('callbackDoctor')||'Arzt ergänzen']);
   if(yes('needDocuments'))rows.push(['Unterlagen',value('documents')||'Bitte ergänzen'],['Versandweg · Simulation',value('delivery')||'Bitte wählen'],['Empfänger',value('deliveryAddress')||'Bitte ergänzen']);
@@ -43,7 +43,7 @@ function edited(event){clearValidation(event.target);resultRoot.hidden=true;sync
 form.addEventListener('input',edited);form.addEventListener('change',edited);
 document.getElementById('fillDemo').addEventListener('click',()=>{
   form.reset();clearValidation();resetPin();sync();
-  const example={firstName:'Julia',lastName:'Müller',birthDate:'1972-09-18',phone:'+49 170 0000000',reason:'Mehrere Anliegen',prescription:'Folgerezept für das bereits verordnete Medikament; ärztliche Prüfung erforderlich.',notes:'Fiktives Gespräch: Die Patientin bittet um Rückruf zum Befund. Rückruf möglichst am Nachmittag. Keine medizinische Auskunft erteilt.',callbackDoctor:'Dr. Wickler',documents:'Befundbericht der letzten Untersuchung',delivery:'E-Mail',deliveryAddress:'julia.mueller@example.invalid',appointmentMode:'Terminanfrage für das Praxisteam aufnehmen'};
+  const example={firstName:'Julia',lastName:'Müller',birthDate:'1972-09-18',phone:'+49 170 0000000',insurance:'Beispielkasse',insuranceNumber:'MUSTER-12345',reason:'Mehrere Anliegen',prescription:'Folgerezept für das bereits verordnete Medikament; ärztliche Prüfung erforderlich.',notes:'Fiktives Gespräch: Die Patientin bittet um Rückruf zum Befund. Rückruf möglichst am Nachmittag. Keine medizinische Auskunft erteilt.',callbackDoctor:'Dr. Wickler',documents:'Befundbericht der letzten Untersuchung',delivery:'E-Mail',deliveryAddress:'julia.mueller@example.invalid',appointmentMode:'Terminanfrage für das Praxisteam aufnehmen'};
   config.forEach(([name])=>form.elements[name].checked=true);sync();
   for(const [k,v]of Object.entries(example))form.elements[k].value=v;
   resultRoot.hidden=true;feedback.textContent='Fiktives Beispiel geladen. Sie können alle Angaben ändern und die PDF erstellen.';sync();
@@ -63,7 +63,7 @@ form.addEventListener('submit',async event=>{
   const invalid=Array.from(form.elements).find(el=>el.willValidate&&!el.checkValidity());
   if(invalid){markInvalid(invalid);feedback.textContent='Bitte ergänzen Sie das markierte Pflichtfeld.';return;}
   if(verified&&Date.now()-pinTime>=300000){resetPin();sync();}
-  const parts=[{title:'Patient und Kontakt',rows:[['Vorname',value('firstName')],['Nachname',value('lastName')],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))],['Telefon',value('phone')],['Grund des Anrufes',value('reason')]]},{title:'Anliegen und Bearbeitung',rows:[
+  const parts=[{title:'Patient und Kontakt',rows:[['Vorname',value('firstName')],['Nachname',value('lastName')],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))],['Telefon',value('phone')],['Versicherung',value('insurance')],['Versicherungsnummer',value('insuranceNumber')],['Grund des Anrufes',value('reason')]]},{title:'Anliegen und Bearbeitung',rows:[
     ['Rezept benötigt',yes('needPrescription')?'Ja':'Nein'],['Welches Rezept',value('prescription')],['Arztrückruf gewünscht',yes('needCallback')?'Ja':'Nein'],['Gewünschter Arzt',value('callbackDoctor')],['Unterlagen benötigt',yes('needDocuments')?'Ja':'Nein'],['Welche Unterlagen',value('documents')],['Versandweg (Simulation)',value('delivery')],['Kontaktadresse / Empfänger',value('deliveryAddress')],['Termin gewünscht',yes('needAppointment')?'Ja':'Nein'],['Terminorganisation (Simulation)',value('appointmentMode')],['Notizen',value('notes')]
   ]},{title:'Prüfung und Übergabe',rows:[['SMS-PIN (nur Demo)',verified?'Testcode bestätigt. Keine Identitätsprüfung.':'Nicht geprüft'],['Nächster Schritt','Ärztliche Anliegen und Rezepte werden durch die Praxis geprüft. Kein Termin wurde gebucht; keine SMS und keine Unterlagen wurden verschickt.'],['Dokumentstatus','Nur zur Vorführung. Lokal erstellt und nicht an die Praxis übermittelt.']]}];
   const btn=form.querySelector('button[type="submit"]');exporting=true;btn.disabled=true;btn.textContent='PDF wird erstellt …';
