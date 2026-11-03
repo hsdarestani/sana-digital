@@ -34,28 +34,28 @@ test('presentation: both one-click entries, return paths, sample PDF and respons
  await page.getByRole('link',{name:'Telefonservice erleben'}).click();await expect(page.locator('#callForm')).toBeVisible();await noOverflow(page);
  await page.getByRole('link',{name:'Zurück zur Übersicht',exact:true}).click();await page.getByRole('link',{name:'Patientenaufnahme starten'}).click();
  await expect(page.locator('#previewNotice')).toBeVisible();await expect(page.locator('#fillPatientDemo')).toBeVisible();await noOverflow(page);
- await page.getByRole('link',{name:'Zurück zu SANA NEXT'}).click();await page.getByRole('link',{name:'Muster-PDF ansehen'}).click();
+ await page.getByRole('link',{name:'Zurück zu SANA NEXT'}).click();await page.getByRole('link',{name:'Beispiel PDF ansehen'}).click();
  await expect.poll(()=>requests.some(r=>r.path.endsWith('SANA_Patientenaufnahme_Muster.pdf'))).toBeTruthy();
 });
 
 test('hotline: required fields, every conditional, delivery channel, PIN invalidation, summary and real PDF download',async({site},info)=>{
- const {page}=site;await page.goto('/vision/hotline/');await page.getByRole('button',{name:'PDF-Zusammenfassung erstellen'}).click();await expect(page.locator('[name=firstName]')).toHaveAttribute('aria-invalid','true');
+ const {page}=site;await page.goto('/vision/hotline/');await page.getByRole('button',{name:'PDF Übersicht erstellen'}).click();await expect(page.locator('[name=firstName]')).toHaveAttribute('aria-invalid','true');
  for(const [reason,box]of [['Rezept','needPrescription'],['Rückruf vom Arzt','needCallback'],['Unterlagen','needDocuments'],['Terminanfrage','needAppointment']]){await page.getByRole('button',{name:'Formular leeren'}).click();await page.locator('[name=reason]').selectOption(reason);await expect(page.locator(`[name=${box}]`)).toBeChecked();}
  await page.getByRole('button',{name:'Beispiel laden',exact:true}).click();
  for(const [box,child]of [['needPrescription','prescription'],['needCallback','callbackDoctor'],['needDocuments','documents'],['needAppointment','appointmentMode']]){
   await page.locator(`[name=${box}]`).uncheck();await expect(page.locator(`[name=${child}]`)).not.toBeVisible();await expect(page.locator(`[name=${child}]`)).toBeDisabled();
-  await page.locator(`[name=${box}]`).check();await page.getByRole('button',{name:'PDF-Zusammenfassung erstellen'}).click();await expect(page.locator(`[name=${child}]`)).toHaveAttribute('aria-invalid','true');await page.getByRole('button',{name:'Beispiel laden',exact:true}).click();
+  await page.locator(`[name=${box}]`).check();await page.getByRole('button',{name:'PDF Übersicht erstellen'}).click();await expect(page.locator(`[name=${child}]`)).toHaveAttribute('aria-invalid','true');await page.getByRole('button',{name:'Beispiel laden',exact:true}).click();
  }
- for(const option of ['E-Mail','Fax','WhatsApp','Post']){await page.locator('[name=delivery]').selectOption(option);await expect(page.locator('#liveSummary')).toContainText(option);}
+ for(const option of ['E-Mail','Fax','WhatsApp','Post']){await page.locator('[name=delivery]').selectOption(option);await expect(page.locator('#liveSummary')).toContainText(option==='E-Mail'?'E Mail':option);}
  await page.locator('[name=delivery]').selectOption('E-Mail');
- for(const option of await page.locator('[name=appointmentMode] option').allTextContents()){if(option==='Bitte auswählen')continue;await page.locator('[name=appointmentMode]').selectOption({label:option});await expect(page.locator('#liveSummary')).toContainText(option);}
+ for(const option of await page.locator('[name=appointmentMode] option').allTextContents()){if(option==='Bitte auswählen')continue;await page.locator('[name=appointmentMode]').selectOption({label:option});await expect(page.locator('#liveSummary')).toContainText(option==='E-Mail'?'E Mail':option);}
  await page.locator('[name=appointmentMode]').selectOption({label:'Terminanfrage für das Praxisteam aufnehmen'});
  await page.getByRole('button',{name:'Prüfen',exact:true}).click();await expect(page.locator('#verifiedLabel')).toContainText('PIN falsch');
- await page.getByRole('button',{name:'Test-PIN anzeigen'}).click();const pin=(await page.locator('#demoPin').textContent()).match(/\d{6}/)[0];
- await page.locator('#pinInput').fill(pin);await page.getByRole('button',{name:'Prüfen',exact:true}).click();await expect(page.locator('#verifiedLabel')).toContainText('Demo-PIN korrekt');
+ await page.getByRole('button',{name:'Testcode anzeigen'}).click();const pin=(await page.locator('#demoPin').textContent()).match(/\d{6}/)[0];
+ await page.locator('#pinInput').fill(pin);await page.getByRole('button',{name:'Prüfen',exact:true}).click();await expect(page.locator('#verifiedLabel')).toContainText('Demo Code korrekt');
  await page.locator('[name=phone]').fill('+49 170 0000001');await expect(page.locator('#verifiedLabel')).toContainText('Nicht geprüft');
  const long='Füße, Größe, Rückruf. '+('Ärzte '.repeat(210))+' ENDE_HOTLINE_ÄÖÜ';await page.locator('[name=notes]').fill(long);await expect(page.locator('#liveSummary')).toContainText(long);
- await noOverflow(page);const {text,values}=await saveDownload(page,page.getByRole('button',{name:'PDF-Zusammenfassung erstellen'}),info,'hotline');
+ await noOverflow(page);const {text,values}=await saveDownload(page,page.getByRole('button',{name:'PDF Übersicht erstellen'}),info,'hotline');
  for(const value of ['Müller','18.09.1972','Folgerezept','Dr. Wickler','julia.mueller@example.invalid','ENDE_HOTLINE_ÄÖÜ'])expect(text).toContain(value);
  expect(values.replace(/\s/g,'')).toContain(long.replace(/\s/g,''));
  await page.getByRole('button',{name:'Formular leeren'}).click();await expect(page.locator('[name=firstName]')).toHaveValue('');await expect(page.locator('#pdfResult')).not.toBeVisible();
