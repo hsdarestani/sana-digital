@@ -31,9 +31,9 @@ function sync(){
   if(yes('needDocuments'))rows.push(['Unterlagen',value('documents')||'Bitte ergänzen'],['Versandweg · Simulation',value('delivery')||'Bitte wählen'],['Empfänger',value('deliveryAddress')||'Bitte ergänzen']);
   if(yes('needAppointment'))rows.push(['Terminweg · Simulation',value('appointmentMode')||'Bitte wählen']);
   if(value('notes'))rows.push(['Notizen',value('notes')]);
-  rows.push(['Test-PIN',verified?'Bestätigt · Keine Identitätsprüfung':'Nicht geprüft · Simulation']);
+  rows.push(['Testcode',verified?'Bestätigt · Keine Identitätsprüfung':'Nicht geprüft · Simulation']);
   preview.replaceChildren();
-  rows.forEach(([name,info])=>{const item=document.createElement('div');item.className='summary-row';const label=document.createElement('dt');label.textContent=name;const data=document.createElement('dd');data.textContent=info;item.append(label,data);preview.append(item);});
+  rows.forEach(([name,info])=>{const item=document.createElement('div');item.className='summary-row';const label=document.createElement('dt');label.textContent=name;const data=document.createElement('dd');data.textContent=String(info).replace(/[-–—]/g,' ');item.append(label,data);preview.append(item);});
 }
 form.elements.reason.addEventListener('change',()=>{
   const relation={'Rezept':'needPrescription','Rückruf vom Arzt':'needCallback','Unterlagen':'needDocuments','Terminanfrage':'needAppointment'};
@@ -52,11 +52,11 @@ document.getElementById('clearForm').addEventListener('click',()=>{form.reset();
 document.getElementById('sendDemoPin').addEventListener('click',()=>{
   if(!form.elements.phone.checkValidity()){feedback.textContent='Bitte zuerst eine gültige Beispieltelefonnummer eintragen.';markInvalid(form.elements.phone);return;}
   const bytes=new Uint32Array(1);crypto.getRandomValues(bytes);demoPin=String(bytes[0]%1000000).padStart(6,'0');verified=false;pinIdentity=identity();pinTime=Date.now();pinInput.value='';
-  pinLabel.textContent='Test-PIN: '+demoPin+' · 5 Minuten gültig';verifiedLabel.textContent='Testcode noch nicht bestätigt · Simulation';feedback.textContent='Keine SMS versendet. Nur lokale Testsimulation.';sync();
+  pinLabel.textContent='Testcode: '+demoPin+' · 5 Minuten gültig';verifiedLabel.textContent='Testcode noch nicht bestätigt · Simulation';feedback.textContent='Keine SMS versendet. Nur lokale Testsimulation.';sync();
 });
 document.getElementById('verifyDemoPin').addEventListener('click',()=>{
   verified=Boolean(demoPin && pinInput.value.trim()===demoPin && pinIdentity===identity() && Date.now()-pinTime<300000);
-  verifiedLabel.textContent=verified?'Demo-PIN korrekt · Keine Identitätsprüfung':'PIN falsch, abgelaufen oder noch nicht angezeigt.';sync();resultRoot.hidden=true;
+  verifiedLabel.textContent=verified?'Demo Code korrekt · Keine Identitätsprüfung':'PIN falsch, abgelaufen oder noch nicht angezeigt.';sync();resultRoot.hidden=true;
 });
 form.addEventListener('submit',async event=>{
   event.preventDefault();if(exporting)return;feedback.textContent='';sync();
@@ -65,11 +65,11 @@ form.addEventListener('submit',async event=>{
   if(verified&&Date.now()-pinTime>=300000){resetPin();sync();}
   const parts=[{title:'Patient und Kontakt',rows:[['Vorname',value('firstName')],['Nachname',value('lastName')],['Geburtsdatum',window.SanaPDF.formatDate(value('birthDate'))],['Telefon',value('phone')],['Versicherung',value('insurance')],['Versicherungsnummer',value('insuranceNumber')],['Grund des Anrufes',value('reason')]]},{title:'Anliegen und Bearbeitung',rows:[
     ['Rezept benötigt',yes('needPrescription')?'Ja':'Nein'],['Welches Rezept',value('prescription')],['Arztrückruf gewünscht',yes('needCallback')?'Ja':'Nein'],['Gewünschter Arzt',value('callbackDoctor')],['Unterlagen benötigt',yes('needDocuments')?'Ja':'Nein'],['Welche Unterlagen',value('documents')],['Versandweg (Simulation)',value('delivery')],['Kontaktadresse / Empfänger',value('deliveryAddress')],['Termin gewünscht',yes('needAppointment')?'Ja':'Nein'],['Terminorganisation (Simulation)',value('appointmentMode')],['Notizen',value('notes')]
-  ]},{title:'Prüfung und Übergabe',rows:[['SMS-PIN (nur Demo)',verified?'Testcode bestätigt. Keine Identitätsprüfung.':'Nicht geprüft'],['Nächster Schritt','Ärztliche Anliegen und Rezepte werden durch die Praxis geprüft. Kein Termin wurde gebucht; keine SMS und keine Unterlagen wurden verschickt.'],['Dokumentstatus','Nur zur Vorführung. Lokal erstellt und nicht an die Praxis übermittelt.']]}];
+  ]},{title:'Prüfung und Übergabe',rows:[['SMS Code (nur Demo)',verified?'Testcode bestätigt. Keine Identitätsprüfung.':'Nicht geprüft'],['Nächster Schritt','Ärztliche Anliegen und Rezepte werden durch die Praxis geprüft. Kein Termin wurde gebucht; keine SMS und keine Unterlagen wurden verschickt.'],['Dokumentstatus','Nur zur Vorführung. Lokal erstellt und nicht an die Praxis übermittelt.']]}];
   const btn=form.querySelector('button[type="submit"]');exporting=true;btn.disabled=true;btn.textContent='PDF wird erstellt …';
   try{const result=await window.SanaPDF.download({title:'Telefonisches Anliegen',subtitle:'A+ Solution · Gesprächsprotokoll · Fiktive Demonstration',sections:parts,signoff:true,filename:'SANA_Hotline_'+new Date().toISOString().slice(0,10)+'.pdf'});window.SanaPDF.showResult(resultRoot,result);feedback.textContent='PDF erstellt. Keine Daten gespeichert oder verschickt.';}
   catch(error){feedback.textContent='Die PDF konnte nicht erstellt werden. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.';}
-  finally{exporting=false;btn.disabled=false;btn.textContent='PDF-Zusammenfassung erstellen';}
+  finally{exporting=false;btn.disabled=false;btn.textContent='PDF Übersicht erstellen';}
 });
 sync();
 })();
