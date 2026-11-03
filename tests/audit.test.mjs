@@ -31,7 +31,7 @@ test('presentation copy is concise, icon-guided and preserves source disclosure'
  assert.match(html,/Was jetzt zählt\./);
  assert.ok((html.match(/class="audit-icon"/g)||[]).length>=20);
  assert.ok((html.match(/class="method-details"/g)||[]).length>=4);
- const defined=new Set([...html.matchAll(/<symbol id="([^"]+)"/g)].map(m=>m[1]));
+ const defined=new Set([...html.matchAll(/<(?:symbol|path|clipPath|mask|linearGradient|radialGradient)\\b[^>]*\\bid="([^"]+)"/g)].map(m=>m[1]));
  for(const match of html.matchAll(/<use href="#([^"]+)"/g))assert.ok(defined.has(match[1]),match[1]);
  for(const id of ['suche','vergleich','befunde','konzept','fahrplan','messbarkeit'])assert.match(html,new RegExp('id="'+id+'"'));
  assert.match(js,/data-period/);
