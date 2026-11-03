@@ -2,13 +2,30 @@
 
 Responsive German-language patient intake for **Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend**, designed for Cloudflare Pages and Cloudflare D1.
 
-## SANA NEXT (November 3, 2026): presentation and working concept demos
+## SANA NEXT: presentation edition, 3 November 2026
 
-- `/vision/`: two clearly explained options suitable for iPad presentations: an **A+ Solution staffed telephone hotline** and the **existing digital patient intake**. The previously confusing capacity and command-center concepts are not presented as standalone products.
-- `/vision/hotline/`: employee call intake form with first/last name, birth date, phone number, call reason, notes, prescription, physician callback, document request, delivery preference (email, fax, WhatsApp, post), appointment-routing *options*, and a local demonstration PIN.
-- Hotline provides a live on-screen summary and a downloadable branded A4 PDF. No database writes, SMS sending, WhatsApp/fax/email sending, calendar access, prescription processing, or patient verification are connected. Do not enter real health data into the demo.
-- `/`: the original five-step patient intake remains intact, with clearer navigation, larger touch controls, and **PDF-Zusammenfassung herunterladen** at its final step after all required fields and signature have been provided. PDF is composed locally in the browser using `/pdf-summary.js`; it is not evidence that any intake was submitted. A fictional PDF sample is available directly from `/vision/`.
-- **Not production ready:** the practice must approve data handling, actual identity verification, secure communication channels, permissions, telephone staffing, Doctolib integration (if needed), the official medical document design, and end-to-end device testing before handling real patients. Cloudflare intake activation remains separate.
+- `/vision/`: blue-and-white presentation with exactly two one-tap entries: A+ Solution's **human-operated telephone service** and digital patient intake. Native links open both sample PDFs reliably in a new tab.
+- `/vision/hotline/`: all original employee fields and conditional requests; full live summary, optional local PIN simulation and a branded, searchable A4 PDF. Changing caller details invalidates a previously confirmed demo PIN.
+- `/?demo=1`: the existing five-step intake in a **forced, non-submitting presentation mode**, regardless of the server's activation setting. The example button inserts fictional data; consent boxes and signature are never prefilled. `/` retains the existing production activation checks.
+- Both PDF exports use the same local vector layout engine, embedded German-capable fonts, complete answers, repeated section headers, signature/review area and page counts. Large answers and long tokens wrap over as many A4 pages as needed. No answer-length truncation.
+- Downloads provide persistent **PDF öffnen** and **PDF erneut herunterladen** links for Safari. PDF generation fetches only static, same-origin fonts and branding; form data is never sent by the export.
+- Existing backend, D1 encryption, Access checks, activation controls and CSP are unchanged. SMS, document delivery and calendar access remain clearly marked simulations. No real-patient collection has been activated.
+- German handover: [Änderungsbericht und QA](docs/Aenderungsbericht_DE.md).
+
+### Verification and sample generation
+
+```sh
+npm ci
+npm run check
+npm test
+npx playwright install --with-deps chromium webkit
+npm run test:journeys
+npm run samples
+```
+
+Browser tests run the shipped files and CSP through offline request interception in real Chromium and WebKit engines. They perform no external writes. The matrix covers desktop, Android, iPad portrait/landscape and iPhone. This is browser/device emulation, **not a physical iPad or native Safari hardware certification**. The standard GitHub quality workflow runs the same tests and keeps fictional QA artifacts for three days.
+
+Generated samples live in `public/assets/`. Their data and creation date are deliberately fixed and fictional. The `.pdf` files can be regenerated with the same browser PDF engine through `scripts/generate-samples.mjs`.
 
 ## Included
 - Five accessible, mobile-first steps: personal/insurance/contact, medical history, privacy/optional billing consent, optional independent IGeL decision helper, review + touch signature.

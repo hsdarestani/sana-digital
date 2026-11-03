@@ -9,3 +9,8 @@ dist/
 *.sqlite3
 .DS_Store
 !.env.example
+
+# Generated QA output and temporary document renders
+test-results/
+playwright-report/
+tmp/

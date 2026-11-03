@@ -2,7 +2,7 @@
   'use strict';
   const form = document.getElementById('intakeForm');
   const steps = Array.from(document.querySelectorAll('.step'));
-  const names = ['Persönlich', 'Gesundheit', 'Datenschutz', 'Dokumente', 'Abschluss'];
+  const names = ['Persönlich', 'Gesundheit', 'Einwilligungen', 'Information', 'Abschluss'];
   const headings = ['Persönliche Daten', 'Gesundheitsangaben', 'Datenschutz & Abrechnung', 'Weitere Informationen', 'Prüfen & Absenden'];
   const nextBtn = document.getElementById('nextBtn');
   const backBtn = document.getElementById('backBtn');
@@ -19,6 +19,14 @@
   let intakeEnabled = false;
   let turnstileKey = null;
   let turnstileToken = null;
+  let pdfExporting = false;
+  const presentationDemo = new URLSearchParams(location.search).get('demo') === '1';
+  const pdfResult = document.getElementById('pdfResult');
+  const today = new Date(); today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
+  for (const name of ['birthDate','guardianBirthDate']) {
+    form.elements[name].min='1900-01-01';
+    form.elements[name].max=today.toISOString().slice(0,10);
+  }
   const tags = document.getElementById('step-tags');
   tags.innerHTML = names.map((s,i) => '<span class="step-tag" data-tag="'+i+'">'+s+'</span>').join('');
 
@@ -46,7 +54,7 @@
       const radio = form.querySelector('input[name="'+bits[0]+'"]:checked');
       const visible = !!radio && radio.value===bits[1];
       el.classList.toggle('hidden',!visible);
-      el.querySelectorAll('input,textarea,select').forEach(input=>{input.required=visible;if(!visible){input.value='';input.removeAttribute('aria-invalid');}});
+      el.querySelectorAll('input,textarea,select').forEach(input=>{input.required=visible;input.disabled=!visible;if(!visible){input.value='';clearFieldError(input);}});
     });
   }
   function moveTo(step){
@@ -56,8 +64,10 @@
     document.getElementById('step-heading').textContent=headings[step];
     document.getElementById('progress-fill').style.width=((step+1)*20)+'%';
     document.getElementById('progress').setAttribute('aria-valuenow',String(step+1));
-    document.querySelectorAll('.step-tag').forEach((el,i)=>{el.classList.toggle('is-active',i===step);el.classList.toggle('is-complete',i<step);});
-    backBtn.hidden=step===0;
+    document.querySelectorAll('.step-tag').forEach((el,i)=>{el.classList.toggle('is-active',i===step);el.classList.toggle('is-complete',i<step);if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});
+    backBtn.hidden=false;
+    backBtn.textContent=step===0?'Zur Übersicht':'Zurück';
+    nextBtn.textContent=['Weiter zur Gesundheit','Weiter zu Einwilligungen','Weiter zu Informationen','Weiter zum Abschluss'][step]||'Weiter';
     nextBtn.hidden=step===steps.length-1;
     submitBtn.hidden=step!==steps.length-1;
     downloadPdfBtn.hidden=step!==steps.length-1;
@@ -65,17 +75,28 @@
     if(step===4) renderReview();
     const panel=document.getElementById('formPanel');
     if(panel.getBoundingClientRect().top<-20) window.scrollTo({top: Math.max(0,window.scrollY+panel.getBoundingClientRect().top-12),behavior:'smooth'});
+    if(document.activeElement?.id==='nextBtn'||document.activeElement?.id==='backBtn'||document.activeElement?.classList.contains('review-edit')) steps[step].querySelector('h2')?.focus({preventScroll:true});
   }
-  function fail(message){formError.textContent=message;formError.hidden=false;formError.scrollIntoView({behavior:'smooth',block:'center'});}
+  function fail(message){formError.textContent=message;formError.hidden=false;}
+  function clearFieldError(input){
+    input.removeAttribute('aria-invalid');
+    const errorId=input.dataset.errorId;
+    if(errorId){document.getElementById(errorId)?.remove();input.removeAttribute('aria-describedby');delete input.dataset.errorId;}
+  }
+  function fieldError(input){
+    clearFieldError(input);input.setAttribute('aria-invalid','true');
+    const error=document.createElement('span');error.className='field-error';error.id='error-'+input.name;
+    error.textContent=input.validity.valueMissing?'Bitte füllen Sie dieses Pflichtfeld aus.':input.type==='date'?'Bitte geben Sie ein gültiges Datum zwischen 1900 und heute ein.':input.type==='email'?'Bitte geben Sie eine gültige E-Mail-Adresse ein.':'Bitte prüfen Sie Ihre Eingabe und den erlaubten Wertebereich.';
+    input.dataset.errorId=error.id;input.setAttribute('aria-describedby',error.id);
+    if(input.type==='checkbox')input.closest('label').after(error);else input.after(error);
+  }
   function validateStep(i){
     minorRequirements();
     const visibleInputs=Array.from(steps[i].querySelectorAll('input,textarea,select')).filter(el=>!el.closest('.hidden') && (!el.closest('[hidden]') || el.closest('[hidden]')===steps[i]) && el.name!=='website');
     for(const input of visibleInputs){
-      input.removeAttribute('aria-invalid');
+      clearFieldError(input);
       if(!input.checkValidity()){
-        input.setAttribute('aria-invalid','true');
-        input.focus();
-        input.reportValidity();
+        if(i===current){fieldError(input);input.focus();input.reportValidity();}
         return false;
       }
     }
@@ -86,7 +107,9 @@
     return true;
   }
   nextBtn.addEventListener('click',()=>{if(validateStep(current))moveTo(current+1);});
-  backBtn.addEventListener('click',()=>moveTo(current-1));
+  backBtn.addEventListener('click',()=>{if(current===0)location.href='/vision/';else moveTo(current-1);});
+  form.addEventListener('input',event=>{clearFieldError(event.target);pdfResult.hidden=true;});
+  form.addEventListener('change',event=>{clearFieldError(event.target);pdfResult.hidden=true;});
   document.querySelectorAll('input[type="radio"]').forEach(el=>el.addEventListener('change',updateConditionals));
   form.elements.birthDate.addEventListener('change',minorRequirements);
 
@@ -100,18 +123,24 @@
   }
   function renderReview(){
     const root=document.getElementById('review');root.replaceChildren();
-    root.append(reviewRow('Persönliche Daten',[value('firstName')+' '+value('lastName'),value('birthDate'),value('mobile'),value('street')+', '+value('postalCode')+' '+value('city')].filter(Boolean).join(' · '),0));
-    const cs=Array.from(form.querySelectorAll('input[name="conditions"]:checked')).map(el=>el.value);
-    root.append(reviewRow('Gesundheitsangaben',[cs.length ? cs.join(', ') : 'Keine Vorerkrankungen ausgewählt','Medikamente: '+radio('medications'),'Allergien: '+radio('allergies'),'Operationen: '+radio('operations')].join('\n'),1));
-    root.append(reviewRow('Externe Abrechnung',form.elements.externalBillingConsent.checked?'Einwilligung erteilt':'Keine Einwilligung erteilt',2));
+    for(const block of window.SanaPDF.collect(form)){
+      const index=block.title==='Gesundheitsangaben'?1:block.title==='Datenschutz und Einwilligungen'?2:0;
+      const card=reviewRow(block.title,'',index),list=document.createElement('dl');list.className='review-dl';
+      card.querySelector('p').remove();
+      for(const [label,answer] of block.rows){
+        if(label==='Dokumentstatus'||label.startsWith('Richtigkeit der Angaben'))continue;
+        const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=answer==='ja'?'Ja':answer==='nein'?'Nein':answer;list.append(dt,dd);
+      }
+      card.firstElementChild.append(list);card.querySelector('button').setAttribute('aria-label',block.title+' ändern');root.append(card);
+    }
   }
   ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#123c55';ctx.lineWidth=3.5;
   function position(ev){const r=canvas.getBoundingClientRect();return {x:(ev.clientX-r.left)*canvas.width/r.width,y:(ev.clientY-r.top)*canvas.height/r.height};}
-  canvas.addEventListener('pointerdown',ev=>{ev.preventDefault();drawing=true;canvas.setPointerCapture(ev.pointerId);const p=position(ev);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+.15,p.y+.15);ctx.stroke();signed=true;document.getElementById('signaturePlaceholder').hidden=true;});
+  canvas.addEventListener('pointerdown',ev=>{ev.preventDefault();drawing=true;canvas.setPointerCapture(ev.pointerId);const p=position(ev);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+.15,p.y+.15);ctx.stroke();signed=true;pdfResult.hidden=true;document.getElementById('signaturePlaceholder').hidden=true;});
   canvas.addEventListener('pointermove',ev=>{if(!drawing)return;ev.preventDefault();const p=position(ev);ctx.lineTo(p.x,p.y);ctx.stroke();});
   function endDrawing(){drawing=false;}
   canvas.addEventListener('pointerup',endDrawing);canvas.addEventListener('pointercancel',endDrawing);
-  document.getElementById('clearSignature').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);signed=false;document.getElementById('signaturePlaceholder').hidden=false;});
+  document.getElementById('clearSignature').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);signed=false;pdfResult.hidden=true;document.getElementById('signaturePlaceholder').hidden=false;});
 
   const info = {
     billing:{title:'Externe Abrechnung',eyebrow:'PATIENTENINFORMATION',html:
@@ -137,12 +166,18 @@
     const content=document.getElementById('dialogContent');
     content.innerHTML=data.html;
     if(which==='igelguide')window.SanaIgelGuide.init(content);
+    backdropPressed=false;
     dialog.showModal();
   }
   document.querySelectorAll('[data-dialog]').forEach(btn=>btn.addEventListener('click',()=>showDialog(btn.dataset.dialog)));
   document.getElementById('closeDialog').addEventListener('click',()=>dialog.close());
   document.getElementById('doneDialog').addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('click',ev=>{if(ev.target===dialog)dialog.close();});
+  // A touch which opens the modal must never also dismiss its new backdrop.
+  let backdropPressed=false;
+  const outsideDialog=ev=>{const r=dialog.getBoundingClientRect();return ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom;};
+  dialog.addEventListener('pointerdown',ev=>{backdropPressed=ev.target===dialog&&outsideDialog(ev);});
+  dialog.addEventListener('pointercancel',()=>{backdropPressed=false;});
+  dialog.addEventListener('click',ev=>{if(backdropPressed&&ev.target===dialog&&outsideDialog(ev))dialog.close();backdropPressed=false;});
 
   function payload(){
     const fields=['firstName','lastName','birthDate','mobile','phone','email','street','postalCode','city','insurance','insuranceNumber','guardianFirstName','guardianLastName','guardianBirthDate','guardianRelation','guardianAddress','familyDoctor','occupation','heightCm','weightKg','sportsDetails','medicationDetails','conditionDetails','allergyDetails','operationDetails','cigarettesPerDay','discovery'];
@@ -159,32 +194,36 @@
     data.website=value('website');
     return data;
   }
-  downloadPdfBtn.addEventListener('click',()=>{
-    if(sending)return;
+  downloadPdfBtn.addEventListener('click',async()=>{
+    if(sending||pdfExporting)return;
     for(let i=0;i<steps.length;i++){
-      if(!validateStep(i)){moveTo(i);fail('Bitte vervollständigen Sie zuerst die Pflichtfelder.');return;}
+      if(!validateStep(i)){moveTo(i);validateStep(i);fail('Bitte vervollständigen Sie zuerst die Pflichtfelder.');return;}
     }
-    if(!signed){fail('Bitte unterschreiben Sie zuerst im Unterschriftsfeld.');return;}
+    if(!signed){fail('Bitte unterschreiben Sie zuerst im Unterschriftsfeld.');canvas.focus();return;}
     if(!form.elements.accuracyConfirm.checked){fail('Bitte bestätigen Sie Ihre Angaben.');return;}
+    pdfExporting=true;downloadPdfBtn.disabled=true;downloadPdfBtn.textContent='PDF wird erstellt …';
+    const signatureImage=canvas.toDataURL('image/png');
     try{
       const first=value('firstName'),last=value('lastName');
       const name=[first,last].filter(Boolean).join('_').replace(/[^a-z0-9äöüÄÖÜß_-]/gi,'_');
-      window.SanaPDF.download({
+      const result=await window.SanaPDF.download({
         title:'Digitale Patientenaufnahme',
-        subtitle:intakeEnabled?'Zusammenfassung Ihrer eingegebenen Angaben':'MUSTER · Nur Vorschau · Nicht an die Praxis gesendet',
+        subtitle:'Zusammenfassung Ihrer Angaben · Nicht an die Praxis übermittelt',
         sections:window.SanaPDF.collect(form),
-        signature:canvas,
+        signature:signatureImage,
         filename:'SANA_Patientenaufnahme_'+(name||'Muster')+'.pdf'
       });
+      window.SanaPDF.showResult(pdfResult,result);
       formError.hidden=true;
-    }catch(error){fail('Die PDF-Datei konnte nicht erstellt werden. Bitte versuchen Sie es erneut.');}
+    }catch(error){fail('Die PDF-Datei konnte nicht erstellt werden. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.');}
+    finally{pdfExporting=false;downloadPdfBtn.disabled=false;downloadPdfBtn.textContent='PDF-Zusammenfassung herunterladen';}
   });
   form.addEventListener('submit',async ev=>{
     ev.preventDefault();
     if(sending)return;
     if(!intakeEnabled){fail('Dieses Formular ist derzeit nur eine Vorschau. Bitte keine echten Patientendaten eingeben.');return;}
     if(turnstileKey&&!turnstileToken){fail('Bitte schließen Sie zuerst die Sicherheitsprüfung ab.');return;}
-    for(let i=0;i<steps.length;i++){if(!validateStep(i)){moveTo(i);fail('Bitte prüfen Sie die markierten Pflichtfelder.');return;}}
+    for(let i=0;i<steps.length;i++){if(!validateStep(i)){moveTo(i);validateStep(i);fail('Bitte prüfen Sie die markierten Pflichtfelder.');return;}}
     if(!signed){fail('Bitte unterschreiben Sie im Unterschriftsfeld.');return;}
     if(!form.elements.accuracyConfirm.checked){fail('Bitte bestätigen Sie die Richtigkeit Ihrer Angaben.');return;}
     const data=payload();
@@ -201,7 +240,7 @@
     finally{sending=false;submitBtn.disabled=!intakeEnabled;submitBtn.textContent='Angaben sicher senden';}
   });
   document.getElementById('newForm').addEventListener('click',()=>window.location.reload());
-  window.addEventListener('beforeunload',ev=>{if(document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
+  window.addEventListener('beforeunload',ev=>{if(intakeEnabled && document.getElementById('success').hidden && Array.from(form.elements).some(el=>el.name && el.name!=='website' && el.type!=='hidden' && ((el.type==='checkbox'||el.type==='radio')?el.checked:Boolean(el.value)))){ev.preventDefault();}});
   function setupTurnstile(sitekey){
     if(document.getElementById('turnstileBox'))return;
     const box=document.createElement('div');
@@ -219,6 +258,7 @@
   }
   async function checkActivation(){
     try{
+      if(presentationDemo)throw new Error('Presentation mode never submits.');
       const response=await fetch('/api/config',{cache:'no-store'});
       const result=response.ok?await response.json():{};
       intakeEnabled=result.enabled===true;
@@ -227,7 +267,19 @@
     }catch{intakeEnabled=false;}
     document.getElementById('previewNotice').hidden=intakeEnabled;
     submitBtn.disabled=!intakeEnabled;
-    if(!intakeEnabled)submitBtn.textContent='Noch nicht freigeschaltet';
+    if(!intakeEnabled)submitBtn.textContent='Demo · Es werden keine Daten gesendet';
+    document.getElementById('demoTools').hidden=intakeEnabled;
   }
+  document.getElementById('fillPatientDemo').addEventListener('click',()=>{
+    if(intakeEnabled)return;
+    form.reset();ctx.clearRect(0,0,canvas.width,canvas.height);signed=false;document.getElementById('signaturePlaceholder').hidden=false;
+    const example={firstName:'Julia',lastName:'Müller',birthDate:'1972-09-18',mobile:'+49 170 0000000',phone:'+49 69 0000000',email:'julia.mueller@example.invalid',street:'Musterstraße 12',postalCode:'60313',city:'Frankfurt am Main',insurance:'Beispielkasse',insuranceNumber:'MUSTER-123',familyDoctor:'Dr. Beispiel',occupation:'Bürokauffrau',heightCm:'168',weightKg:'72',sportsDetails:'Schwimmen, zweimal wöchentlich',medicationDetails:'Fiktives Beispiel: Medikament A, 5 mg morgens.',conditionDetails:'Fiktive Angaben zu Demonstrationszwecken.',allergyDetails:'Penicillin (fiktives Beispiel)',operationDetails:'Knieoperation im März 2018 (fiktiv)',discovery:'Empfehlung'};
+    for(const [name,val]of Object.entries(example))form.elements[name].value=val;
+    for(const name of ['sports','medications','allergies','operations'])form.querySelector('input[name="'+name+'"][value="ja"]').checked=true;
+    form.querySelector('input[name="smoking"][value="nein"]').checked=true;
+    form.querySelector('input[name="conditions"][value="Bluthochdruck"]').checked=true;
+    form.querySelectorAll('[aria-invalid]').forEach(clearFieldError);minorRequirements();updateConditionals();moveTo(0);pdfResult.hidden=true;
+    document.getElementById('previewNotice').innerHTML='<b>FIKTIVES BEISPIEL</b> Musterangaben eingetragen. Einwilligungen und Unterschrift wählen Sie selbst. Es wird nichts übermittelt.';
+  });
   minorRequirements();updateConditionals();moveTo(0);checkActivation();
 })();

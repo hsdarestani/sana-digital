@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/accessible.css">
   <script defer src="/igel-guide.js"></script>
+  <script defer src="/vendor/pdf-lib.min.js"></script>
+  <script defer src="/vendor/fontkit.min.js"></script>
   <script defer src="/pdf-summary.js"></script>
   <script defer src="/app.js"></script>
 </head>
@@ -17,7 +19,7 @@
   <div class="app-shell">
     <div class="navigation-rail"><a href="/vision/" class="back-to-presentation">Zurück zu SANA NEXT</a><span>Einfach ausfüllen · Schritt für Schritt</span></div>
     <header class="masthead">
-      <a class="brand" href="/" aria-label="Sana Patientenaufnahme, Startseite">
+      <a class="brand" href="/vision/" aria-label="Zur SANA NEXT Übersicht">
         <span class="brand-icon" aria-hidden="true"><img src="/assets/sana-logo.png" alt="" width="34" height="34"></span>
         <span><b>sana<span class="brand-dot">.</span></b><small>MVZ Frankfurt-Westend</small></span>
       </a>
@@ -26,18 +28,8 @@
 
     <div class="workspace">
       <aside class="intro">
-        <div class="intro-top">
-          <span class="eyebrow"><span class="sparkle">✦</span> HERZLICH WILLKOMMEN</span>
-          <h1>Weniger Papier.<br><em>Mehr Zeit für Sie.</em></h1>
-          <p>Ihr erster Schritt bei uns. Erfassen Sie Ihre Angaben bequem, sicher und in Ihrem Tempo.</p>
-        </div>
-        <div class="intro-illustration" aria-hidden="true">
-          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-          <div class="visual-card behind-card"><span class="visual-bullet"></span><span class="ghost-line medium"></span><span class="ghost-line small"></span></div>
-          <div class="visual-card front-card"><span class="mini-cross">✚</span><span class="ghost-line"></span><span class="ghost-line medium"></span><span class="visual-tick">✓</span></div>
-          <div class="floating-plus">+</div>
-        </div>
-        <div class="intro-bottom"><div class="care-icon">✳</div><div><b>Gut zu wissen</b><span>Das Ausfüllen dauert ca. 5–8 Minuten. Pflichtfelder sind mit * markiert.</span></div></div>
+        <div class="intro-top"><span class="eyebrow">DIGITALE PATIENTENAUFNAHME</span><h1>In Ihrem Tempo.<br><em>Schritt für Schritt.</em></h1><p>Bitte halten Sie Ihre Kontaktdaten und Angaben zu Medikamenten bereit. Mit * markierte Felder sind erforderlich.</p></div>
+        <div class="intro-bottom"><b>Sie entscheiden.</b><p>Freiwillige Einwilligungen bleiben freiwillig. Sie können Ihre Angaben vor dem Abschluss ändern.</p><span>Fünf Schritte · ca. 5 bis 8 Minuten</span></div>
       </aside>
 
       <main class="form-panel" id="formPanel">
@@ -47,11 +39,12 @@
         </div>
         <div class="progress-track" role="progressbar" id="progress" aria-label="Fortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
         <div class="step-tags" id="step-tags" aria-label="Schritte"></div>
-        <div class="preview-notice" id="previewNotice" role="status"><b>VORSCHAU</b> Das Formular ist noch nicht für echte Patientendaten freigegeben.</div>
+        <div class="preview-notice" id="previewNotice" role="status"><b>VORSCHAU</b> Nur zur Vorführung. Bitte keine echten Patientendaten eingeben. Es wird nichts an die Praxis gesendet.</div>
 
+        <div class="demo-tools" id="demoTools" hidden><span>Mit fiktiven Angaben ausprobieren</span><button type="button" id="fillPatientDemo" class="outline-action">Beispiel eintragen</button></div>
         <form id="intakeForm" novalidate autocomplete="on">
           <div class="step active" data-step="0" aria-labelledby="title-1">
-            <div class="section-heading"><span class="section-index">01 / KONTAKT</span><h2 id="title-1">Schön, dass Sie da sind.</h2><p>Beginnen wir mit Ihren persönlichen Angaben.</p></div>
+            <div class="section-heading"><span class="section-index">01 / KONTAKT</span><h2 id="title-1" tabindex="-1">Ihre persönlichen Daten.</h2><p>Beginnen wir mit Ihren persönlichen Angaben.</p></div>
             <div class="fields two">
               <label class="field">Vorname <span>*</span><input name="firstName" autocomplete="given-name" maxlength="80" required placeholder="Ihr Vorname"></label>
               <label class="field">Nachname <span>*</span><input name="lastName" autocomplete="family-name" maxlength="80" required placeholder="Ihr Nachname"></label>
@@ -82,7 +75,7 @@
           </div>
 
           <div class="step" data-step="1" hidden aria-labelledby="title-2">
-            <div class="section-heading"><span class="section-index">02 / GESUNDHEIT</span><h2 id="title-2">Ihre Gesundheit zählt.</h2><p>Diese Angaben helfen uns, Ihre Behandlung optimal vorzubereiten.</p></div>
+            <div class="section-heading"><span class="section-index">02 / GESUNDHEIT</span><h2 id="title-2" tabindex="-1">Angaben zu Ihrer Gesundheit.</h2><p>Diese Angaben helfen uns, Ihre Behandlung optimal vorzubereiten.</p></div>
             <div class="fields two">
               <label class="field">Hausarzt / Hausärztin <span class="optional">optional</span><input name="familyDoctor" maxlength="130" placeholder="Name oder Praxis"></label>
               <label class="field">Beruf <span class="optional">optional</span><input name="occupation" maxlength="110" placeholder="Ihre Tätigkeit"></label>
@@ -114,7 +107,7 @@
           </div>
 
           <div class="step" data-step="2" hidden aria-labelledby="title-3">
-            <div class="section-heading"><span class="section-index">03 / DATENSCHUTZ</span><h2 id="title-3">Transparent und verständlich.</h2><p>Wir erklären Ihnen, wie Ihre Angaben verwendet werden.</p></div>
+            <div class="section-heading"><span class="section-index">03 / DATENSCHUTZ</span><h2 id="title-3" tabindex="-1">Informationen und Einwilligungen.</h2><p>Wir erklären Ihnen, wie Ihre Angaben verwendet werden.</p></div>
             <div class="info-box"><span class="info-icon">i</span><div><b>Verarbeitung Ihrer Gesundheitsdaten</b><p>Die Angaben dienen der Patientenaufnahme und Behandlung. Informationen zu Verantwortlichkeit, Empfängern, Aufbewahrung und Ihren Rechten erhalten Sie in den Datenschutzhinweisen der Praxis.</p><button class="text-link" type="button" data-dialog="privacy">Datenschutzhinweise lesen </button></div></div>
             <div class="consent-panel"><div class="consent-top"><div class="consent-symbol">+</div><div><h3>Externe Honorarabrechnung</h3><p>Ärztliche Verrechnungsstelle Büdingen GmbH</p></div><span class="optional-pill">FREIWILLIG</span></div>
               <p>Mit Ihrer Zustimmung darf die Praxis die für eine externe Rechnungsstellung und Forderungsabwicklung erforderlichen Patientendaten an Büdingen weitergeben. Dafür entbinden Sie die behandelnden Ärztinnen und Ärzte insoweit von der Schweigepflicht.</p>
@@ -126,7 +119,7 @@
           </div>
 
           <div class="step" data-step="3" hidden aria-labelledby="title-4">
-            <div class="section-heading"><span class="section-index">04 / ENTSCHEIDUNGSHILFE</span><h2 id="title-4">Gut informiert entscheiden.</h2><p>Ein freiwilliger Leitfaden für Selbstzahlerleistungen – unabhängig von Ihrer Anmeldung.</p></div>
+            <div class="section-heading"><span class="section-index">04 / ENTSCHEIDUNGSHILFE</span><h2 id="title-4" tabindex="-1">Gut informiert entscheiden.</h2><p>Ein freiwilliger Leitfaden für Selbstzahlerleistungen – unabhängig von Ihrer Anmeldung.</p></div>
             <div class="resource-cards">
               <article class="resource-card igel-guide-card">
                 <div class="resource-icon" aria-hidden="true">?</div>
@@ -141,24 +134,26 @@
           </div>
 
           <div class="step" data-step="4" hidden aria-labelledby="title-5">
-            <div class="section-heading"><span class="section-index">05 / ABSCHLUSS</span><h2 id="title-5">Fast geschafft.</h2><p>Bitte prüfen Sie Ihre Angaben und unterschreiben Sie.</p></div>
+            <div class="section-heading"><span class="section-index">05 / ABSCHLUSS</span><h2 id="title-5" tabindex="-1">Prüfen und unterschreiben.</h2><p>Bitte prüfen Sie Ihre Angaben und unterschreiben Sie.</p></div>
             <div id="review" class="review-stack"></div>
             <div class="signature-block">
               <div class="signature-heading"><div><h3>Ihre Unterschrift <span>*</span></h3><p>Unterschreiben Sie mit Finger, Maus oder Stift im Feld.</p></div><button type="button" class="text-link" id="clearSignature">Löschen</button></div>
-              <div class="signature-canvas-wrap"><canvas id="signature" aria-label="Unterschriftsfeld" width="800" height="260"></canvas><span class="signature-placeholder" id="signaturePlaceholder">Hier unterschreiben</span><span class="signature-line"></span></div>
+              <div class="signature-canvas-wrap"><canvas id="signature" aria-label="Unterschriftsfeld" tabindex="0" width="800" height="260"></canvas><span class="signature-placeholder" id="signaturePlaceholder">Hier unterschreiben</span><span class="signature-line"></span></div>
             </div>
             <label class="big-check required-check"><input name="accuracyConfirm" type="checkbox" required><span><b>Ich bestätige die Richtigkeit meiner Angaben und habe die Patienteninformationen zur Kenntnis genommen. <em>*</em></b><small>Eine optionale Einwilligung in die externe Abrechnung bleibt davon getrennt.</small></span></label>
             <label class="field honeypot" aria-hidden="true">Bitte dieses Feld frei lassen<input name="website" tabindex="-1" autocomplete="off"></label>
-            <div class="error-box" id="formError" role="alert" hidden></div>
+
           </div>
-          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button" hidden>Zurück</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter</button><button type="button" id="downloadPdf" class="pdf-button" hidden>PDF-Zusammenfassung herunterladen</button><button type="submit" id="submitBtn" class="primary-button" hidden disabled>Angaben sicher senden</button></div>
+          <div class="error-box" id="formError" role="alert" hidden></div>
+          <div class="action-bar" id="actions"><button type="button" id="backBtn" class="back-button">Zur Übersicht</button><div class="action-spacer"></div><button type="button" id="nextBtn" class="primary-button">Weiter</button><button type="button" id="downloadPdf" class="pdf-button" hidden>PDF-Zusammenfassung herunterladen</button><button type="submit" id="submitBtn" class="primary-button" hidden disabled>Angaben sicher senden</button></div>
+          <div class="pdf-result" id="pdfResult" hidden></div>
         </form>
         <div id="success" class="success-screen" hidden aria-live="polite"><span class="success-mark">✓</span><span class="section-index">ERFOLGREICH ÜBERMITTELT</span><h2>Vielen Dank!</h2><p>Ihre Angaben sind eingegangen. Bitte melden Sie sich wie gewohnt an der Anmeldung.</p><div class="reference-box">Ihre Vorgangsnummer <strong id="reference"></strong></div><button class="outline-action" id="newForm" type="button">Neue Aufnahme starten</button></div>
-        <footer class="panel-footer"><span>© Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend</span><span class="footer-lock">♧ <span>Vertraulich behandelt</span></span></footer>
+        <footer class="panel-footer"><span>© Sana MVZ Orthopädie und Chirurgie Frankfurt-Westend</span><span class="footer-lock">Nur auf diesem Gerät, bis Sie ausdrücklich senden.</span></footer>
       </main>
     </div>
   </div>
 
-  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="dialogTitle"><div class="dialog-inner"><div class="dialog-top"><div><span class="section-index" id="dialogEyebrow">INFORMATION</span><h2 id="dialogTitle"></h2></div><button type="button" id="closeDialog" aria-label="Schließen" class="close-dialog">×</button></div><div id="dialogContent" class="dialog-content"></div><div class="dialog-bottom"><button type="button" id="doneDialog" class="primary-button">Verstanden <span aria-hidden="true">✓</span></button></div></div></dialog>
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="dialogTitle"><div class="dialog-inner"><div class="dialog-top"><div><span class="section-index" id="dialogEyebrow">INFORMATION</span><h2 id="dialogTitle"></h2></div><button type="button" id="closeDialog" aria-label="Zurück zum Formular" class="close-dialog">×</button></div><div id="dialogContent" class="dialog-content"></div><div class="dialog-bottom"><button type="button" id="doneDialog" class="primary-button">Zurück zum Formular</button></div></div></dialog>
 </body>
 </html>

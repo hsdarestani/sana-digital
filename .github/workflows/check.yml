@@ -13,10 +13,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+      - name: Install test dependencies
+        run: npm ci
       - name: Check JavaScript syntax
         run: npm run check
       - name: Run security and validation tests
         run: npm test
+      - name: Install browser test engines
+        run: npx playwright install --with-deps chromium webkit
+      - name: Test presentation journeys on desktop, iPad and mobile
+        run: npm run test:journeys
+      - name: Keep fictional QA output
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sana-presentation-qa
+          path: test-results/
+          retention-days: 3
       - name: Verify SQL migration
         run: |
           python3 - <<'PY'
