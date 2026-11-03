@@ -32,19 +32,21 @@ document.addEventListener('keydown',event=>{
 window.addEventListener('hashchange',()=>{const index=scenes.findIndex(scene=>`#${scene.id}`===location.hash);if(index>=0&&index!==sceneIndex)showScene(index);});
 const initial=scenes.findIndex(scene=>`#${scene.id}`===location.hash);showScene(initial>=0?initial:0,{focus:false});
 
-const queries=[
-  {query:'Orthopäde Frankfurt Westend',count:7,results:[['1','Dr. Dara Emanuel Frömel','orthopaede-frankfurt-westend.de'],['2','Albrecht-Schoeck & Sandberg','orthopaede-westend.de'],['3','Orthopädisches Centrum','orthopaedie-frankfurt.de']],counter:'SANA ist dennoch vertreten: Orthinform-Praxiseintrag auf organischer Position 6.'},
-  {query:'Kniespezialist Frankfurt',count:9,results:[['1','SPORTHOLOGICUM Kniezentrum','sporthologicum.de'],['2','Kniezentrum Frankfurt','kniezentrum-frankfurt.de'],['3','BG Unfallklinik · Kniechirurgie','bg-kliniken.de']],counter:'Gezeigt: die ersten drei der neun beobachteten organischen Ergebnisse. Vollständige Liste im Quellenbericht.'},
-  {query:'Schulterspezialist Frankfurt',count:10,results:[['1','Prof. Aristotelis Kaisidis','leading-medicine-guide.com'],['2','Frankfurter Rotkreuz-Kliniken','rotkreuzkliniken.de'],['3','BG Unfallklinik · Schulterchirurgie','bg-kliniken.de']],counter:'Positiver Gegenbefund: herresthal.info, Website des Sana-Praxisarztes, auf organischer Position 7.'}
-];
-document.querySelectorAll('[data-query]').forEach(button=>button.addEventListener('click',()=>{
-  stopTour();const index=Number(button.dataset.query),data=queries[index];
-  document.querySelectorAll('[data-query]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
-  document.querySelector('#observedQuery').textContent=`„${data.query}“`;document.querySelector('#resultCount').textContent=`${data.count} organische Ergebnisse`;
+const queries=[{"query":"Orthopäde Frankfurt Westend","count":7,"results":[["1","Orthopädie Frankfurt Westend – Dr. Dara Emanuel Frömel","orthopaede-frankfurt-westend.de"],["2","Dr. Albrecht-Schoeck und Dr. Sandberg – Orthopäde Westend","orthopaede-westend.de"],["3","Orthopädisches Centrum Prof. Rangger, Dr. Pfeifer & Dr. Latif …","orthopaedie-frankfurt.de"],["4","Orthopädie Frankfurt Westend – main medic all","mainmedicall.de"],["5","Praxis Orthopädie im Westend – Doctolib","doctolib.de"],["6","Orthopädische Gemeinschaftspraxis in Frankfurt am Main – Orthinform","orthinform.de"],["7","Orthopädie im Westend – Dr. Frömel – Facebook","facebook.com"]],"counter":"Sana Praxiseintrag bei Orthinform auf Platz 6."},{"query":"Kniespezialist Frankfurt","count":9,"results":[["1","SPORTHOLOGICUM® Kniezentrum Frankfurt | #noshortcuts","sporthologicum.de"],["2","Kniezentrum Frankfurt – Versorgungsgemeinschaft für akute …","kniezentrum-frankfurt.de"],["3","Kniechirurgie | BG Unfallklinik Frankfurt am Main","bg-kliniken.de"],["4","Sportorthopäde Frankfurt | Facharztpraxis chirurgie maintaunus","sportorthopaede-frankfurt.de"],["5","Knie – ORTHOmedic Frankfurt Offenbach","orthomedic-of.de"],["6","Kniechirurgie – Universitätsmedizin Frankfurt","unimedizin-ffm.de"],["7","Ihr Kniespezialist in Frankfurt am Main – Lumedis","lumedis.de"],["8","Orthopaedicum Frankfurt","orthopaedicum-frankfurt.de"],["9","Prof. Dr. med. Dr. rer. nat. Thomas Stein – SPORTHOLOGICUM","sporthologicum.de"]],"counter":"Offizielle Praxiswebsite in dieser Stichprobe nicht enthalten."},{"query":"Schulterspezialist Frankfurt","count":10,"results":[["1","Professor Dr. Aristotelis Kaisidis – Leading Medicine Guide","leading-medicine-guide.com"],["2","Schulterchirurgie – Über uns – Frankfurter Rotkreuz-Kliniken","rotkreuzkliniken.de"],["3","Schulterchirurgie | BG Unfallklinik Frankfurt am Main","bg-kliniken.de"],["4","Zentrum für Schulterchirurgie in Frankfurt – Orthopädisches Zentrum Dr. A. Rümelin","dr-ruemelin.de"],["5","Schulter – ORTHOmedic Frankfurt Offenbach","orthomedic-of.de"],["6","Schulter – Orthopaedicum Frankfurt","orthopaedicum-frankfurt.de"],["7","herresthal.info: Aktuelles – Orthopäde – Knie- und …","herresthal.info"],["8","Ihr Schulterspezialist in Frankfurt – Lumedis","lumedis.de"],["9","Schulterschmerzen – Frankfurt am Main – Dr. Baron & Kollegen","drbaron.de"],["10","Spezialsprechstunde Schulter – Orthopädie am Kurhaus","orthopaedie-am-kurhaus.de"]],"counter":"Website von Dr. Jens Herresthal mit Sana Bezug auf Platz 7."}];
+function selectQuery(index){
+  const data=queries[index];
+  document.querySelectorAll('[data-query]').forEach(button=>{const active=Number(button.dataset.query)===index;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
+  document.querySelector('#observedQuery').textContent=data.query;
+  document.querySelector('#resultCount').textContent=data.count+' dokumentierte Ergebnisse';
   const list=document.querySelector('#resultList');list.replaceChildren();
-  for(const [position,title,domain]of data.results){const li=document.createElement('li'),rank=document.createElement('span'),copy=document.createElement('div'),name=document.createElement('strong'),site=document.createElement('small');rank.textContent=position;name.textContent=title;site.textContent=domain;copy.append(name,site);li.append(rank,copy);list.append(li);}
+  for(const [position,title,domain] of data.results){
+    const li=document.createElement('li'),rank=document.createElement('span'),copy=document.createElement('div'),name=document.createElement('strong'),site=document.createElement('small');
+    rank.textContent=position;name.textContent=title;site.textContent=domain;copy.append(name,site);li.append(rank,copy);list.append(li);
+  }
   document.querySelector('#searchCounter').textContent=data.counter;
-}));
+}
+document.querySelectorAll('[data-query]').forEach(button=>button.addEventListener('click',()=>selectQuery(Number(button.dataset.query))));
+selectQuery(0);
 
 document.querySelectorAll('[data-finding]').forEach(button=>button.addEventListener('click',()=>{
   stopTour();document.querySelectorAll('[data-finding]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));document.querySelector(`#finding-${b.dataset.finding}`).hidden=b!==button;});
@@ -53,7 +55,7 @@ document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener
   stopTour();const concept=button.dataset.view==='concept';
   document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
   document.querySelector('#todayView').hidden=concept;document.querySelector('#conceptView').hidden=!concept;
-  document.querySelector('#viewLabel').textContent=concept?'Gestaltungsvorschlag · offizielle Website unverändert':'Öffentlicher Website-Abruf · 03.11.2026';
+  document.querySelector('#viewLabel').textContent=concept?'Gestaltungsvorschlag':'Praxiswebsite aktuell';
   document.querySelector('#conceptExplanation').textContent=concept?'Leistungen, Termin und Telefon sofort sichtbar.':'Der Termin liegt auf einer Unterseite.';
 }));
 const periods={
