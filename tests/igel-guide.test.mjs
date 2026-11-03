@@ -22,10 +22,9 @@ test('IGeL source attribution is present and transparently dated',()=>{
   assert.match(guide.html,/2014/);
   assert.match(guide.html,/keine aktuelle rechtliche Prüfung/);
 });
-test('Guide loads before form and is user-optional',()=>{
-  assert.ok(patientHTML.indexOf('/igel-guide.js')<patientHTML.indexOf('/app.js'));
-  assert.match(patientHTML,/data-dialog="igelguide"/);
-  assert.match(app,/window\.SanaIgelGuide\.init/);
+test('Guide is no longer exposed in the patient intake',()=>{
+  assert.doesNotMatch(patientHTML,/\/igel-guide\.js|data-dialog="igelguide"|ENTSCHEIDUNGSHILFE/);
+  assert.doesNotMatch(app,/SanaIgelGuide/);
   assert.doesNotMatch(patientHTML,/name="igel-question-/);
 });
 test('IGeL self-check responses never touch browser persistence or backend',()=>{
@@ -38,5 +37,5 @@ test('removed IGeL price list and SLAP treatment are not rendered or bundled',()
   assert.doesNotMatch(patientHTML,/data-dialog="igel"|data-dialog="slap"/);
   assert.doesNotMatch(patientHTML,/Preisliste ansehen|Behandlungsplan ansehen|SLAP – Nachbehandlungsplan/);
   assert.doesNotMatch(app,/const igelRows|igel:\s*\{\s*title:|slap:\s*\{\s*title:|Fokussierte Stoßwellentherapie|Gilchrist/);
-  assert.match(patientHTML,/data-dialog="igelguide"/);
+  assert.doesNotMatch(patientHTML,/data-dialog="igelguide"/);
 });
