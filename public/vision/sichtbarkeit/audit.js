@@ -15,7 +15,7 @@ function showScene(index,{focus=true,manual=true}={}){
   previous.disabled=sceneIndex===0;next.textContent=sceneIndex===scenes.length-1?'Zur Übersicht':'Weiter';
   document.querySelector('#pageCount').replaceChildren(document.createTextNode(`${String(sceneIndex+1).padStart(2,'0')} `),Object.assign(document.createElement('span'),{textContent:'/ 07'}));
   history.replaceState(null,'',`#${scenes[sceneIndex].id}`);
-  document.title=`${scenes[sceneIndex].dataset.title} | Sichtbarkeits-Check · SANA NEXT`;
+  document.title=`${scenes[sceneIndex].dataset.title} | Sichtbarkeitsanalyse · SANA NEXT`;
   if(focus){window.scrollTo({top:0,behavior:'auto'});scenes[sceneIndex].querySelector('h1,h2')?.focus({preventScroll:true});}
 }
 previous.addEventListener('click',()=>showScene(sceneIndex-1));
@@ -41,7 +41,7 @@ function selectQuery(index){
   const list=document.querySelector('#resultList');list.replaceChildren();
   for(const [position,title,domain] of data.results){
     const li=document.createElement('li'),rank=document.createElement('span'),copy=document.createElement('div'),name=document.createElement('strong'),site=document.createElement('small');
-    rank.textContent=position;name.textContent=title;site.textContent=domain;copy.append(name,site);li.append(rank,copy);list.append(li);
+    rank.textContent=position;name.textContent=title.replace(/[-–—]/g,' ');site.textContent=domain.includes('-')?'Website im Quellenbericht':domain;copy.append(name,site);li.append(rank,copy);list.append(li);
   }
   document.querySelector('#searchCounter').textContent=data.counter;
 }
@@ -59,9 +59,9 @@ document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener
   document.querySelector('#conceptExplanation').textContent=concept?'Leistungen, Termin und Telefon sofort sichtbar.':'Der Termin liegt auf einer Unterseite.';
 }));
 const periods={
-  '30':{priority:'PRIORITÄT 1 · VERLÄSSLICHE PRAXISDATEN',title:'Richtig gefunden.\nRichtig angekommen.',tasks:['Kartenlink, Adresse und Öffnungszeiten korrigieren.','Google-Profil, Leistungen und Terminlink prüfen.','Search Console auswerten, Ausgangswerte dokumentieren.'],kpi:'Korrekte Praxisdaten und dokumentierte Ausgangswerte.',access:'Benötigt: CMS, Google-Profil, Search Console.'},
-  '60':{priority:'PRIORITÄT 2 · INHALTE UND PATIENTENWEG',title:'Kompetenz sichtbar.\nKontakt einfach.',tasks:['Arztprofile und lokale Leistungsseiten aktualisieren.','Termin- und Anrufwege vereinfachen; Mobilansicht prüfen.','Freiwilligen, neutralen Rezensionsprozess abstimmen.'],kpi:'Freigegebene Inhalte und geprüfte Kontaktwege.',access:'Benötigt: CMS, medizinische Freigaben, Datenschutzkonzept.'},
-  '90':{priority:'PRIORITÄT 3 · WIRKUNG NACHVOLLZIEHEN',title:'Ergebnisse verstehen.\nGezielt weiterentwickeln.',tasks:['Klicks, Impressionen und CTR über 28 Tage vergleichen.','Profilaktionen und freigegebene Kontakt-Klicks auswerten.','Suchstichproben wiederholen und Maßnahmen priorisieren.'],kpi:'Vergleich mit Quellen. Ein Klick entspricht noch keiner bestätigten Buchung.',access:'Benötigt: freigegebene Mess- und Buchungsdaten.'}
+  '30':{priority:'PRIORITÄT 1 · VERLÄSSLICHE PRAXISDATEN',title:'Richtig gefunden.\nRichtig angekommen.',tasks:['Kartenlink, Adresse und Öffnungszeiten korrigieren.','Googleprofil, Leistungen und Terminlink prüfen.','Search Console auswerten, Ausgangswerte dokumentieren.'],kpi:'Korrekte Praxisdaten und dokumentierte Ausgangswerte.',access:'Benötigt: CMS, Googleprofil, Search Console.'},
+  '60':{priority:'PRIORITÄT 2 · INHALTE UND PATIENTENWEG',title:'Kompetenz sichtbar.\nKontakt einfach.',tasks:['Arztprofile und lokale Leistungsseiten aktualisieren.','Terminzugang und Anrufwege vereinfachen; Mobilansicht prüfen.','Freiwilligen, neutralen Rezensionsprozess abstimmen.'],kpi:'Freigegebene Inhalte und geprüfte Kontaktwege.',access:'Benötigt: CMS, medizinische Freigaben, Datenschutzkonzept.'},
+  '90':{priority:'PRIORITÄT 3 · WIRKUNG NACHVOLLZIEHEN',title:'Ergebnisse verstehen.\nGezielt weiterentwickeln.',tasks:['Klicks, Impressionen und CTR über 28 Tage vergleichen.','Profilaktionen und freigegebene Kontaktklicks auswerten.','Suchstichproben wiederholen und Maßnahmen priorisieren.'],kpi:'Vergleich mit Quellen. Ein Klick entspricht noch keiner bestätigten Buchung.',access:'Benötigt: freigegebene Messdaten und Buchungsdaten.'}
 };
 document.querySelectorAll('[data-period]').forEach(button=>button.addEventListener('click',()=>{
   stopTour();const data=periods[button.dataset.period];document.querySelectorAll('[data-period]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});
