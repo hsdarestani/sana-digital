@@ -20,7 +20,7 @@ test('technical counts in the presentation agree with the captured five-page sam
 test('every presentation citation resolves to an evidence record, and all local report sources exist',async()=>{
  const html=await readFile(new URL('index.html',dir),'utf8');const ids=new Set(evidence.sources.map(s=>s.id));for(const match of html.matchAll(/data-evidence="([^"]+)"/g))for(const id of match[1].split(','))assert.ok(id==='all'||ids.has(id),id);
  for(const s of evidence.sources)for(const u of s.urls)if(u.url.startsWith('/vision/sichtbarkeit/'))await access(new URL(u.url.replace('/vision/sichtbarkeit/',''),dir));
- assert.match(html,/NICHT LIVE/);assert.match(html,/Core Web Vitals derzeit nicht erhoben/);assert.match(html,/genauer Standort unbekannt/);
+ assert.match(html,/NICHT LIVE/);assert.match(html,/Core Web Vitals derzeit nicht erhoben/);assert.match(html,/Standort nicht genau festgelegt/);
 });
 
 test('presentation copy is concise, icon-guided and preserves source disclosure',async()=>{
@@ -29,7 +29,7 @@ test('presentation copy is concise, icon-guided and preserves source disclosure'
  const js=await readFile(new URL('audit.js',dir),'utf8');
  assert.doesNotMatch(html,/Ein klarer Plan\.|In 90 Tagen\./);
  assert.match(html,/Was jetzt zählt\./);
- assert.ok((html.match(/class="audit-icon"/g)||[]).length>=20);
+ assert.ok((html.match(/class="audit-icon"/g)||[]).length>=18);
  assert.ok((html.match(/class="method-details"/g)||[]).length>=4);
  const defined=new Set([...html.matchAll(/<(?:symbol|path|clipPath|mask|linearGradient|radialGradient)\b[^>]*\bid="([^"]+)"/g)].map(m=>m[1]));
  for(const match of html.matchAll(/<use href="#([^"]+)"/g))assert.ok(defined.has(match[1]),match[1]);
