@@ -2,8 +2,8 @@
   'use strict';
   const form = document.getElementById('intakeForm');
   const steps = Array.from(document.querySelectorAll('.step'));
-  const names = ['Persönlich', 'Gesundheit', 'Einwilligungen', 'Information', 'Abschluss'];
-  const headings = ['Persönliche Daten', 'Gesundheitsangaben', 'Datenschutz & Abrechnung', 'Weitere Informationen', 'Prüfen & Absenden'];
+  const names = ['Persönlich', 'Gesundheit', 'Einwilligungen', 'Abschluss'];
+  const headings = ['Persönliche Daten', 'Gesundheitsangaben', 'Datenschutz & Abrechnung', 'Prüfen & Absenden'];
   const nextBtn = document.getElementById('nextBtn');
   const backBtn = document.getElementById('backBtn');
   const submitBtn = document.getElementById('submitBtn');
@@ -62,17 +62,17 @@
     current=step; steps.forEach((el,i)=>{el.hidden=i!==step;el.classList.toggle('active',i===step);});
     document.getElementById('step-count').textContent=String(step+1).padStart(2,'0');
     document.getElementById('step-heading').textContent=headings[step];
-    document.getElementById('progress-fill').style.width=((step+1)*20)+'%';
+    document.getElementById('progress-fill').style.width=(((step+1)/steps.length)*100)+'%';
     document.getElementById('progress').setAttribute('aria-valuenow',String(step+1));
     document.querySelectorAll('.step-tag').forEach((el,i)=>{el.classList.toggle('is-active',i===step);el.classList.toggle('is-complete',i<step);if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});
     backBtn.hidden=false;
     backBtn.textContent=step===0?'Zur Übersicht':'Zurück';
-    nextBtn.textContent=['Weiter zur Gesundheit','Weiter zu Einwilligungen','Weiter zu Informationen','Weiter zum Abschluss'][step]||'Weiter';
+    nextBtn.textContent=['Weiter zur Gesundheit','Weiter zu Einwilligungen','Weiter zum Abschluss'][step]||'Weiter';
     nextBtn.hidden=step===steps.length-1;
     submitBtn.hidden=step!==steps.length-1;
     downloadPdfBtn.hidden=step!==steps.length-1;
     formError.hidden=true;
-    if(step===4) renderReview();
+    if(step===steps.length-1) renderReview();
     const panel=document.getElementById('formPanel');
     if(panel.getBoundingClientRect().top<-20) window.scrollTo({top: Math.max(0,window.scrollY+panel.getBoundingClientRect().top-12),behavior:'smooth'});
     if(document.activeElement?.id==='nextBtn'||document.activeElement?.id==='backBtn'||document.activeElement?.classList.contains('review-edit')) steps[step].querySelector('h2')?.focus({preventScroll:true});
@@ -159,13 +159,12 @@
       '<p><strong>Hinweis:</strong> Diese Kurzinfo ersetzt nicht die vollständige Datenschutzinformation des Praxisbetreibers. Diese muss vor dem produktiven Einsatz rechtlich und organisatorisch bereitgestellt werden.</p>'}
   };
   function showDialog(which){
-    const data=which==='igelguide'?window.SanaIgelGuide:info[which];
+    const data=info[which];
     if(!data)return;
     document.getElementById('dialogTitle').textContent=data.title;
     document.getElementById('dialogEyebrow').textContent=data.eyebrow;
     const content=document.getElementById('dialogContent');
     content.innerHTML=data.html;
-    if(which==='igelguide')window.SanaIgelGuide.init(content);
     backdropPressed=false;
     dialog.showModal();
   }
