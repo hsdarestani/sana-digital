@@ -13,7 +13,7 @@ test('the hotline retains every requested field and does not send or persist for
  const html=read('public/vision/hotline/index.html'),js=read('public/vision/hotline/hotline.js');
  for(const key of ['firstName','lastName','birthDate','phone','reason','notes','needPrescription','prescription','needCallback','callbackDoctor','needDocuments','documents','delivery','deliveryAddress','needAppointment','appointmentMode'])assert.ok(html.includes('name="'+key+'"'),key);
  for(const channel of ['E-Mail','Fax','WhatsApp','Post'])assert.ok(html.includes(channel==='E-Mail'?'<option value="E-Mail">E Mail</option>':'<option>'+channel+'</option>'));
- assert.match(html,/SMS-Verfahren als optionale Simulation/);assert.match(html,/Zurück zur Übersicht/);
+ assert.match(html,/SMS Verfahren als optionale Simulation/);assert.match(html,/Zurück zur Übersicht/);
  assert.doesNotMatch(js,/\b(fetch|XMLHttpRequest|localStorage|sessionStorage)\s*\(/);
 });
 test('presentation intake is always non-submitting; activation and consents stay separate',()=>{
