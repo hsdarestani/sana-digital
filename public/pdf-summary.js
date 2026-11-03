@@ -192,7 +192,7 @@
       ['Informationen zu ergänzenden Gesundheitsleistungen (freiwillig)',form.elements.informationConsent.checked?'Einwilligung erteilt':'Keine Einwilligung erteilt'],
       ...fields([['discovery','Auf die Praxis aufmerksam durch']]),
       ['Richtigkeit der Angaben und Kenntnisnahme der Patienteninformationen',form.elements.accuracyConfirm.checked?'Bestätigt':'Nicht bestätigt'],
-      ['Dokumentstatus','Lokal erstellt. Nicht an die Praxis übermittelt. Die IGeL-Entscheidungshilfe ist freiwillig; Antworten daraus sind nicht Bestandteil dieser Aufnahme.']
+      ['Dokumentstatus','Lokal erstellt. Nicht an die Praxis übermittelt. ']
     ]});
     return sections;
   }
