@@ -24,12 +24,12 @@ test('visibility audit: entry, seven chapters, dated query evidence, concepts, r
  await page.getByRole('button',{name:'Check starten',exact:true}).click();await expect(page.locator('#suche')).toBeVisible();
  const raw=JSON.parse(await readFile(path.join(root,'vision/sichtbarkeit/google-stichprobe.json'),'utf8'));
  for(let i=0;i<3;i++){
-  await page.locator(`[data-query="${i}"]`).click();await expect(page.locator('#resultCount')).toHaveText(`${raw.searches[i].organicResultCount} organische Ergebnisse`);
-  await expect(page.locator('#observedQuery')).toContainText(raw.searches[i].query);const positions=await page.locator('#resultList li>span').allTextContents();expect(positions).toEqual(['1','2','3']);
-  if(i===2)await expect(page.locator('#searchCounter')).toContainText('herresthal.info');await noOverflow(page);
+  await page.locator(`[data-query="${i}"]`).click();await expect(page.locator('#resultCount')).toHaveText(`${raw.searches[i].organicResultCount} dokumentierte Ergebnisse`);
+  await expect(page.locator('#observedQuery')).toContainText(raw.searches[i].query);const positions=await page.locator('#resultList li>span').allTextContents();expect(positions).toEqual(raw.searches[i].organicResults.map(x=>String(x.positionInObservedOrganicList)));
+  if(i===2)await expect(page.locator('#searchCounter')).toContainText('Dr. Jens Herresthal');await noOverflow(page);
  }
  await page.locator('#searchEvidence').click();await expect(page.locator('#evidenceDialog')).toBeVisible();await expect(page.locator('#evidenceContent')).toContainText('genauer Standort unbekannt');await page.getByRole('button',{name:'Quellen schließen'}).click();
- await page.locator('#nextScene').click();await expect(page.locator('#vergleich')).toBeVisible();await expect(page.locator('.comparison tbody tr')).toHaveCount(4);await noOverflow(page);await page.screenshot({path:info.outputPath('audit-comparison.png'),fullPage:true,animations:'disabled'});
+ await page.locator('#nextScene').click();await expect(page.locator('#vergleich')).toBeVisible();await expect(page.locator('.top-ten-item')).toHaveCount(10);await noOverflow(page);await page.screenshot({path:info.outputPath('audit-comparison.png'),fullPage:true,animations:'disabled'});
  await page.locator('#nextScene').click();for(const id of ['daten','einstieg','medizin']){await page.locator(`[data-finding="${id}"]`).click();await expect(page.locator(`#finding-${id}`)).toBeVisible();await noOverflow(page);}
  await expect(page.locator('#finding-medizin')).toContainText('Privatpatienten und Selbstzahler');
  await page.locator('#nextScene').click();await expect(page.locator('#todayView img')).toBeVisible();expect(await page.locator('#todayView img').evaluate(img=>img.complete&&img.naturalWidth>100)).toBeTruthy();
@@ -53,11 +53,20 @@ test('visibility audit: sources, complete report, local downloads, deep links an
  expect(requests.every(r=>new URL(r.url).origin==='https://sana.test')).toBeTruthy();expect(requests.some(r=>r.url.includes('/api/'))).toBeFalsy();
 });
 
-test('visibility audit: guided tour advances, pauses for evidence, ends safely and supports reduced motion',async({site})=>{
- const {page}=site;await page.clock.install();await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/vision/sichtbarkeit/');
- await page.getByRole('button',{name:'77-Sekunden-Rundgang',exact:true}).click();await expect(page.locator('#playTour')).toHaveAttribute('aria-pressed','true');await page.clock.runFor(11000);await expect(page.locator('#suche')).toBeVisible();
- await page.getByRole('link',{name:'Quellen & Methodik'}).click();await expect(page.locator('#tourProgress')).toHaveJSProperty('hidden',true);await page.getByRole('button',{name:'Quellen schließen'}).click();await page.clock.runFor(22000);await expect(page.locator('#suche')).toBeVisible();
- await page.getByRole('button',{name:'Ausgangspunkt',exact:true}).click();await page.getByRole('button',{name:'77-Sekunden-Rundgang',exact:true}).click();
- for(let i=1;i<7;i++){await page.clock.runFor(11000);await expect(page.locator('.scene:visible')).toHaveAttribute('id',['auftakt','suche','vergleich','befunde','konzept','fahrplan','messbarkeit'][i]);}
- await page.clock.runFor(12000);await expect(page.locator('#messbarkeit')).toBeVisible();await expect(page.locator('#tourProgress')).toHaveJSProperty('hidden',true);await expect(page.locator('#pauseTour')).not.toBeVisible();
+test('visibility audit: manual chapter controls and reduced motion',async({site})=>{
+ const {page}=site;await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/vision/sichtbarkeit/');
+ await expect(page.locator('#playTour')).toHaveCount(0);
+ await expect(page.locator('#pauseTour')).toHaveCount(0);
+ await page.getByRole('button',{name:'Check starten',exact:true}).click();
+ await expect(page.locator('#suche')).toBeVisible();
+ await page.getByRole('link',{name:'Quellen & Methodik'}).click();
+ await expect(page.locator('#evidenceDialog')).toBeVisible();
+ await page.getByRole('button',{name:'Quellen schließen'}).click();
+ await expect(page.locator('#suche')).toBeVisible();
+ for(const id of ['vergleich','befunde','konzept','fahrplan','messbarkeit']){
+  await page.locator('#nextScene').click();
+  await expect(page.locator('#'+id)).toBeVisible();
+ }
+ await page.getByRole('button',{name:'Ausgangspunkt',exact:true}).click();
+ await expect(page.locator('#auftakt')).toBeVisible();
 });
