@@ -18,7 +18,7 @@ const test=base.extend({site:async({context,page},use)=>{
 async function noOverflow(page){expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBeLessThanOrEqual(1);}
 
 test('visibility audit: entry, seven chapters, dated query evidence, concepts, roadmap and return paths',async({site},info)=>{
- const {page}=site;await page.goto('/vision/');await page.getByRole('link',{name:'Digitaler Sichtbarkeits-Check',exact:true}).click();
+ const {page}=site;await page.goto('/vision/');await page.getByRole('link',{name:'Digitale Sichtbarkeitsanalyse',exact:true}).click();
  await expect(page.locator('#auftakt')).toBeVisible();await expect(page.locator('.rating')).toHaveText('5,0/ 5');await noOverflow(page);
  await page.screenshot({path:info.outputPath('audit-opening.png'),fullPage:true,animations:'disabled'});
  await page.getByRole('button',{name:'Check starten',exact:true}).click();await expect(page.locator('#suche')).toBeVisible();
