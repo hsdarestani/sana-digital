@@ -2,19 +2,12 @@ import {evidenceItem,loadEvidence,wireDownloads} from './evidence-view.js';
 const scenes=[...document.querySelectorAll('.scene')];
 const chapters=[...document.querySelectorAll('[data-scene]')];
 const previous=document.querySelector('#prevScene'),next=document.querySelector('#nextScene');
-const play=document.querySelector('#playTour'),pause=document.querySelector('#pauseTour');
-const progress=document.querySelector('#tourProgress');
 const dialog=document.querySelector('#evidenceDialog'),evidenceContent=document.querySelector('#evidenceContent');
-let sceneIndex=0,timer=null,opener=null,evidenceGeneration=0;
+let sceneIndex=0,opener=null,evidenceGeneration=0;
 document.documentElement.classList.add('enhanced');
 wireDownloads();
 
-function stopTour(){
-  if(timer!==null)window.clearInterval(timer);timer=null;
-  document.body.classList.remove('tour-running');progress.hidden=true;
-  play.setAttribute('aria-pressed','false');play.textContent='77-Sekunden-Rundgang';
-  if(pause)pause.hidden=true;
-}
+function stopTour(){}
 function showScene(index,{focus=true,manual=true}={}){
   if(manual)stopTour();sceneIndex=Math.min(Math.max(index,0),scenes.length-1);
   scenes.forEach((scene,i)=>{scene.hidden=i!==sceneIndex;});
@@ -24,22 +17,12 @@ function showScene(index,{focus=true,manual=true}={}){
   history.replaceState(null,'',`#${scenes[sceneIndex].id}`);
   document.title=`${scenes[sceneIndex].dataset.title} | Sichtbarkeits-Check · SANA NEXT`;
   if(focus){window.scrollTo({top:0,behavior:'auto'});scenes[sceneIndex].querySelector('h1,h2')?.focus({preventScroll:true});}
-  if(timer!==null){progress.hidden=true;requestAnimationFrame(()=>{if(timer!==null)progress.hidden=false;});}
 }
 previous.addEventListener('click',()=>showScene(sceneIndex-1));
 next.addEventListener('click',()=>{if(sceneIndex===scenes.length-1)window.location.assign('/vision/');else showScene(sceneIndex+1);});
 chapters.forEach(chapter=>chapter.addEventListener('click',()=>showScene(Number(chapter.dataset.scene))));
 document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>showScene(sceneIndex+1)));
 document.querySelector('#restartTour').addEventListener('click',()=>showScene(0));
-play.addEventListener('click',()=>{
-  if(timer!==null){stopTour();return;}
-  showScene(0,{manual:false,focus:false});
-  timer=window.setInterval(()=>{if(sceneIndex===scenes.length-1){stopTour();return;}showScene(sceneIndex+1,{manual:false});},11000);
-  document.body.classList.add('tour-running');play.setAttribute('aria-pressed','true');play.textContent='Rundgang pausieren';
-  progress.hidden=false;if(pause)pause.hidden=false;
-});
-pause?.addEventListener('click',stopTour);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stopTour();});
 document.addEventListener('keydown',event=>{
   if(dialog.open||event.altKey||event.ctrlKey||event.metaKey)return;
   const active=document.activeElement;if(active?.closest('button,a,input,select,textarea,[contenteditable]'))return;
