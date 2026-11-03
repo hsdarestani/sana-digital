@@ -68,7 +68,7 @@
       text('Sana MVZ',88,32,15,bold,BLUE);
       text('Orthopädie und Chirurgie',88,54,9,regular,MUTED);
       text('Frankfurt-Westend',88,68,9,regular,MUTED);
-      const stamp=new Date(createdAt).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+      const stamp=new Date(createdAt).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'Europe/Berlin'});
       const stampWidth=regular.widthOfTextAtSize(stamp,9);
       text(stamp,RIGHT-stampWidth,36,9,regular,MUTED);
       text('KONZEPTDEMO',RIGHT-bold.widthOfTextAtSize('KONZEPTDEMO',7.5),54,7.5,bold,BLUE);

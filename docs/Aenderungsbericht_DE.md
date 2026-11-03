@@ -12,7 +12,7 @@ Die Präsentation erklärt zwei Lösungen auf einen Blick: persönliche Telefona
 
 ## Prüfung
 
-20 automatisierte Prüfungen für Datenvalidierung, Einwilligungen, Verschlüsselung, Aktivierung und PDF-Vollständigkeit; zusätzlich 20 vollständige Browserprüfungen:
+21 automatisierte Prüfungen für Datenvalidierung, Einwilligungen, Verschlüsselung, Aktivierung und PDF-Vollständigkeit; zusätzlich 20 vollständige Browserprüfungen:
 
 | Umgebung | Geprüfte Abläufe |
 | --- | --- |

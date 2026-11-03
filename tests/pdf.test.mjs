@@ -50,6 +50,10 @@ test('both downloadable samples are valid compact A4 documents with searchable d
   const {text}=await inspect(b);assert.match(text,/Müller/);assert.match(text,/Nicht an die Praxis übermittelt/);
  }
 });
+test('document dates follow Frankfurt time even across midnight or a different device timezone',async()=>{
+ const result=await pdf.prepare({title:'Datumsprüfung',createdAt:new Date('2026-11-02T23:30:00Z'),sections:[{title:'Prüfung',rows:[['Hinweis','Fiktive Angaben für die Datumsprüfung.']]}]});
+ const {text}=await inspect(await result.blob.arrayBuffer());assert.match(text,/03\.11\.2026/);
+});
 test('hotline fields and handover notes all survive PDF layout',async()=>{
  const sections=structuredClone(hotlineSections);sections[1].rows.push(['Lange Gesprächsnotiz','Rezept, Rückruf und Unterlagen. '.repeat(48)+'SCHLUSS_ÄÖÜ']);
  const result=await pdf.prepare({title:'Telefonisches Anliegen',sections,signoff:true});const {text,values}=await inspect(await result.blob.arrayBuffer());
