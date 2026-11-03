@@ -61,7 +61,7 @@ test('hotline: required fields, every conditional, delivery channel, PIN invalid
  await page.getByRole('button',{name:'Formular leeren'}).click();await expect(page.locator('[name=firstName]')).toHaveValue('');await expect(page.locator('#pdfResult')).not.toBeVisible();
 });
 
-test('patient intake: five steps, validation, optional consents, guide, editing, signature and complete PDF',async({site},info)=>{
+test('patient intake: four steps, validation, optional consents, editing, signature and complete PDF',async({site},info)=>{
  const {page,requests}=site;await page.goto('/?demo=1');await page.locator('#nextBtn').click();await expect(page.locator('[name=firstName]')).toHaveAttribute('aria-invalid','true');
  await page.locator('#fillPatientDemo').click();await page.locator('[name=email]').fill('invalid');await page.locator('#nextBtn').click();await expect(page.locator('[name=email]')).toHaveAttribute('aria-invalid','true');await page.locator('[name=email]').fill('julia.mueller@example.invalid');
  await page.locator('#nextBtn').click();await expect(page.locator('[data-step="1"]')).toBeVisible();
@@ -71,8 +71,8 @@ test('patient intake: five steps, validation, optional consents, guide, editing,
  await page.locator('[name=medications][value=ja]').check();await page.locator('#nextBtn').click();await expect(page.locator('[name=medicationDetails]')).toHaveAttribute('aria-invalid','true');await page.locator('[name=medicationDetails]').fill(long);await page.locator('#nextBtn').click();
  await expect(page.locator('[data-step="2"]')).toBeVisible();await expect(page.locator('[name=externalBillingConsent]')).not.toBeChecked();await expect(page.locator('[name=informationConsent]')).not.toBeChecked();
  for(const key of ['privacy','billing']){await page.locator(`[data-dialog=${key}]`).click();await expect(page.locator('#detailDialog')).toBeVisible();await page.locator('#doneDialog').click();await expect(page.locator('#detailDialog')).not.toBeVisible();}
- await page.locator('#nextBtn').click();await page.locator('[data-dialog=igelguide]').click();await expect(page.locator('#detailDialog')).toBeVisible();await page.locator('#closeDialog').click();await page.locator('#backBtn').click();await expect(page.locator('[data-step="2"]')).toBeVisible();await page.locator('#nextBtn').click();await page.locator('#nextBtn').click();
- await expect(page.locator('[data-step="4"]')).toBeVisible();await expect(page.locator('#review')).toContainText('Keine Einwilligung erteilt');await expect(page.locator('#review')).toContainText('ENDE_PATIENT_ÄÖÜ');
+ await page.locator('#nextBtn').click();await expect(page.locator('[data-step="3"]')).toBeVisible();await page.locator('#backBtn').click();await expect(page.locator('[data-step="2"]')).toBeVisible();await page.locator('#nextBtn').click();
+ await expect(page.locator('[data-step="3"]')).toBeVisible();await expect(page.locator('#review')).toContainText('Keine Einwilligung erteilt');await expect(page.locator('#review')).toContainText('ENDE_PATIENT_ÄÖÜ');
  await page.locator('#downloadPdf').click();await expect(page.locator('#formError')).toContainText('Pflichtfelder');await page.locator('[name=accuracyConfirm]').check();await page.locator('#downloadPdf').click();await expect(page.locator('#formError')).toContainText('unterschreiben');
  await page.locator('#signature').scrollIntoViewIfNeeded();const b=await page.locator('#signature').boundingBox();await page.mouse.move(b.x+30,b.y+65);await page.mouse.down();await page.mouse.move(b.x+70,b.y+38);await page.mouse.move(b.x+110,b.y+90);await page.mouse.move(b.x+175,b.y+55);await page.mouse.up();
  await noOverflow(page);const {text,values}=await saveDownload(page,page.locator('#downloadPdf'),info,'patient');
